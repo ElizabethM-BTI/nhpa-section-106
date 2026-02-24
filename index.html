@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Section 106 Process Flowchart — 36 C.F.R. Part 800</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0 0 80px;
+      background: #f0f4f8;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: #1e293b;
+    }
+    header {
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      color: white;
+      padding: 30px 40px 26px;
+      text-align: center;
+    }
+    header h1 { margin: 0 0 6px; font-size: 1.8rem; font-weight: 700; letter-spacing: -0.01em; }
+    header p  { margin: 0; font-size: 0.9rem; color: #94a3b8; }
+
+    .wrap { max-width: 1350px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── LEGEND ── */
+    .legend {
+      display: flex; flex-wrap: wrap; gap: 10px 20px;
+      align-items: center; justify-content: center;
+      background: white; border-radius: 10px;
+      padding: 14px 24px; margin: 24px 0 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    }
+    .legend-title { font-weight: 700; font-size: .75rem; text-transform: uppercase;
+      letter-spacing: .07em; color: #64748b; width: 100%; text-align: center; margin-bottom: 2px; }
+    .li  { display: flex; align-items: center; gap: 7px; font-size: .82rem; font-weight: 500; }
+    .lb  { width: 22px; height: 14px; border-radius: 3px; border-width: 2px; border-style: solid; flex-shrink: 0; }
+
+    /* ── DIAGRAM ── */
+    .diagram-card {
+      background: white; border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(0,0,0,.1);
+      padding: 32px 16px; overflow-x: auto;
+    }
+    .mermaid { min-width: 900px; }
+
+    /* ── SECTION HEADERS ── */
+    .section-title {
+      font-size: .78rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .06em; color: #64748b; margin: 32px 0 10px 2px;
+    }
+
+    /* ── DEFINITION CARDS ── */
+    .def-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 4px;
+    }
+    @media (max-width: 800px) { .def-grid { grid-template-columns: 1fr; } }
+    .def-card {
+      background: white; border-radius: 10px; padding: 18px 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      border-left: 4px solid #e2e8f0;
+    }
+    .def-card.blue   { border-left-color: #2563eb; }
+    .def-card.purple { border-left-color: #7c3aed; }
+    .def-card.orange { border-left-color: #ea580c; }
+    .def-card.green  { border-left-color: #059669; }
+    .def-card.amber  { border-left-color: #d97706; }
+    .def-card.rose   { border-left-color: #e11d48; }
+    .def-card h3 { margin: 0 0 6px; font-size: .9rem; color: #1e293b; }
+    .def-card .ref { font-size: .72rem; color: #94a3b8; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .06em; margin-bottom: 8px; display: block; }
+    .def-card p  { margin: 0; font-size: .83rem; line-height: 1.55; color: #475569; }
+    .def-card ul { margin: 6px 0 0; padding-left: 18px; font-size: .82rem; line-height: 1.55; color: #475569; }
+    .def-card li { margin-bottom: 3px; }
+    .def-card .pill {
+      display: inline-block; padding: 1px 8px; border-radius: 20px;
+      font-size: .72rem; font-weight: 700; margin-right: 4px; margin-top: 2px;
+    }
+
+    /* ── PARTIES TABLE ── */
+    .tcard {
+      background: white; border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08); overflow: hidden;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+    thead tr { background: #1e293b; color: white; }
+    th { padding: 10px 16px; text-align: left; font-weight: 600; white-space: nowrap; }
+    td { padding: 9px 16px; border-bottom: 1px solid #f1f5f9; vertical-align: top; line-height: 1.5; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: #f8fafc; }
+    .badge {
+      display: inline-block; padding: 2px 8px; border-radius: 20px;
+      font-size: .73rem; font-weight: 700; white-space: nowrap; margin: 1px 2px 1px 0;
+    }
+    .b-agency  { background:#dbeafe; color:#1d4ed8; }
+    .b-shpo    { background:#ede9fe; color:#6d28d9; }
+    .b-council { background:#ffedd5; color:#c2410c; }
+    .b-pub     { background:#f0fdf4; color:#15803d; }
+    .b-tribes  { background:#fef3c7; color:#92400e; }
+    .b-sec     { background:#fce7f3; color:#9d174d; }
+    .b-head    { background:#fee2e2; color:#991b1b; }
+
+    /* ── CALLOUT BOX ── */
+    .callout {
+      background: #fffbeb; border: 1px solid #fbbf24; border-radius: 8px;
+      padding: 14px 18px; margin: 18px 0; font-size: .84rem; line-height: 1.6; color: #78350f;
+    }
+    .callout strong { color: #92400e; }
+
+    /* ── LINEAR ENERGY SECTION ── */
+    .callout-blue {
+      background: #eff6ff; border: 1px solid #3b82f6; border-radius: 8px;
+      padding: 14px 18px; margin: 18px 0; font-size: .84rem; line-height: 1.6; color: #1e3a5f;
+    }
+    .callout-blue strong { color: #1d4ed8; }
+
+    .agency-grid {
+      display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 4px;
+    }
+    .agency-card {
+      background: white; border-radius: 10px;
+      box-shadow: 0 1px 6px rgba(0,0,0,.1);
+      border-left: 6px solid #e2e8f0; overflow: hidden;
+    }
+    .agency-card.ferc  { border-left-color: #0284c7; }
+    .agency-card.usace { border-left-color: #059669; }
+    .agency-card.blm   { border-left-color: #d97706; }
+    .agency-card-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 20px 10px; border-bottom: 1px solid #f1f5f9;
+    }
+    .agency-card-header .agency-tag {
+      font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em;
+      padding: 3px 10px; border-radius: 20px; white-space: nowrap;
+    }
+    .ferc  .agency-tag { background: #e0f2fe; color: #0369a1; }
+    .usace .agency-tag { background: #d1fae5; color: #065f46; }
+    .blm   .agency-tag { background: #fef3c7; color: #92400e; }
+    .agency-card-header h3 { margin: 0; font-size: .95rem; color: #1e293b; }
+    .agency-card-header .jx-pill {
+      margin-left: auto; font-size: .72rem; padding: 3px 10px; border-radius: 20px;
+      background: #f1f5f9; color: #475569; white-space: nowrap;
+    }
+    .agency-card-body { padding: 14px 20px 16px; }
+    .agency-card-body p { margin: 0 0 8px; font-size: .83rem; line-height: 1.55; color: #475569; }
+    .agency-card-body p:last-child { margin-bottom: 0; }
+    .agency-card-body ul { margin: 4px 0 8px; padding-left: 20px; font-size: .82rem; line-height: 1.55; color: #475569; }
+    .agency-card-body li { margin-bottom: 3px; }
+    .agency-card-body h4 { margin: 10px 0 4px; font-size: .8rem; color: #334155; text-transform: uppercase; letter-spacing: .05em; }
+    .flag-badge {
+      display: inline-block; padding: 2px 9px; border-radius: 4px; font-size: .75rem;
+      font-weight: 700; margin: 2px 3px 2px 0; white-space: nowrap;
+    }
+    .flag-diff   { background: #fee2e2; color: #991b1b; }
+    .flag-note   { background: #fef3c7; color: #92400e; }
+    .flag-pa     { background: #d1fae5; color: #065f46; }
+    .flag-ferc   { background: #e0f2fe; color: #0369a1; }
+    .flag-usace  { background: #dcfce7; color: #166534; }
+    .flag-blm    { background: #fef3c7; color: #92400e; }
+
+    /* ── COMPARISON TABLE ── */
+    .comp-table-wrap { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.08); overflow-x: auto; margin-bottom: 4px; }
+    .comp-table { font-size: .8rem; min-width: 700px; }
+    .comp-table th { padding: 9px 13px; white-space: normal; font-size: .78rem; }
+    .comp-table td { padding: 8px 13px; vertical-align: top; line-height: 1.45; font-size: .8rem; }
+    .comp-table .col-std { background: #f8fafc; }
+    .comp-table .col-ferc  { background: #f0f9ff; }
+    .comp-table .col-usace { background: #f0fdf4; }
+    .comp-table .col-blm   { background: #fffbeb; }
+    .comp-table thead th:first-child { background: #334155; }
+    .comp-table thead th.col-std  { background: #475569; color: white; }
+    .comp-table thead th.col-ferc  { background: #0369a1; color: white; }
+    .comp-table thead th.col-usace { background: #065f46; color: white; }
+    .comp-table thead th.col-blm   { background: #92400e; color: white; }
+
+    /* ── PHASED CYCLE DIAGRAM ── */
+    .phase-diagram-card {
+      background: white; border-radius: 10px; box-shadow: 0 1px 6px rgba(0,0,0,.1);
+      padding: 20px 16px; overflow-x: auto; margin-top: 0;
+    }
+    .phase-diagram-card .mermaid { min-width: 700px; }
+
+    /* ── LITIGATION HOTSPOT SECTION ── */
+    .lit-summary {
+      background: #fff1f2; border: 1px solid #fca5a5; border-radius: 8px;
+      padding: 14px 18px; margin: 18px 0; font-size: .84rem; line-height: 1.6; color: #7f1d1d;
+    }
+    .lit-summary strong { color: #991b1b; }
+    .lit-summary .lit-stats {
+      display: flex; flex-wrap: wrap; gap: 18px; margin-top: 10px;
+    }
+    .lit-stat {
+      background: white; border-radius: 8px; padding: 8px 16px;
+      border: 1px solid #fca5a5; text-align: center;
+    }
+    .lit-stat .num { font-size: 1.4rem; font-weight: 800; color: #dc2626; display: block; }
+    .lit-stat .lbl { font-size: .72rem; color: #64748b; white-space: nowrap; }
+
+    .hotspot-table-wrap { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.08); overflow-x: auto; margin-bottom: 4px; }
+    .hotspot-table { font-size: .8rem; min-width: 860px; width: 100%; border-collapse: collapse; }
+    .hotspot-table thead tr { background: #1e293b; color: white; }
+    .hotspot-table th { padding: 9px 12px; text-align: left; font-weight: 600; white-space: nowrap; }
+    .hotspot-table td { padding: 8px 12px; border-bottom: 1px solid #f1f5f9; vertical-align: top; line-height: 1.45; }
+    .hotspot-table tr:last-child td { border-bottom: none; }
+    .hotspot-table tr.hs-critical td { background: #fff1f2; }
+    .hotspot-table tr.hs-high     td { background: #fff7ed; }
+    .hotspot-table tr.hs-moderate td { background: #fefce8; }
+    .hs-rank { font-size: 1rem; font-weight: 800; text-align: center; width: 30px; }
+    .hs-rank.r1 { color: #dc2626; }
+    .hs-rank.r2 { color: #dc2626; }
+    .hs-rank.r3 { color: #dc2626; }
+    .hs-rank.r4 { color: #ea580c; }
+    .hs-rank.r5 { color: #ea580c; }
+    .hs-rank.r6 { color: #ea580c; }
+    .hs-rank.r7 { color: #ea580c; }
+    .hs-rank.r8 { color: #ca8a04; }
+    .hs-rank.r9 { color: #ca8a04; }
+    .hs-rank.r10{ color: #ca8a04; }
+    .freq-bar { display: inline-block; height: 8px; border-radius: 4px; vertical-align: middle; margin-right: 6px; background: #dc2626; }
+    .freq-bar.orange { background: #ea580c; }
+    .freq-bar.amber  { background: #ca8a04; }
+    .freq-bar.gray   { background: #94a3b8; }
+    .reversal-pill {
+      display: inline-block; padding: 1px 7px; border-radius: 12px;
+      font-size: .72rem; font-weight: 700; white-space: nowrap;
+    }
+    .rev-high   { background: #fee2e2; color: #991b1b; }
+    .rev-mid    { background: #ffedd5; color: #9a3412; }
+    .rev-low    { background: #fef9c3; color: #713f12; }
+    .step-code  { font-size: .72rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: .04em; display: block; margin-bottom: 2px; }
+    .step-name  { font-weight: 600; color: #1e293b; }
+    .dispute-list { margin: 4px 0 0; padding-left: 16px; color: #475569; font-size: .78rem; line-height: 1.5; }
+    .dispute-list li { margin-bottom: 2px; }
+    .lit-caveat {
+      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px;
+      padding: 10px 14px; margin: 10px 0 0; font-size: .76rem; line-height: 1.5; color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── PASSWORD GATE ── -->
+<style>
+  #pw-gate {
+    position: fixed; inset: 0; z-index: 9999;
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  #pw-box {
+    background: white; border-radius: 14px;
+    padding: 44px 48px; width: 340px;
+    box-shadow: 0 24px 60px rgba(0,0,0,.4);
+    text-align: center;
+  }
+  #pw-box h2 { margin: 0 0 6px; font-size: 1.2rem; color: #1e293b; }
+  #pw-box p  { margin: 0 0 24px; font-size: .85rem; color: #64748b; }
+  #pw-input {
+    width: 100%; padding: 11px 14px; font-size: 1rem;
+    border: 2px solid #e2e8f0; border-radius: 8px;
+    outline: none; text-align: center; letter-spacing: .1em;
+    transition: border-color .2s;
+  }
+  #pw-input:focus { border-color: #334155; }
+  #pw-btn {
+    margin-top: 14px; width: 100%; padding: 12px;
+    background: #1e293b; color: white; border: none;
+    border-radius: 8px; font-size: .95rem; font-weight: 600;
+    cursor: pointer; transition: background .2s;
+  }
+  #pw-btn:hover { background: #334155; }
+  #pw-error {
+    margin-top: 12px; font-size: .82rem; color: #dc2626;
+    min-height: 18px;
+  }
+</style>
+<div id="pw-gate">
+  <div id="pw-box">
+    <h2>Section 106 Flowchart</h2>
+    <p>Enter the password to access this page.</p>
+    <input id="pw-input" type="password" placeholder="Password" autofocus
+           onkeydown="if(event.key==='Enter') checkPw()">
+    <button id="pw-btn" onclick="checkPw()">Enter</button>
+    <div id="pw-error"></div>
+  </div>
+</div>
+<script>
+  function checkPw() {
+    if (document.getElementById('pw-input').value === 'NHPA106') {
+      document.getElementById('pw-gate').style.display = 'none';
+    } else {
+      document.getElementById('pw-error').textContent = 'Incorrect password. Please try again.';
+      document.getElementById('pw-input').value = '';
+      document.getElementById('pw-input').focus();
+    }
+  }
+</script>
+<!-- ── END PASSWORD GATE ── -->
+
+<header>
+  <h1>Section 106 Process — Complete Flowchart</h1>
+  <p>36 C.F.R. Part 800 — Protection of Historic Properties &nbsp;·&nbsp; Including linear energy infrastructure agency modifications (FERC · USACE · BLM) &nbsp;·&nbsp; Litigation hotspot analysis of 872 federal cases</p>
+</header>
+
+<div class="wrap">
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-title">Color Guide</div>
+    <div class="li"><div class="lb" style="background:#dbeafe;border-color:#2563eb"></div> Agency Official action</div>
+    <div class="li"><div class="lb" style="background:#ede9fe;border-color:#7c3aed"></div> SHPO / THPO review</div>
+    <div class="li"><div class="lb" style="background:#ffedd5;border-color:#ea580c"></div> ACHP (Council) involvement</div>
+    <div class="li"><div class="lb" style="background:#d1fae5;border-color:#059669"></div> MOA / PA execution — §106 fulfilled</div>
+    <div class="li"><div class="lb" style="background:#fee2e2;border-color:#dc2626"></div> Adverse effect / failure pathway</div>
+    <div class="li"><div class="lb" style="background:#fef9c3;border-color:#ca8a04"></div> Decision point</div>
+    <div class="li"><div class="lb" style="background:#e0f2fe;border-color:#0284c7"></div> Process terminus / end state</div>
+  </div>
+
+  <!-- DIAGRAM -->
+  <div class="diagram-card">
+    <div class="mermaid">
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "primaryColor":       "#dbeafe",
+    "primaryBorderColor": "#2563eb",
+    "primaryTextColor":   "#1e3a5f",
+    "lineColor":          "#64748b",
+    "fontSize":           "13px",
+    "edgeLabelBackground":"#f8fafc"
+  },
+  "flowchart": { "curve": "basis", "padding": 18, "htmlLabels": true }
+}}%%
+
+flowchart TD
+
+classDef agency    fill:#dbeafe,stroke:#2563eb,color:#1e3a5f,stroke-width:1.5px
+classDef shpo      fill:#ede9fe,stroke:#7c3aed,color:#3b0764,stroke-width:1.5px
+classDef council   fill:#ffedd5,stroke:#ea580c,color:#7c2d12,stroke-width:1.5px
+classDef fulfilled fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e,stroke-width:2px
+classDef adverse   fill:#fee2e2,stroke:#dc2626,color:#7f1d1d,stroke-width:2px,font-weight:bold
+classDef decision  fill:#fef9c3,stroke:#ca8a04,color:#713f12,stroke-width:1.5px
+classDef moa       fill:#d1fae5,stroke:#059669,color:#064e3b,stroke-width:2px,font-weight:bold
+classDef startnode fill:#1e293b,stroke:#0f172a,color:#f8fafc,stroke-width:2px,font-weight:bold
+classDef notenode  fill:#f8fafc,stroke:#94a3b8,color:#334155,stroke-width:1px,stroke-dasharray:4 2
+
+START(["Federal Agency Proposes Action"]):::startnode
+
+%% ══════════════════════════════════════════════════════
+%%  §800.3 — INITIATION
+%% ══════════════════════════════════════════════════════
+subgraph INIT ["§800.3 — INITIATION    |    Agency Official · SHPO/THPO · Tribes · NHOs · Applicants · Local Governments"]
+  direction TB
+  Q1{"Is proposed action<br/>an <b>undertaking</b>?<br/>§800.16(y)"}:::decision
+  Q2{"Potential to cause<br/>effects on historic<br/>properties?"}:::decision
+  Q3{"Governed by an existing<br/><b>Program Alternative</b>?<br/>(PA, alternate procedures,<br/>program comment, or<br/>exempted category)<br/>§800.14"}:::decision
+  NEPA_NOTE["<i>Optional: Coordinate with NEPA.<br/>EA/EIS process may substitute for<br/>§§800.3–800.6 if Council + SHPO/THPO<br/>notified in advance. §800.8(c)</i>"]:::notenode
+  I1["<b>Identify SHPO &amp;/or THPO</b><br/>Coordinate with NEPA<br/>and other applicable reviews<br/>§800.3(b–c)"]:::agency
+  I2["<b>Plan public involvement</b><br/>Identify points for public<br/>input and notices §800.3(e)"]:::agency
+  I3["<b>Identify &amp; invite consulting parties</b><br/>Tribes · NHOs · Local Govts<br/>Applicants · Others §800.3(f)"]:::agency
+end
+
+END1(["END — No §106 obligations"]):::fulfilled
+END_PA(["END — Follow existing<br/>Program Alternative<br/>§800.14"]):::fulfilled
+
+START --> Q1
+Q1 -->|"No"| END1
+Q1 -->|"Yes"| Q2
+Q2 -->|"No potential<br/>for effects"| END1
+Q2 -->|"Yes"| Q3
+Q3 -->|"Yes"| END_PA
+Q3 -->|"No"| NEPA_NOTE
+NEPA_NOTE --> I1
+I1 --> I2 --> I3
+
+%% ══════════════════════════════════════════════════════
+%%  §800.4 — IDENTIFICATION
+%% ══════════════════════════════════════════════════════
+subgraph IDENT ["§800.4 — IDENTIFICATION OF HISTORIC PROPERTIES    |    Agency Official · SHPO/THPO · Tribes · NHOs · Consulting Parties"]
+  direction TB
+  ID1["<b>Determine Area of Potential Effects (APE)</b><br/>Geographic area where undertaking may<br/>directly or indirectly alter<br/>character/use of historic properties<br/>§800.4(a)(1), §800.16(d)"]:::agency
+  ID2["<b>Review existing information</b><br/>Consult parties · gather tribal/NHO input<br/>Respect confidentiality concerns<br/>§800.4(a)(2–4)"]:::agency
+  ID3["<b>Conduct identification efforts</b><br/>Background research · consultation<br/>oral history · sample field investigation<br/>field survey · §800.4(b)"]:::agency
+  Q_ELIG{"Apply <b>National Register</b><br/>criteria to identified<br/>properties §800.4(c)"}:::decision
+  E_Y["<b>Property ELIGIBLE</b><br/>Agency + SHPO/THPO agree<br/>→ treat as historic property"]:::agency
+  E_N["<b>Property NOT ELIGIBLE</b><br/>Agency + SHPO/THPO agree<br/>→ not a historic property"]:::agency
+  E_D["<b>No agreement on eligibility</b><br/>Refer to Secretary of Interior<br/>for formal determination<br/>36 C.F.R. Part 63"]:::council
+end
+
+I3 --> ID1 --> ID2 --> ID3 --> Q_ELIG
+Q_ELIG -->|"Agree: YES"| E_Y
+Q_ELIG -->|"Agree: NO"| E_N
+Q_ELIG -->|"No agreement<br/>(or Council/Secretary<br/>requests determination)"| E_D
+
+%% ══════════════════════════════════════════════════════
+%%  §800.4(d) — RESULTS OF IDENTIFICATION
+%% ══════════════════════════════════════════════════════
+subgraph RIDNT ["§800.4(d) — RESULTS OF IDENTIFICATION    |    Agency Official · SHPO/THPO · Council · Consulting Parties · Public"]
+  direction TB
+  Q4{"Historic properties present<br/>AND undertaking will have<br/><b>effects</b> on them?<br/>§800.16(i)"}:::decision
+  NHP1["<b>Document 'No Historic Properties<br/>Affected' finding</b><br/>Notify consulting parties<br/>Make documentation available<br/>to public §800.4(d)(1)"]:::agency
+  Q_OBJ1{"SHPO/THPO or Council<br/>objects within<br/><b>30 days</b>?<br/>§800.4(d)(1)(ii–iii)"}:::decision
+  END_NHP(["END — §106 Fulfilled<br/><i>No Historic Properties Affected</i>"]):::moa
+  CREV1["<b>Council reviews finding</b><br/>30 days to respond<br/>§800.4(d)(1)(iv)(A)"]:::council
+  Q_COP1{"Council issues<br/>opinion?"}:::decision
+  CADR1["<b>Agency / Head of Agency</b><br/>takes Council opinion into account<br/>Prepares &amp; distributes<br/>decision summary<br/>§800.4(d)(1)(iv)(B–C)"]:::agency
+  Q_AFF1{"Agency affirms<br/>'No HP Affected'?"}:::decision
+  NOTIF1["<b>Notify all consulting parties</b><br/>Invite their views on effects<br/>§800.4(d)(2)"]:::agency
+end
+
+E_Y --> Q4
+E_N --> Q4
+E_D --> Q4
+Q4 -->|"No HPs present,<br/>or no effects"| NHP1
+Q4 -->|"Yes — HPs<br/>may be affected"| NOTIF1
+NHP1 --> Q_OBJ1
+Q_OBJ1 -->|"No objection<br/>(30 days elapsed)"| END_NHP
+Q_OBJ1 -->|"Objection"| CREV1
+CREV1 --> Q_COP1
+Q_COP1 -->|"No response<br/>within 30 days"| END_NHP
+Q_COP1 -->|"Opinion issued"| CADR1
+CADR1 --> Q_AFF1
+Q_AFF1 -->|"Affirms —<br/>No HP Affected"| END_NHP
+Q_AFF1 -->|"Revises finding"| Q4
+
+%% ══════════════════════════════════════════════════════
+%%  §800.5 — ASSESSMENT OF ADVERSE EFFECTS
+%% ══════════════════════════════════════════════════════
+subgraph ASSESS ["§800.5 — ASSESSMENT OF ADVERSE EFFECTS    |    Agency Official · SHPO/THPO · Tribes · NHOs · Consulting Parties · Public · Council"]
+  direction TB
+  AE_DEF["<i><b>Adverse effect</b> = undertaking may alter characteristics<br/>qualifying property for National Register in a manner that<br/>diminishes integrity of location, design, setting, materials,<br/>workmanship, feeling, or association §800.5(a)(1)</i>"]:::notenode
+  AE1["<b>Apply criteria of adverse effect</b><br/>Consider views of consulting parties<br/>and the public §800.5(a)"]:::agency
+  Q_AE{"Adverse effect<br/>found?"}:::decision
+  NAE1["<b>Propose 'No Adverse Effect' finding</b><br/>Notify all consulting parties<br/>Provide documentation §800.11(e)<br/>§800.5(b–c)"]:::agency
+  Q_NAE_OBJ{"SHPO/THPO or consulting<br/>party objects within<br/><b>30 days</b>? §800.5(c)(2)"}:::decision
+  END_NAE(["END — §106 Fulfilled<br/><i>No Adverse Effect — proceed<br/>with undertaking</i>"]):::moa
+  CREV2["<b>Request Council review</b><br/>15 days to respond<br/>(extendable +15 days)<br/>§800.5(c)(3)(i)"]:::council
+  Q_COP2{"Council issues<br/>opinion on NAE?"}:::decision
+  CADR2["<b>Agency / Head of Agency</b><br/>takes Council opinion into account<br/>Prepares &amp; distributes<br/>decision summary §800.5(c)(3)(ii)"]:::agency
+  Q_AFF2{"Agency affirms<br/>'No Adverse Effect'?"}:::decision
+  AE_FOUND(["ADVERSE EFFECT FOUND<br/>Proceed to Resolution<br/>§800.5(d)(2)"]):::adverse
+end
+
+NOTIF1 --> AE_DEF --> AE1 --> Q_AE
+Q_AE -->|"No"| NAE1
+Q_AE -->|"Yes"| AE_FOUND
+NAE1 --> Q_NAE_OBJ
+Q_NAE_OBJ -->|"No objection"| END_NAE
+Q_NAE_OBJ -->|"Objection"| CREV2
+CREV2 --> Q_COP2
+Q_COP2 -->|"No response"| END_NAE
+Q_COP2 -->|"Opinion issued"| CADR2
+CADR2 --> Q_AFF2
+Q_AFF2 -->|"Affirms NAE"| END_NAE
+Q_AFF2 -->|"Revises finding"| Q_AE
+
+%% ══════════════════════════════════════════════════════
+%%  §800.6 — RESOLUTION OF ADVERSE EFFECTS
+%% ══════════════════════════════════════════════════════
+subgraph RESOL ["§800.6 — RESOLUTION OF ADVERSE EFFECTS    |    Agency Official · SHPO/THPO · Council · Tribes · NHOs · Consulting Parties · Public"]
+  direction TB
+  R1["<b>Notify Council of adverse effect finding</b><br/>Provide documentation §800.11(e)<br/>Involve consulting parties &amp; public<br/>§800.6(a)(1)"]:::agency
+
+  RNOTE["<b>Council participation is MANDATORY — agency must invite when:</b><br/>① Agency official requests Council participation<br/>② Undertaking will adversely affect a <b>National Historic Landmark (NHL)</b> → also notify Secretary of Interior §800.10<br/>③ A <b>Programmatic Agreement (PA)</b> under §800.14(b) will be the resolution document<br/>Any consulting party may also independently request Council participate §800.6(a)(1)(ii)"]:::council
+
+  Q_CPART{"<b>Council decides to participate?</b><br/>Advises all parties within<br/><b>15 days</b> of receipt §800.6(a)(1)(iii)"}:::decision
+
+  subgraph PATHA ["PATHWAY A — Without Council   §800.6(b)(1)   [Individual undertaking · Council declined to participate]"]
+    direction TB
+    WCA1["<b>Agency + SHPO/THPO</b><br/>+ consulting parties consult<br/>Seek to avoid · minimize · mitigate<br/>adverse effects §800.6(b)(1)(i)"]:::shpo
+    Q_WCA{"Agency &amp; SHPO/THPO<br/>agree on resolution?"}:::decision
+    WC_REQ["<b>Agency requests Council to join</b><br/>Provides documentation §800.11(g)<br/>§800.6(b)(1)(v)"]:::agency
+    Q_WCJOIN{"Council agrees<br/>to join?"}:::decision
+    MOA_A(["EXECUTE MEMORANDUM OF AGREEMENT<br/><b>Signatories: Agency Official + SHPO/THPO</b><br/>(+ invited signatories; others may concur)<br/>Submit copy to Council before approving<br/>§800.6(b)(1)(iv), §800.6(c)<br/>END — §106 Fulfilled for this undertaking"]):::moa
+  end
+
+  subgraph PATHB ["PATHWAY B — With Council   §800.6(b)(2)   [Council participates · NHL affected · PA will be prepared]"]
+    direction TB
+    WCB1["<b>Agency + SHPO/THPO + Council</b><br/>+ consulting parties consult<br/>Seek to avoid · minimize · mitigate<br/>adverse effects §800.6(b)(2)"]:::council
+    Q_WCB{"All parties agree<br/>on resolution?"}:::decision
+    Q_DOC{"Resolution<br/>document type?"}:::decision
+    MOA_B(["EXECUTE MEMORANDUM OF AGREEMENT<br/><b>Signatories: Agency + SHPO/THPO + Council</b><br/>(+ invited signatories; others may concur)<br/>§800.6(b)(2), §800.6(c)<br/>END — §106 Fulfilled for this undertaking"]):::moa
+    PA_B(["EXECUTE PROGRAMMATIC AGREEMENT (PA)<br/><b>Signatories: Agency + Council + SHPO/THPOs</b><br/>(or NCSHPO president for nationwide programs;<br/>THPO for tribal lands)<br/>§800.14(b)(2)(iii)<br/>END — §106 Fulfilled for ALL covered undertakings"]):::moa
+    PROTO_NOTE["<i>Prototype PA exception §800.14(b)(4):<br/>If Council designated a prototype PA for this<br/>type of program, agency may execute with<br/>SHPO/THPO only — Council signature not required</i>"]:::notenode
+  end
+
+end
+
+AE_FOUND --> R1
+R1 --> RNOTE --> Q_CPART
+Q_CPART -->|"No — Council<br/>declines"| WCA1
+Q_CPART -->|"Yes — Council<br/>participates"| WCB1
+
+WCA1 --> Q_WCA
+Q_WCA -->|"Yes"| MOA_A
+Q_WCA -->|"No"| WC_REQ
+WC_REQ --> Q_WCJOIN
+Q_WCJOIN -->|"Yes — Council joins"| WCB1
+Q_WCJOIN -->|"No — Council declines"| FAIL_ENTER
+
+WCB1 --> Q_WCB
+Q_WCB -->|"Yes"| Q_DOC
+Q_WCB -->|"No — impasse"| FAIL_ENTER
+
+Q_DOC -->|"Individual undertaking<br/>(effects determinable)"| MOA_B
+Q_DOC -->|"Program / complex /<br/>multiple undertakings<br/>or effects not fully<br/>determinable pre-approval"| PA_B
+PA_B --> PROTO_NOTE
+
+FAIL_ENTER(["Consultation Failed<br/>§800.7"]):::adverse
+
+%% ══════════════════════════════════════════════════════
+%%  §800.7 — FAILURE TO RESOLVE ADVERSE EFFECTS
+%% ══════════════════════════════════════════════════════
+subgraph FAIL ["§800.7 — FAILURE TO RESOLVE ADVERSE EFFECTS    |    Head of Agency · Council · Agency Official · SHPO/THPO · All Consulting Parties · Public"]
+  direction TB
+  F1{"<b>Who terminates<br/>consultation?</b><br/>§800.7(a)"}:::decision
+
+  F_AGY["<b>AGENCY OFFICIAL terminates</b><br/>Head of agency (or Asst. Sec.)<br/>must request Council comment<br/>§800.7(a)(1)"]:::adverse
+  F_SHPO["<b>SHPO terminates</b><br/>Agency Official + Council<br/>may execute MOA<br/>without SHPO's involvement<br/>§800.7(a)(2)"]:::shpo
+  F_THPO["<b>THPO terminates</b><br/>(undertaking on/affecting<br/>tribal lands)<br/>Council must comment<br/>§800.7(a)(3)"]:::shpo
+  F_ACHP["<b>COUNCIL terminates</b><br/>Notifies all consulting parties<br/>with written reasons<br/>Council then comments<br/>§800.7(a)(4)"]:::council
+
+  MOA_C(["EXECUTE MEMORANDUM OF AGREEMENT<br/><b>Signatories: Agency Official + Council</b><br/>(SHPO may rejoin if conditions change)<br/>§800.7(a)(2)<br/>END — §106 Fulfilled"]):::moa
+
+  FC1["<b>Council prepares formal comments</b><br/>Provides opportunity for agency,<br/>consulting parties &amp; public<br/>to submit views §800.7(c)(1)"]:::council
+  FC2["<b>Council transmits comments</b><br/>within <b>45 days</b><br/>To head of the agency<br/>Copies to agency official, FPO,<br/>all consulting parties §800.7(c)(2–3)"]:::council
+  FC3["<b>Head of Agency considers<br/>Council comments</b><br/>Takes into account before<br/>final decision §800.7(c)(4)<br/><i>Duty non-delegable — §110(l)</i>"]:::agency
+  FC4["<b>Head of Agency documents decision</b><br/>① Prepares decision summary with rationale<br/>② Provides to Council prior to approval<br/>③ Copies to all consulting parties<br/>④ Notifies public — record available<br/>§800.7(c)(4)(i–iii)"]:::agency
+  END_F(["END — §106 Fulfilled<br/><i>Head of Agency approves or rejects<br/>undertaking — non-delegable §110(l)</i>"]):::moa
+end
+
+FAIL_ENTER --> F1
+F1 -->|"Agency<br/>official"| F_AGY
+F1 -->|"SHPO"| F_SHPO
+F1 -->|"THPO"| F_THPO
+F1 -->|"Council"| F_ACHP
+F_SHPO --> MOA_C
+F_AGY  --> FC1
+F_THPO --> FC1
+F_ACHP --> FC1
+FC1 --> FC2 --> FC3 --> FC4 --> END_F
+
+    </div>
+  </div><!-- /diagram-card -->
+
+  <!-- ── DIAGRAM CALLOUT ── -->
+  <div class="callout" style="background:#fff1f2;border-color:#fca5a5;color:#7f1d1d;margin:16px 0 24px">
+    <strong>Litigation hotspots:</strong> Based on analysis of 872 federal decisions, the most frequently litigated steps are <strong>Tribal Consultation</strong> (#1), <strong>§800.3 Scoping/Initiation timing</strong> (#2), <strong>§800.7 Failure to Resolve</strong> (#3), <strong>Construction Foreclosure</strong> (#4), and <strong>§800.5 Adverse Effect findings</strong> (#5). USACE / NWP 12 pipeline-crossing disputes carry the highest agency reversal rate (40%). See the ranked <a href="#lit-hotspots" style="color:#991b1b">Litigation Hotspots table</a> below for full data.
+  </div>
+
+  <!-- ── PROGRAM ALTERNATIVES EXPLAINER ── -->
+  <div class="section-title">Understanding Program Alternatives — §800.14</div>
+  <div class="callout">
+    <strong>What is a "Program Alternative"?</strong> Under §800.14, federal agencies and the Council may establish alternatives to the standard case-by-case §800.3–800.6 review process. When an existing program alternative already governs an undertaking, the agency follows that alternative instead of the standard flow — this is the early exit shown at §800.3 in the diagram above. There are five types, each serving a different purpose.
+  </div>
+  <div class="def-grid">
+
+    <div class="def-card blue">
+      <h3>① Alternate Procedures</h3>
+      <span class="ref">§800.14(a)</span>
+      <p>A federal agency develops its own agency-specific procedures to implement Section 106, substituting for all or part of Subpart B. These must be consistent with the Council's regulations and go through a 60-day Council review before adoption. Once approved, they replace the standard §§800.3–800.6 process for that agency.</p>
+      <ul>
+        <li>Agency consults with Council, SHPOs/THPOs, tribes, and public during development</li>
+        <li>Published in the Federal Register</li>
+        <li>Cannot override tribal historic preservation regulations on tribal lands</li>
+      </ul>
+    </div>
+
+    <div class="def-card green">
+      <h3>② Programmatic Agreements (PA)</h3>
+      <span class="ref">§800.14(b) · §800.16(t)</span>
+      <p>A PA is a negotiated document between the Council and the agency to govern a <em>program</em> or resolve adverse effects from <em>complex or multiple undertakings</em>. Unlike an MOA (which covers a single undertaking), a PA covers <strong>all undertakings within the program</strong> until it expires or is terminated.</p>
+      <p style="margin-top:8px"><strong>When a PA may be used:</strong></p>
+      <ul>
+        <li>Effects are similar/repetitive or multi-state/regional in scope</li>
+        <li>Effects <em>cannot be fully determined</em> prior to approval of the undertaking</li>
+        <li>Non-federal parties are delegated major decision-making</li>
+        <li>Routine management at federal installations/land-management units</li>
+        <li>Other circumstances warrant departure from the normal process</li>
+      </ul>
+      <p style="margin-top:8px"><strong>Signatories:</strong> Council + Agency + appropriate SHPO/THPOs (or NCSHPO president for nationwide programs). On tribal lands, THPO or tribal representative must sign.</p>
+      <p style="margin-top:8px"><strong>Prototype PA exception (§800.14(b)(4)):</strong> If Council has designated a prototype PA for a type of program, the agency may execute it with the SHPO/THPO only — Council participation and signature not required.</p>
+      <p style="margin-top:8px"><strong>Development process:</strong> For complex/multiple undertakings, consultation to develop the PA follows §800.6. Council participation is <em>mandatory</em> (§800.6(a)(1)(i)(C)) — the agency must invite the Council whenever a PA will be the resolution document.</p>
+      <p style="margin-top:8px"><strong>PA vs. MOA:</strong></p>
+      <ul>
+        <li><em>MOA</em> — covers one specific undertaking; effects are determinable; resolves adverse effects on known historic properties</li>
+        <li><em>PA</em> — covers a program or multiple/complex undertakings; used when effects can't all be determined in advance; compliance with the PA satisfies §106 for <em>all covered undertakings</em></li>
+      </ul>
+    </div>
+
+    <div class="def-card amber">
+      <h3>③ Exempted Categories</h3>
+      <span class="ref">§800.14(c)</span>
+      <p>The Council or an agency may propose that a category of undertakings be entirely exempted from Subpart B review. Requirements for approval:</p>
+      <ul>
+        <li>The undertakings would otherwise qualify as "undertakings" under §800.16(y)</li>
+        <li>Potential effects on historic properties are <em>foreseeable</em> and likely to be <em>minimal or not adverse</em></li>
+        <li>Exemption is consistent with the purposes of the Act</li>
+      </ul>
+      <p style="margin-top:8px">The Council reviews and approves/rejects within 30 days. Once approved, undertakings within that category need no further Subpart B review, unless the agency or Council determines otherwise in a specific case.</p>
+    </div>
+
+    <div class="def-card purple">
+      <h3>④ Standard Treatments</h3>
+      <span class="ref">§800.14(d)</span>
+      <p>The Council may establish standard methods for treating a <em>category</em> of historic properties, undertakings, or effects — e.g., a defined protocol for treating archaeological sites found during construction. Agencies may use these as a basis for an MOA without re-negotiating terms from scratch each time (§800.6(b)(1)(ii)).</p>
+      <ul>
+        <li>Council establishes on its own initiative or at request of another party</li>
+        <li>Published in the Federal Register</li>
+        <li>Can be terminated by Council with 30-day notice</li>
+      </ul>
+    </div>
+
+    <div class="def-card orange">
+      <h3>⑤ Program Comments</h3>
+      <span class="ref">§800.14(e)</span>
+      <p>An agency may request the Council to comment on an entire <em>category of undertakings</em> rather than conducting individual §§800.4–800.6 reviews for each. The Council responds within 45 days.</p>
+      <ul>
+        <li>Agency identifies category, likely effects, and steps it will take to account for them</li>
+        <li>If Council comments: agency takes those comments into account for <em>all</em> undertakings in the category; published in Federal Register</li>
+        <li>If Council declines: agency continues with standard individual §§800.3–800.6 reviews</li>
+        <li>Council may withdraw its program comment if the agency isn't properly taking effects into account</li>
+      </ul>
+    </div>
+
+    <div class="def-card rose">
+      <h3>Special Situations: Emergency &amp; Post-Review Discoveries</h3>
+      <span class="ref">§800.12 · §800.13</span>
+      <p><strong>Emergency situations (§800.12):</strong> For undertakings responding to a declared disaster or emergency, an agency may comply with §106 through: (1) following an existing PA that includes emergency provisions; or (2) notifying Council, SHPO/THPO, and relevant tribes and affording 7 days to comment (or less if circumstances demand). Applies only to undertakings implemented within 30 days of the declaration.</p>
+      <p style="margin-top:8px"><strong>Post-review discoveries (§800.13):</strong> If historic properties are discovered after the §106 process is complete:</p>
+      <ul>
+        <li><em>Best practice:</em> Include discovery procedures in the MOA or PA before work begins</li>
+        <li>If construction has <em>not</em> commenced: consult per §800.6</li>
+        <li>If construction <em>has</em> commenced: notify SHPO/THPO, tribes, and Council within <strong>48 hours</strong>; all parties respond within 48 hours; agency takes recommendations into account</li>
+        <li>On tribal lands: also comply with applicable tribal regulations and obtain tribal concurrence</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- LINEAR ENERGY INFRASTRUCTURE SECTION                         -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div class="section-title" style="margin-top:36px">⚡ Linear Energy Infrastructure: How §106 Is Modified</div>
+
+  <div class="callout-blue">
+    <strong>Why linear energy projects are different:</strong> Pipelines, transmission lines, and access roads cross hundreds of miles and multiple jurisdictions, making the standard case-by-case §800.3–800.6 review impractical. Agency guidance addresses three recurring challenges: (1) the scope of the "undertaking" when multiple federal authorities touch only parts of a project; (2) the impossibility of completing full survey before authorization when final alignments are unknown; and (3) multi-agency coordination when more than one federal entity has jurisdiction over different segments. The modifications below — phased identification, programmatic agreements, and agency-specific procedures — are all authorized exits or alternatives within the standard 36 C.F.R. Part 800 framework.
+  </div>
+
+  <!-- THREE AGENCY CARDS -->
+  <div class="agency-grid">
+
+    <!-- FERC CARD -->
+    <div class="agency-card ferc">
+      <div class="agency-card-header">
+        <span class="agency-tag">FERC</span>
+        <h3>Federal Energy Regulatory Commission — Interstate Natural Gas Pipelines</h3>
+        <span class="jx-pill">Natural Gas Act §7(c) · 18 C.F.R. Part 380</span>
+      </div>
+      <div class="agency-card-body">
+        <span class="flag-diff">⚠ Differs from standard §106</span>
+        <span class="flag-ferc">Full route jurisdiction</span>
+        <span class="flag-pa">PA common for major projects</span>
+
+        <h4>Jurisdiction &amp; Undertaking Scope</h4>
+        <p>FERC must authorize the <strong>entire route</strong> of an interstate natural gas pipeline under Natural Gas Act §7(c). Accordingly, FERC's §106 undertaking is the <em>complete pipeline</em>, not discrete segments — unlike USACE, which has jurisdiction only over water crossings. FERC remains legally responsible for all §106 findings and determinations even when a project sponsor performs the fieldwork.</p>
+
+        <h4>Project Sponsor Role (§800.2(a)(3))</h4>
+        <p>FERC authorizes project sponsors (the pipeline company) to initiate contact with consulting parties and to prepare all cultural resource reports. <strong>Sponsors assist FERC; FERC staff makes every formal determination.</strong> Because FERC is a quasi-judicial body bound by the Administrative Procedure Act, off-the-record communications with FERC staff are prohibited — all submissions go through the formal docket.</p>
+
+        <h4>Two Application Tracks</h4>
+        <ul>
+          <li><strong>Pre-filing environmental review</strong> (required for LNG projects; voluntary for others): Sponsor initiates §106 outreach and fieldwork months before the formal application, giving tribes and SHPOs early notice and time to consult</li>
+          <li><strong>Direct application</strong>: Sponsor files the application and the pre-construction §106 process runs concurrent with FERC review</li>
+        </ul>
+
+        <h4>APE Definition for Natural Gas Projects</h4>
+        <ul>
+          <li><strong>Direct APE:</strong> All construction areas — ROW, compressor/meter stations, staging areas, extra-work spaces, access roads, ancillary facilities. The same project may carry <em>different APEs</em> for direct (ground-disturbing) effects vs. indirect (visual, audible, vibratory, atmospheric) effects on aboveground resources</li>
+          <li><strong>Survey corridor:</strong> Should be wide enough to accommodate minor route modifications so that route adjustments can still avoid or minimize impacts on resources already identified</li>
+          <li><strong>Indirect APE:</strong> Extends beyond the construction footprint for viewshed, noise, and vibration effects on historic structures and landscapes</li>
+        </ul>
+
+        <h4>Boring/Directional Drilling — Avoidance vs. Mitigation (Critical Distinction)</h4>
+        <p>FERC draws a bright-line rule determining whether boring under a historic property is <em>avoidance</em> (no treatment plan required) or <em>mitigation</em> (treatment plan required):</p>
+        <ul>
+          <li><span class="flag-pa">Avoidance — no treatment plan</span> when: (1) the pipeline is at least <strong>25 feet</strong> from any portion of the historic property, AND (2) no construction, operation, or maintenance will occur within the historic property boundaries. Required docs: bore pit/lay-down area locations, scaled plan/profile drawing, access routes that avoid the property, pre-construction geotechnical studies</li>
+          <li><span class="flag-diff">Mitigation — treatment plan required</span> when either criterion above cannot be met. The treatment plan must include: a contingency plan if boring fails, pre-boring documentation of aboveground features, and long-term maintenance access protocols</li>
+        </ul>
+
+        <h4>Tribal Outreach — Broader Than Standard §106</h4>
+        <p>Sponsors must identify and consult <em>all tribes with current or historical use of or occupancy in the project area</em> — including tribes no longer residing in the region. This is broader than standard §106, which focuses on tribes with demonstrated concern for properties in the APE.</p>
+
+        <h4>Required Reports (Sequential)</h4>
+        <ul>
+          <li><strong>Overview Report</strong> — background research, existing resource data, proposed APE, identification of consulting parties</li>
+          <li><strong>Survey Report</strong> — field methods, resources identified, NRHP eligibility recommendations</li>
+          <li><strong>Evaluation Report</strong> — formal NRHP eligibility determinations; if no adverse effect, process ends here</li>
+          <li><strong>Agreement Document</strong> — FERC <em>drafts</em> the MOA or PA; project sponsor does not draft it</li>
+          <li><strong>Treatment Plan</strong> — mitigation specifics for each adversely affected historic property</li>
+          <li><strong>Management Summary</strong> — due within <strong>30 days</strong> of completing fieldwork</li>
+          <li><strong>Treatment Report</strong> — due within <strong>1 year</strong> of completing fieldwork; documents all mitigation completed</li>
+        </ul>
+
+        <h4>Plan for Unanticipated Cultural Resources</h4>
+        <p>Required as part of every application: specifies stop-work procedures if unanticipated resources are discovered during construction. Must address human remains separately under NAGPRA.</p>
+
+        <h4>Blanket Certificate Program</h4>
+        <p>Minor modifications at existing natural gas facilities (e.g., adding a compressor unit) may qualify for a blanket certificate — a pre-authorized, streamlined FERC process with simplified §106 review rather than the full report sequence above.</p>
+      </div>
+    </div>
+
+    <!-- USACE CARD -->
+    <div class="agency-card usace">
+      <div class="agency-card-header">
+        <span class="agency-tag">USACE</span>
+        <h3>U.S. Army Corps of Engineers — Pipeline Water Crossings &amp; Corps Land</h3>
+        <span class="jx-pill">Clean Water Act §404 · Rivers &amp; Harbors Act §10 · MLA §28</span>
+      </div>
+      <div class="agency-card-body">
+        <span class="flag-diff">⚠ Segmented review (contested)</span>
+        <span class="flag-note">ACHP dispute over undertaking scope</span>
+        <span class="flag-usace">NWP 12 for most crossings</span>
+
+        <h4>Narrow Jurisdiction: Water Crossings Only</h4>
+        <p>The Corps has <strong>no authority to approve pipelines along their entire domestic routes.</strong> Its jurisdiction is limited to: (1) activities in §404 waters and wetlands; (2) structures/work in §10 navigable waters; and (3) crossings of Corps-managed civil works lands (requiring a §408 permission and easement). Upland pipeline segments on private land are entirely outside Corps jurisdiction and therefore outside Corps §106 review.</p>
+
+        <h4>Corps' Own §106 Procedures (Appendix C to 33 C.F.R. Part 325)</h4>
+        <p>The Corps follows its own "Procedures for the Protection of Historic Properties" in Appendix C — not the standard 36 C.F.R. Part 800. <strong>As of 2016, ACHP has not accepted the Corps' Appendix C as consistent with ACHP regulations</strong> (which require ACHP to approve any alternate procedures under §800.14(a)). Some federal district courts have declined to apply Appendix C on grounds of inconsistency with NHPA; others have upheld it. This institutional dispute remains unresolved.</p>
+
+        <h4>The "Small Federal Handle" Problem</h4>
+        <p>When a major pipeline's only federal touch-points are discrete water crossings, the Corps treats each crossing as a separate undertaking. Critics (including ACHP) argue this fails to assess cumulative effects on historic properties across the entire pipeline corridor. ACHP has formally objected, stating the Corps' approach "dismisses the potential for effects to historic properties that may be located within the broader project area of an undertaking when properly defined." Courts have reached inconsistent conclusions on this dispute.</p>
+
+        <h4>Nationwide Permit 12 (NWP 12) — Used for Most Pipeline Crossings</h4>
+        <ul>
+          <li>Pre-authorizes utility-line activities (including oil and gas pipelines) in waters of the U.S. where the activity will not result in loss of more than <strong>0.5 acres</strong> of waters</li>
+          <li><strong>General Condition 20 (Historic Properties):</strong> No NWP activity may be authorized if it may affect NRHP-eligible properties, until §106 consultation is complete</li>
+          <li><strong>GC 17 (Tribal Rights):</strong> No NWP activity may cause more than minimal adverse effects on tribal rights, including treaty rights</li>
+          <li>Individual NWP 12 verifications do NOT require NEPA documentation or a public comment period — public notice happened at the rulemaking stage</li>
+        </ul>
+
+        <h4>Pre-Construction Notification (PCN) and §106 Trigger</h4>
+        <p>For NWP activities, the project applicant — not the Corps — identifies historic properties and submits a PCN. <strong>§106 review is triggered only when the applicant raises it in the PCN.</strong> Corps then verifies within 45 days (extended if ESA §7 or NHPA §106 consultation is needed). For activities below NWP thresholds that don't require a PCN, applicants self-certify compliance without Corps review.</p>
+
+        <h4>Individual Permits — Standard §106 Applies</h4>
+        <p>Proposed crossings exceeding NWP 12 thresholds (e.g., &gt;0.5 acre wetland loss) require an individual permit. For individual permits, the Corps district engineer is responsible for identifying historic properties and completing consultations — following standard §800.4–800.6 procedures. Individual permits require public notice, an alternatives analysis, and site-specific NEPA documentation.</p>
+
+        <h4>Civil Works Easements (Corps Land Crossings)</h4>
+        <p>When a pipeline crosses Corps-managed federal land or a Corps flood easement on private land, the developer needs both a §408 permission (to alter the civil works project) and a real estate easement (Mineral Leasing Act §28). As part of the §408 technical review, the Corps evaluates NEPA and §106 compliance — here the "undertaking" is the crossing of Corps land, with a geographic scope broader than a simple NWP verification.</p>
+
+        <h4>DAPL as Context</h4>
+        <p>The Dakota Access Pipeline controversy illustrates these tensions: NWP 12 was used for 202 water crossings; no individual §106 consultation was required for the upland route; the easement for the Lake Oahe crossing — 0.55 miles from the Standing Rock Sioux reservation — became the focal point of tribal legal challenges asserting inadequate §106 consultation.</p>
+      </div>
+    </div>
+
+    <!-- BLM CARD -->
+    <div class="agency-card blm">
+      <div class="agency-card-header">
+        <span class="agency-tag">BLM</span>
+        <h3>Bureau of Land Management — Linear Projects on Federal Land (PA Framework)</h3>
+        <span class="jx-pill">FLPMA · BLM National PA · 36 C.F.R. §800.14(b)</span>
+      </div>
+      <div class="agency-card-body">
+        <span class="flag-pa">Phased PA approach</span>
+        <span class="flag-blm">Permittee funds fieldwork</span>
+        <span class="flag-note">Annual cycle replaces case-by-case review</span>
+
+        <h4>BLM National Programmatic Agreement (nPA)</h4>
+        <p>BLM does not follow the standard §800.3–800.6 process for routine undertakings. Instead, the <strong>BLM National PA</strong> (executed with ACHP and NCSHPO; current version amended 2024) governs all BLM §106 compliance through state-specific BLM-SHPO protocols. Each state BLM office maintains a protocol with at least 17 required elements that streamline identification, evaluation, and resolution for routine undertakings. Annual reports track implementation.</p>
+
+        <h4>Project-Specific PA for Complex Linear Projects (§800.14(b))</h4>
+        <p>For large linear projects where effects <em>cannot be fully determined before authorization</em> (e.g., a 211-mile industrial road, a pipeline corridor crossing diverse terrain), BLM executes a <strong>project-specific PA</strong> that establishes a phased alternative to §§800.3–800.6. This PA is developed through §800.6 consultation and <em>Council participation is mandatory</em> (§800.6(a)(1)(i)(C)) because a PA will be the resolution document.</p>
+
+        <h4>NEPA–NHPA Coordination Requirement</h4>
+        <p>Per BLM Instruction Memorandum 2012-108: BLM must complete both NHPA §106 and tribal consultation <em>prior to making a final decision</em>. A categorical exclusion under NEPA does <strong>not</strong> satisfy §106 — both processes run concurrently but separately. BLM uses a side-by-side process chart to track parallel NEPA and §106 milestones.</p>
+
+        <h4>Permittee Responsibilities</h4>
+        <p>The project developer (permittee) <strong>funds and implements</strong> all cultural resource work — survey, evaluation, treatment — under BLM direction. No ground disturbance may occur in any project segment until BLM provides written notice that §106 requirements are satisfied for that segment.</p>
+
+        <h4>GIS Predictive Modeling &amp; Risk-Based Survey</h4>
+        <p>For multi-hundred-mile corridors, 100% pedestrian survey is impractical pre-authorization. BLM's phased PA approach uses:</p>
+        <ul>
+          <li><strong>GIS archaeological potential model</strong> — categorizes the entire APE as High, Medium, or Low potential based on landforms, known site locations, water features, vegetation, and other variables</li>
+          <li><strong>Differentiated survey coverage:</strong> 100% of High potential areas; 50% of Medium; 10% of Low (within the direct APE)</li>
+          <li>Model refined annually as new fieldwork data are collected</li>
+          <li>Indirect APE: Subsurface survey not required unless reasonably foreseeable adverse effects; only surface resources addressed</li>
+        </ul>
+
+        <h4>Alternative Four Step Process — Annual Cycle</h4>
+        <p>The phased PA replaces the single-event §800.4–800.6 review with an annual cycle tied to construction phases and project segments:</p>
+        <ul>
+          <li><strong>Annual Work Plan</strong> (submitted by March 1 or 60 days before first fieldwork) — Survey strategy, GIS model updates, schedule; approved by BLM and SHPO before implementation</li>
+          <li><strong>Interim Report — Indirect APE</strong> (within 30 days post-fieldwork) — Identifies Indirect APE resources; 15-day consulting party review to identify which warrant evaluation</li>
+          <li><strong>Annual Fieldwork Report</strong> (within 90 days post-fieldwork) — NRHP eligibility recommendations, effect findings, proposed mitigation; 45-day consulting party review; BLM submits DOEs to SHPO within 15 days</li>
+          <li><strong>Treatment Plans</strong> (within 120 days of SHPO acceptance of DOEs) — Property-specific mitigation plans; 30-day review; approved by BLM and SHPO</li>
+          <li><strong>Final Implementation Report</strong> (within 180 days of treatment completion) — Comprehensive record; BLM approval = §106 satisfied for that historic property</li>
+        </ul>
+
+        <h4>Multi-Agency Coordination</h4>
+        <p>BLM designates itself as lead federal agency under §800.2(a)(2). Other agencies with jurisdiction over portions of the corridor (NPS for national preserve crossings; USACE for water crossings; State agencies for state land) sign as <strong>invited signatories</strong> and enforce the PA within their own jurisdiction. Each must provide written notice to BLM when §106 is satisfied within their scope before BLM authorizes construction in that segment.</p>
+
+        <h4>Long-Term Considerations</h4>
+        <ul>
+          <li>PA term: Up to 25 years (Ambler Road PA example, 2020–2045)</li>
+          <li>NRHP eligibility re-evaluation every 5 years or following significant design changes</li>
+          <li>Re-survey required if &gt;10 years have passed since original survey and design changes affect surveyed areas</li>
+          <li>Broad-scale cumulative effects addressed within 3 years of completing initial inventory</li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- /agency-grid -->
+
+  <!-- PHASED PROCESS MINI-DIAGRAM -->
+  <div class="section-title" style="margin-top:28px">BLM Alternative Four Step Process — Annual Cycle (§800.14(b) PA)</div>
+  <div class="callout" style="margin-top:0">
+    <strong>How to read this diagram:</strong> For each project phase or segment, BLM and the permittee run the following annual loop until §106 is satisfied for every segment. Construction in a segment may not begin until the loop is complete for that segment. The process mirrors §800.4–800.6 but is broken into a recurring cycle rather than a single pre-authorization event.
+  </div>
+  <div class="phase-diagram-card">
+    <div class="mermaid">
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "primaryColor":       "#fef3c7",
+    "primaryBorderColor": "#d97706",
+    "primaryTextColor":   "#713f12",
+    "lineColor":          "#64748b",
+    "fontSize":           "12px"
+  },
+  "flowchart": { "curve": "basis", "padding": 14, "htmlLabels": true }
+}}%%
+
+flowchart LR
+
+classDef blm    fill:#fef3c7,stroke:#d97706,color:#713f12,stroke-width:1.5px
+classDef shpo   fill:#ede9fe,stroke:#7c3aed,color:#3b0764,stroke-width:1.5px
+classDef permit fill:#d1fae5,stroke:#059669,color:#064e3b,stroke-width:2px,font-weight:bold
+classDef gate   fill:#fee2e2,stroke:#dc2626,color:#7f1d1d,stroke-width:2px
+classDef plan   fill:#dbeafe,stroke:#2563eb,color:#1e3a5f,stroke-width:1.5px
+classDef note2  fill:#f8fafc,stroke:#94a3b8,color:#334155,stroke-width:1px,stroke-dasharray:4 2
+
+PA_START(["PA Executed<br/>(project authorized)"]):::permit
+
+subgraph ANNUAL ["Annual Cycle — Repeat for Each Phase / Segment"]
+  direction LR
+  AWP["<b>Annual Work Plan</b><br/>Survey strategy · GIS model<br/>Tribal liaison plan<br/>Due: March 1 each year"]:::blm
+  FIELD["<b>Fieldwork</b><br/>Pedestrian survey by potential:<br/>High→100% · Med→50% · Low→10%<br/>Ethnographic consultation<br/>Indirect APE review"]:::blm
+  INTERIM["<b>Interim Report<br/>Indirect APE</b><br/>Within 30 days post-fieldwork<br/>15-day consulting party review"]:::blm
+  AFR["<b>Annual Fieldwork Report</b><br/>NRHP eligibility recs<br/>Effect findings<br/>Proposed mitigation<br/>Within 90 days post-fieldwork"]:::blm
+  SHPO_REV["<b>SHPO / Consulting Party Review</b><br/>45-day review period<br/>BLM submits DOEs within 15 days<br/>SHPO has 30 days to respond"]:::shpo
+  TREAT["<b>Treatment Plans</b><br/>Property-specific mitigation<br/>30-day review<br/>Within 120 days of DOE acceptance"]:::blm
+  IMPL["<b>Implementation</b><br/>Data recovery · HABS/HAER<br/>Oral history · Monitoring<br/>NAGPRA compliance"]:::blm
+  FIR["<b>Final Implementation Report</b><br/>Within 180 days of treatment<br/>BLM + SHPO approval"]:::blm
+end
+
+GATE{"<b>BLM Written Notice</b><br/>§106 satisfied for<br/>this segment?"}:::gate
+CONSTRUCT(["<b>Construction Authorized</b><br/>for this segment"]):::permit
+LOOP(["Next Phase /<br/>Next Segment"]):::note2
+
+PA_START --> AWP
+AWP -->|"BLM + SHPO<br/>approve"| FIELD
+FIELD --> INTERIM
+INTERIM --> AFR
+AFR --> SHPO_REV
+SHPO_REV -->|"Agreement on<br/>DOEs + effects"| TREAT
+TREAT -->|"BLM + SHPO approve"| IMPL
+IMPL --> FIR
+FIR -->|"Approved"| GATE
+GATE -->|"Yes"| CONSTRUCT
+GATE -->|"No — additional<br/>work required"| AFR
+CONSTRUCT --> LOOP
+LOOP -.->|"Annual cycle<br/>continues"| AWP
+
+    </div>
+  </div>
+
+  <!-- COMPARISON TABLE -->
+  <div class="section-title" style="margin-top:28px">Standard §106 vs. Linear Energy Infrastructure — Key Differences</div>
+  <div class="comp-table-wrap">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th style="background:#334155;color:white;min-width:130px">Process Element</th>
+          <th class="col-std">Standard 36 C.F.R. Part 800</th>
+          <th class="col-ferc">FERC — Interstate<br/>Natural Gas Pipeline</th>
+          <th class="col-usace">USACE — Pipeline<br/>Water Crossings (NWP 12)</th>
+          <th class="col-blm">BLM — Linear Project<br/>on Federal Land (PA)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Scope of "Undertaking"</strong></td>
+          <td class="col-std">Entire project as proposed by agency</td>
+          <td class="col-ferc"><span class="flag-diff">Full pipeline route</span> — FERC has jurisdiction over entire interstate gas pipeline per NGA §7(c)</td>
+          <td class="col-usace"><span class="flag-diff">Each water crossing separately</span> — ACHP objects; Corps limits review to its §404/§10 jurisdictional footprint only</td>
+          <td class="col-blm">Project phases and segments — full corridor addressed through PA over project lifetime</td>
+        </tr>
+        <tr>
+          <td><strong>Timing of Identification</strong></td>
+          <td class="col-std">Before agency approval of undertaking (§800.4)</td>
+          <td class="col-ferc">Reports filed with FERC application; review runs concurrent with FERC proceeding</td>
+          <td class="col-usace"><span class="flag-diff">Applicant self-identifies before PCN; Corps reviews only if PCN submitted and historic properties flagged</span></td>
+          <td class="col-blm"><span class="flag-diff">Phased — identification and evaluation occur segment-by-segment as construction advances</span></td>
+        </tr>
+        <tr>
+          <td><strong>Who Identifies Historic Properties</strong></td>
+          <td class="col-std">Agency (§800.4(a)) — applicant may assist (§800.2(a)(3))</td>
+          <td class="col-ferc">Project sponsor prepares all reports; FERC staff makes formal determinations</td>
+          <td class="col-usace"><span class="flag-diff">NWP: Applicant self-certifies; Individual permit: Corps district engineer responsible</span></td>
+          <td class="col-blm">Permittee (developer) conducts fieldwork; BLM reviews, makes determinations, submits to SHPO</td>
+        </tr>
+        <tr>
+          <td><strong>Survey Coverage Expected</strong></td>
+          <td class="col-std">Reasonable and good faith effort for entire APE (§800.4(b))</td>
+          <td class="col-ferc">Full APE survey; detailed format in FERC Guidelines (2017); specific report types required</td>
+          <td class="col-usace">Applicant-determined; no standard coverage requirement for NWP self-certification</td>
+          <td class="col-blm"><span class="flag-diff">Risk-based: 100% High / 50% Medium / 10% Low potential areas (not 100% coverage of full APE)</span></td>
+        </tr>
+        <tr>
+          <td><strong>APE Definition</strong></td>
+          <td class="col-std">Geographic area within which undertaking may directly or indirectly cause alterations in historic properties (§800.16(d))</td>
+          <td class="col-ferc">Separate APEs for direct vs. indirect effects; survey corridor wider than APE for route flexibility; <em>boring ≥25 ft from historic property = avoidance (no treatment plan); &lt;25 ft = mitigation</em></td>
+          <td class="col-usace">Limited to geographically discrete water crossing area under Corps jurisdiction</td>
+          <td class="col-blm">Direct APE (full disturbance footprint + buffer) + Indirect APE (access corridors, erosion zones, visual effects)</td>
+        </tr>
+        <tr>
+          <td><strong>Tribal Consultation Scope</strong></td>
+          <td class="col-std">Tribes with demonstrated interest in properties in APE (§800.2(c)(2))</td>
+          <td class="col-ferc"><span class="flag-diff">All tribes with current OR historical use/occupancy of project area — broader than standard §106</span></td>
+          <td class="col-usace">GC 17: Tribal treaty rights must not be more than minimally affected; government-to-government consultation per Corps policy</td>
+          <td class="col-blm">Government-to-government; tribes invited as consulting parties; tribal liaison program; sensitive info confidentiality protocols</td>
+        </tr>
+        <tr>
+          <td><strong>Resolution Document</strong></td>
+          <td class="col-std">MOA (single undertaking) or PA (program/complex undertakings)</td>
+          <td class="col-ferc">FERC staff drafts MOA or PA; project sponsor does not draft; ACHP invited when adverse effects found</td>
+          <td class="col-usace">GC 20 verification or individual permit conditions; no formal MOA unless individual permit with adverse effects</td>
+          <td class="col-blm"><span class="flag-pa">PA executed before construction begins</span> — resolves adverse effects segment by segment through Annual Fieldwork Reports and Treatment Plans</td>
+        </tr>
+        <tr>
+          <td><strong>Unanticipated Discoveries</strong></td>
+          <td class="col-std">§800.13: 48-hr notice; all parties respond within 48 hrs</td>
+          <td class="col-ferc">Required "Plan for Unanticipated Cultural Resources" in every application; submitted to FERC before construction</td>
+          <td class="col-usace">Permit conditions may require stop-work; applicant notifies Corps district and SHPO</td>
+          <td class="col-blm">Stop Work Order per PA Stipulation; BLM consults with SHPO and tribes; no ground disturbance until resolved</td>
+        </tr>
+        <tr>
+          <td><strong>NEPA Coordination</strong></td>
+          <td class="col-std">§800.8: §106 may be integrated into NEPA; CatEx does NOT satisfy §106</td>
+          <td class="col-ferc">FERC NEPA document (EA/EIS) incorporates §106 findings; tribal input addressed in FERC orders</td>
+          <td class="col-usace">NWP 12: No individual NEPA review per crossing; NEPA addressed in NWP rulemaking (5-year permit)</td>
+          <td class="col-blm">BLM IM 2012-108: Both NEPA and §106 must be completed before final BLM decision; CatEx does NOT satisfy §106</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── LITIGATION HOTSPOTS ── -->
+  <div id="lit-hotspots" class="section-title" style="margin-top:36px">&#x2696;&#xFE0F; §106 Litigation Hotspots — Analysis of 872 Federal Cases</div>
+
+  <div class="lit-summary">
+    <strong>How to read this table:</strong> Keyword-pattern analysis of 872 federal court decisions (district, circuit, and SCOTUS) identified which §106 process steps appear most frequently in disputed cases. Rankings reflect topical frequency — a case may raise multiple issues, so counts exceed total cases. Reversal rate = agency-adverse outcomes ÷ (upheld + reversed). High-stakes severity flags cases involving injunctions, construction halts, or vacated permits.
+    <div class="lit-stats">
+      <div class="lit-stat"><span class="num">872</span><span class="lbl">Cases analyzed</span></div>
+      <div class="lit-stat"><span class="num">24%</span><span class="lbl">Agency reversal rate<br>(212 / 876 decided)</span></div>
+      <div class="lit-stat"><span class="num">633</span><span class="lbl">Cases with injunction,<br>vacatur, or halt ordered</span></div>
+      <div class="lit-stat"><span class="num">40%</span><span class="lbl">Reversal rate for<br>USACE/NWP disputes</span></div>
+    </div>
+  </div>
+
+  <div class="hotspot-table-wrap">
+    <table class="hotspot-table">
+      <thead>
+        <tr>
+          <th style="width:36px">#</th>
+          <th>§106 Step</th>
+          <th>Cases<br><small style="font-weight:400;font-size:.72rem">(of 872)</small></th>
+          <th>Agency Reversal<br>Rate</th>
+          <th>Court Remedies Issued<br><small style="font-weight:400;font-size:.7rem">inj = injunction · vac = vacated · halt = construction halted</small></th>
+          <th>Primary Dispute Reasons</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr class="hs-critical">
+          <td class="hs-rank r1">1</td>
+          <td>
+            <span class="step-code">Tribal Consultation</span>
+            <span class="step-name">Government-to-Government &amp; THPO Engagement</span>
+          </td>
+          <td><span class="freq-bar" style="width:90px"></span>743</td>
+          <td><span class="reversal-pill rev-mid">31%</span></td>
+          <td><span class="flag-badge flag-diff">345 inj</span> <span class="flag-badge flag-diff">105 vac</span> <span class="flag-badge flag-note">90 halt</span></td>
+          <td>
+            <ul class="dispute-list">
+              <li>Failure to conduct government-to-government consultation</li>
+              <li>Inadequate or late identification of consulting tribes</li>
+              <li>Sovereign immunity / standing barriers limiting judicial review</li>
+              <li>Treaty rights and trust responsibility not adequately addressed</li>
+              <li>DAPL / Standing Rock: segmented NWP 12 permits, no THPO consultation</li>
+            </ul>
+          </td>
+        </tr>
+
+        <tr class="hs-critical">
+          <td class="hs-rank r2">2</td>
+          <td>
+            <span class="step-code">§800.3 — Scoping &amp; Initiation</span>
+            <span class="step-name">Timing of §106 Initiation; Pre-Decisional Commitments</span>
+          </td>
+          <td><span class="freq-bar" style="width:79px"></span>333</td>
+          <td><span class="reversal-pill rev-mid">32%</span></td>
+          <td><span class="flag-badge flag-diff">184 inj</span> <span class="flag-badge flag-diff">45 vac</span> <span class="flag-badge flag-note">35 halt</span></td>
+          <td>
+            <ul class="dispute-list">
+              <li>§106 not initiated before project approval or construction decision</li>
+              <li>NEPA/§106 coordination failures; EIS substitution done incorrectly</li>
+              <li>Agency made pre-decisional commitments before consultation complete</li>
+              <li>Failure to identify the full scope of the undertaking at initiation</li>
+            </ul>
+          </td>
+        </tr>
+
+        <tr class="hs-critical">
+          <td class="hs-rank r3">3</td>
+          <td>
+            <span class="step-code">§800.7 — Failure to Resolve</span>
+            <span class="step-name">Agency Proceeding After Dispute; Disregarding ACHP Comment</span>
+          </td>
+          <td><span class="freq-bar" style="width:76px"></span>682</td>
+          <td><span class="reversal-pill rev-mid">31%</span></td>
+          <td><span class="flag-badge flag-diff">324 inj</span> <span class="flag-badge flag-diff">100 vac</span> <span class="flag-badge flag-note">79 halt</span></td>
+          <td>
+            <ul class="dispute-list">
+              <li>Agency proceeding without completing dispute resolution</li>
+              <li>Head of Agency failing to adequately consider ACHP comment</li>
+              <li>Council comment ignored or dismissed without reasoned response</li>
+              <li>Failure to document §800.7 decision in the administrative record</li>
+            </ul>
+          </td>
+        </tr>
+
+        <tr class="hs-high">
+          <td class="hs-rank r4">4</td>
+          <td>
+            <span class="step-code">Timing / Foreclosure</span>
+            <span class="step-name">Irretrievable Commitment; Construction Before §106 Complete</span>
+          </td>
+          <td><span class="freq-bar orange" style="width:71px"></span>287</td>
+          <td><span class="reversal-pill rev-mid">32%</span></td>
+          <td><span class="flag-badge flag-diff">172 inj</span> <span class="flag-badge flag-diff">37 vac</span> <span class="flag-badge flag-note">31 halt</span></td>
+          <td>
+            <ul class="dispute-list">
+              <li>Construction begun before §106 review complete, foreclosing alternatives</li>
+              <li>"Fait accompli" situations where project cannot be meaningfully modified</li>
+              <li>Agency irretrievably commits resources pre-consultation</li>
+              <li>Post-completion §106 review held inadequate; court-ordered remediation</li>
+            </ul>
+          </td>
+        </tr>
+
+        <tr class="hs-high">
+          <td class="hs-rank r5">5</td>
+          <td>
+            <span class="step-code">§800.5 — Adverse Effect</span>
+            <span class="step-name">Finding of No Adverse Effect; Criteria Application</span>
+          </td>
+          <td><span class="freq-bar orange" style="width:65px"></span>328</td>
+          <td><span class="reversal-pill rev-mid">32%</span></td>
+          <td><span class="flag-badge flag-diff">167 inj</span> <span class="flag-badge flag-diff">44 vac</span> <span class="flag-badge flag-note">40 halt</span></td>
+          <td>
+            <ul class="dispute-list">
+              <li>Agency finding of "no adverse effect" challenged as incorrect</li>
+              <li>Failure to apply the regulatory criteria at §800.5(a)(1)</li>
+              <li>Inadequate assessment of indirect and cumulative effects</li>
+              <li>Visual, auditory, and setting effects on historic properties overlooked</li>
+            </ul>
+          </td>
+        </tr>
+
+        <tr class="hs-high">
+          <td class="hs-rank r6">6</td>
+          <td>
+            <span class="step-code">Standing / Procedural Bars</span>
+            <span class="step-name">APA Standing; Private Right of Action; Sovereign Immunity</span>
+          </td>
+          <td><span class="freq-bar orange" style="width:62px"></span>585</td>
+          <td><span class="reversal-pill rev-mid">33%</span></td>
+          <td><span class="flag-badge flag-note">Procedural bar<br>— no merits ruling</span></td>
+          <td>
+            <ul class="dispute-list">
+              <li>No express private right of action under NHPA/§106 (APA review only)</li>
+              <li>Zone-of-interest test limiting who may challenge §106 compliance</li>
+              <li>Sovereign immunity barring tribal plaintiffs in some circuits</li>
+              <li>Mootness where project completed before court can act</li>
+            </ul>
+          </td>
+        </tr>
+
+        <tr class="hs-high">
+          <td class="hs-rank r7">7</td>
+          <td>
+            <span class="step-code">Consultation — General</span>
+            <span class="step-name">Adequacy of Stakeholder Consultation; SHPO Engagement</span>
+          </td>
+          <td><span class="freq-bar orange" style="width:53px"></span>500</td>
+          <td><span class="reversal-pill rev-low">31%</span></td>
+          <td><span class="flag-badge flag-note">Overlaps with<br>tribal &amp; §800.3 rows</span></td>
+          <td>
+            <ul class="dispute-list">
+              <li>Inadequate or pro forma consultation with SHPO/THPO</li>
+              <li>Failure to provide consulting parties meaningful opportunity to comment</li>
+              <li>Consultation conducted after decision effectively made</li>
+              <li>Public and stakeholder input not documented or addressed</li>
+            </ul>
+          </td>
+        </tr>
+
+        <tr class="hs-moderate">
+          <td class="hs-rank r8">8</td>
+          <td>
+            <span class="step-code">§800.4 — Identification / Survey</span>
+            <span class="step-name">Survey Adequacy; Reasonable Good Faith Effort Standard</span>
+          </td>
+          <td><span class="freq-bar amber" style="width:45px"></span>332</td>
+          <td><span class="reversal-pill rev-mid">32%</span></td>
+          <td><span class="flag-badge flag-diff">165 inj</span> <span class="flag-badge flag-diff">49 vac</span> <span class="flag-badge flag-note">42 halt</span></td>
+          <td>
+            <ul class="dispute-list">
+              <li>Phase I/II surveys found inadequate for size or complexity of project</li>
+              <li>Agency failed to meet the "reasonable good faith effort" standard</li>
+              <li>Survey area too narrow; properties missed just outside survey boundary</li>
+              <li>No survey conducted; "no historic properties" finding unsupported</li>
+            </ul>
+          </td>
+        </tr>
+
+        <tr class="hs-moderate">
+          <td class="hs-rank r9">9</td>
+          <td>
+            <span class="step-code">§800.6 — MOA Compliance</span>
+            <span class="step-name">MOA Validity, Breach, and Enforcement</span>
+          </td>
+          <td><span class="freq-bar amber" style="width:41px"></span>219</td>
+          <td><span class="reversal-pill rev-mid">32%</span></td>
+          <td><span class="flag-badge flag-diff">133 inj</span> <span class="flag-badge flag-diff">28 vac</span> <span class="flag-badge flag-note">20 halt</span></td>
+          <td>
+            <ul class="dispute-list">
+              <li>Agency failing to comply with or enforce MOA stipulations</li>
+              <li>MOA found invalid due to procedural defects in negotiation</li>
+              <li>Mitigation measures in MOA incomplete or never implemented</li>
+              <li>Post-MOA disputes over scope of required mitigation</li>
+            </ul>
+          </td>
+        </tr>
+
+        <tr class="hs-moderate">
+          <td class="hs-rank r10">10</td>
+          <td>
+            <span class="step-code">§800.4 — APE Definition</span>
+            <span class="step-name">Geographic Scope of Area of Potential Effects</span>
+          </td>
+          <td><span class="freq-bar amber" style="width:39px"></span>246</td>
+          <td><span class="reversal-pill rev-low">30%</span></td>
+          <td><span class="flag-badge flag-diff">132 inj</span> <span class="flag-badge flag-diff">40 vac</span> <span class="flag-badge flag-note">20 halt</span></td>
+          <td>
+            <ul class="dispute-list">
+              <li>APE defined too narrowly, excluding affected properties from review</li>
+              <li>Single APE used where separate direct/indirect APEs required</li>
+              <li>SHPO or consulting parties challenge APE scope before survey begins</li>
+              <li>Visual or auditory effects of project not incorporated into APE</li>
+            </ul>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="hs-rank" style="color:#94a3b8">11</td>
+          <td>
+            <span class="step-code">§800.4 — NRHP Eligibility</span>
+            <span class="step-name">Eligibility Determinations; Keeper Referrals</span>
+          </td>
+          <td><span class="freq-bar gray" style="width:32px"></span>302</td>
+          <td><span class="reversal-pill rev-low">32%</span></td>
+          <td><span class="flag-badge" style="background:#f1f5f9;color:#64748b">Remand most<br>common remedy</span></td>
+          <td>
+            <ul class="dispute-list">
+              <li>Agency eligibility determination challenged by tribes, SHPO, or preservation groups</li>
+              <li>Failure to consult before finding property ineligible</li>
+              <li>Inadequate application of NRHP Criteria A–D</li>
+              <li>Disputed Keeper determination or failure to refer disputed eligibility</li>
+            </ul>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="hs-rank" style="color:#94a3b8">12</td>
+          <td>
+            <span class="step-code">§800.3 — Undertaking Scope</span>
+            <span class="step-name">Federal Nexus; Discretionary Involvement; Applicant-Initiated</span>
+          </td>
+          <td><span class="freq-bar gray" style="width:28px"></span>270</td>
+          <td><span class="reversal-pill rev-mid">33%</span></td>
+          <td><span class="flag-badge" style="background:#f1f5f9;color:#64748b">Dismissal or<br>remand typical</span></td>
+          <td>
+            <ul class="dispute-list">
+              <li>Whether federal permit, funding, or approval creates §106 obligation</li>
+              <li>Agencies arguing no "discretionary involvement" to avoid §106 review</li>
+              <li>Applicant-initiated undertaking: who is the responsible agency</li>
+              <li>USACE: individual vs. NWP permit; scope of federal nexus at each crossing</li>
+            </ul>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="hs-rank" style="color:#94a3b8">13</td>
+          <td>
+            <span class="step-code">NEPA / §106 Coordination</span>
+            <span class="step-name">EIS/EA Substitution; Parallel Process Failures</span>
+          </td>
+          <td><span class="freq-bar gray" style="width:26px"></span>249</td>
+          <td><span class="reversal-pill rev-mid">34%</span></td>
+          <td><span class="flag-badge" style="background:#f1f5f9;color:#64748b">Remand or<br>reversal typical</span></td>
+          <td>
+            <ul class="dispute-list">
+              <li>EIS used as §106 substitute without required ACHP/SHPO notification</li>
+              <li>NEPA and §106 timelines not coordinated, creating duplicative or conflicting review</li>
+              <li>Categorical exclusions used without separate §106 analysis</li>
+              <li>Environmental review completed without addressing historic properties</li>
+            </ul>
+          </td>
+        </tr>
+
+        <tr style="background:#f0fdf4">
+          <td class="hs-rank" style="color:#059669;font-weight:800">&#9650;</td>
+          <td>
+            <span class="step-code" style="color:#059669">USACE / NWP 12 Segmentation</span>
+            <span class="step-name" style="color:#065f46">Highest Agency Reversal Rate — Pipeline-Specific</span>
+          </td>
+          <td><span class="freq-bar" style="width:16px;background:#059669"></span>58</td>
+          <td><span class="reversal-pill" style="background:#d1fae5;color:#065f46;font-weight:800">40% &#9650;</span></td>
+          <td><span class="flag-badge flag-diff">38 inj</span> <span class="flag-badge flag-diff">8 vac</span> <span class="flag-badge flag-note">4 halt</span></td>
+          <td>
+            <ul class="dispute-list">
+              <li><strong>Highest reversal rate of any category</strong> — agencies lose 40% of contested decisions</li>
+              <li>NWP 12 used for pipeline water crossings with inadequate individual §106 review at each crossing</li>
+              <li>ACHP objects to Corps' Appendix C procedures as inconsistent with 36 C.F.R. §800</li>
+              <li>DAPL / Standing Rock: segmented undertaking, no THPO consultation, sovereign immunity</li>
+              <li>Segmentation challenge: is each crossing a separate undertaking or one linear project?</li>
+            </ul>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+    <div class="lit-caveat">
+      <strong>Methodology note:</strong> Case counts reflect keyword-pattern matching across full case text. Patterns are intentionally broad to capture all relevant mentions; a single case may be counted in multiple categories. The "reversal rate" reflects outcomes of cases mentioning that topic — it is not a prediction of outcome for any specific dispute. Outcome classification uses APA review standard language (arbitrary/capricious, affirmed, reversed, remanded, vacated). Source: 872 unique federal decisions from Lexis Advance, covering district courts, circuit courts, and Supreme Court, with NHPA §106 as a material issue.
+    </div>
+  </div>
+
+  <!-- ── PARTY INVOLVEMENT TABLE ── -->
+  <div class="section-title" style="margin-top:28px">Party Involvement by Phase</div>
+  <div class="tcard">
+    <table>
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>§ Section</th>
+          <th>Parties Involved</th>
+          <th>Key Actions / Decisions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Initiation</strong></td>
+          <td>§800.3</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-tribes">Tribes &amp; NHOs</span><span class="badge b-pub">Applicants</span><span class="badge b-pub">Local Govts</span></td>
+          <td>Undertaking determination; check for existing program alternatives; identify SHPO/THPO; plan public involvement; identify consulting parties; coordinate with NEPA (§800.8)</td>
+        </tr>
+        <tr>
+          <td><strong>Identification</strong></td>
+          <td>§800.4</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-tribes">Tribes &amp; NHOs</span><span class="badge b-pub">Consulting Parties</span><span class="badge b-sec">Secretary of Interior</span></td>
+          <td>Establish APE; survey and research; apply National Register criteria; Secretary resolves eligibility disputes</td>
+        </tr>
+        <tr>
+          <td><strong>Results — No HP Affected</strong></td>
+          <td>§800.4(d)</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-council">ACHP</span><span class="badge b-pub">Public</span></td>
+          <td>Document finding; 30-day SHPO/THPO review; Council may object sua sponte; agency responds to Council opinion; decision summary</td>
+        </tr>
+        <tr>
+          <td><strong>Assessment of Adverse Effects</strong></td>
+          <td>§800.5</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-tribes">Tribes &amp; NHOs</span><span class="badge b-council">ACHP</span><span class="badge b-pub">Consulting Parties</span><span class="badge b-pub">Public</span></td>
+          <td>Apply adverse effect criteria; NAE proposal; 30-day review; Council review 15 days if objected; decision summary</td>
+        </tr>
+        <tr>
+          <td><strong>Resolution — Pathway A<br/>(Without Council)</strong></td>
+          <td>§800.6(b)(1)</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-tribes">Tribes &amp; NHOs</span><span class="badge b-pub">Consulting Parties</span><span class="badge b-pub">Public</span></td>
+          <td>Consult to avoid/minimize/mitigate; MOA executed by Agency + SHPO/THPO; copy submitted to Council; §106 fulfilled for this undertaking</td>
+        </tr>
+        <tr>
+          <td><strong>Resolution — Pathway B<br/>(With Council) → MOA</strong></td>
+          <td>§800.6(b)(2)</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-council">ACHP</span><span class="badge b-tribes">Tribes &amp; NHOs</span><span class="badge b-pub">Consulting Parties</span><span class="badge b-pub">Public</span></td>
+          <td>Three-party consultation; MOA signed by Agency + SHPO/THPO + Council; §106 fulfilled for this undertaking</td>
+        </tr>
+        <tr>
+          <td><strong>Resolution — Pathway B<br/>(With Council) → PA</strong></td>
+          <td>§800.6(b)(2)<br/>§800.14(b)</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-council">ACHP</span><span class="badge b-tribes">Tribes &amp; NHOs</span><span class="badge b-pub">NCSHPO (if nationwide)</span></td>
+          <td>Used when: effects are repetitive/multi-state; effects can't be fully determined pre-approval; complex/multiple undertakings. PA signed by Agency + Council + SHPO/THPOs. Satisfies §106 for <em>all covered undertakings</em> until PA expires or is terminated</td>
+        </tr>
+        <tr>
+          <td><strong>Failure — MOA Without SHPO</strong></td>
+          <td>§800.7(a)(2)</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-council">ACHP</span></td>
+          <td>When SHPO terminates: Agency + Council execute MOA without SHPO; §106 fulfilled</td>
+        </tr>
+        <tr>
+          <td><strong>Failure — Council Comments</strong></td>
+          <td>§800.7(c)</td>
+          <td><span class="badge b-head">Head of Agency</span><span class="badge b-council">ACHP</span><span class="badge b-agency">Agency Official</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-pub">All Consulting Parties</span><span class="badge b-pub">Public</span></td>
+          <td>Council gathers views; formal comments within 45 days to head of agency; head of agency documents decision; non-delegable duty under §110(l)</td>
+        </tr>
+        <tr>
+          <td><strong>National Historic Landmarks</strong></td>
+          <td>§800.10</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-council">ACHP</span><span class="badge b-sec">Secretary of Interior</span><span class="badge b-head">Head of Agency</span></td>
+          <td>Council participation mandatory; Secretary must be notified and invited; Council may request Secretary report; outcome reported to Secretary and head of agency</td>
+        </tr>
+        <tr>
+          <td><strong>Post-Review Discoveries</strong></td>
+          <td>§800.13</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-tribes">Tribes &amp; NHOs</span><span class="badge b-council">ACHP</span></td>
+          <td>48-hour notification if construction commenced; parties respond within 48 hours; tribal regulations control on tribal lands</td>
+        </tr>
+        <tr>
+          <td><strong>Emergency Situations</strong></td>
+          <td>§800.12</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-council">ACHP</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-tribes">Tribes &amp; NHOs</span></td>
+          <td>Existing PA with emergency provisions, OR 7-day notification (or less if circumstances demand); applies within 30 days of declared disaster/emergency</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── KEY DEFINITIONS ── -->
+  <div class="section-title" style="margin-top:28px">Key Definitions — §800.16</div>
+  <div class="tcard">
+    <table>
+      <tbody>
+        <tr>
+          <td style="width:200px;white-space:nowrap"><strong>Undertaking</strong> §800.16(y)</td>
+          <td>Any project, activity, or program <em>funded in whole or in part</em> under the direct or indirect jurisdiction of a federal agency — including those carried out by or on behalf of a federal agency; those carried out with federal financial assistance; and those requiring a federal permit, license, or approval.</td>
+        </tr>
+        <tr>
+          <td><strong>Historic Property</strong> §800.16(l)</td>
+          <td>Any prehistoric or historic district, site, building, structure, or object included in, or <em>eligible</em> for inclusion in, the National Register of Historic Places. Includes artifacts and records related to and within such properties. Also includes properties of traditional religious and cultural importance to an Indian tribe or NHO that meet NR criteria.</td>
+        </tr>
+        <tr>
+          <td><strong>Effect</strong> §800.16(i)</td>
+          <td>Alteration to the characteristics of a historic property qualifying it for inclusion in or eligibility for the National Register.</td>
+        </tr>
+        <tr>
+          <td><strong>Area of Potential Effects (APE)</strong> §800.16(d)</td>
+          <td>The geographic area(s) within which an undertaking may directly or indirectly cause alterations in the character or use of historic properties. May be different for different kinds of effects from the same undertaking.</td>
+        </tr>
+        <tr>
+          <td><strong>Consultation</strong> §800.16(f)</td>
+          <td>The process of seeking, discussing, and considering the views of other participants, and, where feasible, seeking agreement with them regarding matters arising in the §106 process. Government-to-government consultation with Indian tribes required.</td>
+        </tr>
+        <tr>
+          <td><strong>Memorandum of Agreement (MOA)</strong> §800.16(o)</td>
+          <td>The document recording the terms and conditions agreed upon to resolve the adverse effects of an <em>individual</em> undertaking upon historic properties. Governs the undertaking and all its parts. Executed and filed with the Council.</td>
+        </tr>
+        <tr>
+          <td><strong>Programmatic Agreement (PA)</strong> §800.16(t)</td>
+          <td>A document recording terms and conditions to resolve the potential adverse effects of a federal agency <em>program</em>, complex undertaking, or other situations per §800.14(b). Covers all undertakings within the program — satisfies §106 for each one until the PA expires or is terminated.</td>
+        </tr>
+        <tr>
+          <td><strong>Foreclosure</strong> §800.16(j)</td>
+          <td>An agency action that effectively precludes the Council from providing comments that the agency official can meaningfully consider prior to approval. Prohibited — §106 review must be completed <em>before</em> approval of expenditure of federal funds or issuance of a license.</td>
+        </tr>
+        <tr>
+          <td><strong>Comment</strong> §800.16(e)</td>
+          <td>The findings and recommendations of the Council formally provided in writing to the head of a federal agency under §106. Distinct from the Council's advisory opinions during earlier stages of the process.</td>
+        </tr>
+        <tr>
+          <td><strong>SHPO</strong> §800.16(v)</td>
+          <td>State Historic Preservation Officer — the official appointed under §101(b)(1) to administer the state historic preservation program. Primary consulting party for most undertakings.</td>
+        </tr>
+        <tr>
+          <td><strong>THPO</strong> §800.16(w)</td>
+          <td>Tribal Historic Preservation Officer — tribal official who has assumed the SHPO's responsibilities for §106 compliance on tribal lands under §101(d)(2). Acts in lieu of the SHPO for undertakings on tribal lands.</td>
+        </tr>
+        <tr>
+          <td><strong>National Historic Landmark (NHL)</strong> §800.16(p)</td>
+          <td>A historic property designated by the Secretary of the Interior as a National Historic Landmark. Undertakings adversely affecting NHLs require mandatory Council participation and Secretary notification (§800.10).</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    securityLevel: 'loose',
+    flowchart: { useMaxWidth: false, htmlLabels: true }
+  });
+</script>
+</body>
+</html>
