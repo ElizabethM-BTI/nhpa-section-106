@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 106 Process Flowchart</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #ffffff;
+    color: #0f172a;
+  }
+
+  /* ── Flowchart wrapper ── */
+  .fc-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    background: #ffffff;
+  }
+  .fc-connectors {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  /* Phase sections */
+  .fc-phase {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 8px;
+    width: 100%;
+  }
+  .fc-phase-header {
+    font: 700 11px/1 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #94a3b8;
+    margin-bottom: 30px;
+    padding-top: 8px;
+  }
+  .fc-phase-divider {
+    width: 2px;
+    height: 50px;
+    background: #cbd5e1;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* Node base */
+  .fc-node {
+    position: relative;
+    z-index: 2;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font: 500 14px/1.4 'Inter', sans-serif;
+    text-align: center;
+    max-width: 260px;
+    min-width: 120px;
+    cursor: default;
+    border: 2px solid;
+    word-wrap: break-word;
+    box-sizing: border-box;
+  }
+
+  /* Node type colors */
+  .fc-startnode  { background: #1e293b; color: #f8fafc; border-color: #0f172a; border-radius: 28px; font-weight: 700; }
+  .fc-agency     { background: #dbeafe; color: #1e3a5f; border-color: #2563eb; }
+  .fc-shpo       { background: #ede9fe; color: #3b0764; border-color: #7c3aed; }
+  .fc-council    { background: #ffedd5; color: #7c2d12; border-color: #ea580c; }
+  .fc-decision   { background: #fef9c3; color: #713f12; border-color: #ca8a04; border-radius: 4px; font-weight: 600; }
+  .fc-fulfilled  { background: #e0f2fe; color: #0c4a6e; border-color: #0284c7; }
+  .fc-adverse    { background: #fee2e2; color: #7f1d1d; border-color: #dc2626; font-weight: 700; }
+  .fc-moa        { background: #d1fae5; color: #064e3b; border-color: #059669; }
+  .fc-notenode   { background: #f8fafc; color: #334155; border-color: #94a3b8; border-style: dashed; }
+  .fc-connector-node { background: #f1f5f9; color: #64748b; border-color: #94a3b8; border-radius: 28px; font-size: 12px; padding: 10px 16px; }
+  .fc-ref        { background: #fefce8; color: #854d0e; border-color: #d97706; border-style: dashed; font-size: 12px; font-style: italic; }
+
+  /* Side-exit endpoint nodes (positioned by JS) */
+  .fc-side-node {
+    position: absolute;
+    max-width: 160px;
+    font-size: 12px;
+    padding: 8px 12px;
+    z-index: 1;
+    opacity: 0;
+  }
+  .fc-side-node.fc-positioned {
+    opacity: 1;
+  }
+
+  /* Decision diamond icon */
+  .fc-diamond { color: #ca8a04; margin-right: 4px; font-size: 10px; vertical-align: middle; }
+
+  /* Flow layout */
+  .fc-flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+  }
+
+  /* Vertical spacers */
+  .fc-gap, .fc-gap-sm {
+    width: 2px;
+    flex-shrink: 0;
+    background: transparent;
+    position: relative;
+    margin: 0 auto;
+  }
+  .fc-gap { height: 50px; }
+  .fc-gap-sm { height: 50px; }
+
+  /* Branch rows */
+  .fc-branch-row {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    width: 100%;
+    padding: 8px 4px 4px;
+    box-sizing: border-box;
+    position: relative;
+  }
+  .fc-branch-row::before { display: none; }
+  .fc-branch-arm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    min-width: 100px;
+    flex: 1 1 0;
+    max-width: 200px;
+  }
+  .fc-branch-arm .fc-node {
+    max-width: 180px;
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+  .fc-branch-arm::before { display: none; }
+  .fc-branch-label { display: none; }
+
+  /* Sub-flow */
+  .fc-sub-flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* Path columns for Phase 5 */
+  .fc-path-row {
+    display: flex;
+    justify-content: center;
+    gap: 120px;
+    width: 100%;
+    padding: 8px 0 4px;
+    box-sizing: border-box;
+    position: relative;
+  }
+  .fc-path-row::before { display: none; }
+  .fc-path {
+    flex: 1;
+    max-width: 380px;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 6px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #fafbfc;
+  }
+  .fc-path-header {
+    font: 600 11px/1 'Inter', sans-serif;
+    color: #64748b;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 700px) {
+    .fc-wrap { padding: 16px 6px 40px; }
+    .fc-node { max-width: 220px; font-size: 13px; padding: 11px 14px; }
+    .fc-branch-row { gap: 16px; flex-wrap: wrap; }
+    .fc-path-row { flex-direction: column; align-items: center; }
+    .fc-path { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="fc-wrap" id="fc-wrap">
+
+  <div class="fc-phase" id="fc-phase-1">
+    <div class="fc-phase-header">&sect;800.3 &mdash; Initiation</div>
+    <div class="fc-flow">
+      <div class="fc-node fc-startnode" id="fc-START">Federal Agency Proposes Action</div>
+      <div class="fc-gap"></div>
+      <div class="fc-node fc-decision" id="fc-Q1"><span class="fc-diamond">&#9670;</span> Is proposed action an undertaking? &sect;800.16(y)</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-branch-row">
+        <div class="fc-branch-arm">
+          <span class="fc-branch-label">No</span>
+          <div class="fc-node fc-moa" id="fc-END1">END &mdash; No &sect;106 obligations</div>
+        </div>
+        <div class="fc-branch-arm">
+          <span class="fc-branch-label">Yes &darr;</span>
+        </div>
+      </div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-decision" id="fc-Q3"><span class="fc-diamond">&#9670;</span> Governed by existing Program Alternative? &sect;800.14</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-branch-row">
+        <div class="fc-branch-arm">
+          <span class="fc-branch-label">Yes</span>
+          <div class="fc-node fc-moa" id="fc-END_PA">END &mdash; Follow Program Alternative &sect;800.14</div>
+        </div>
+        <div class="fc-branch-arm">
+          <span class="fc-branch-label">No &darr;</span>
+        </div>
+      </div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-decision" id="fc-Q2"><span class="fc-diamond">&#9670;</span> Potential to cause effects, assuming historic properties were present? &sect;800.3(a)(1)</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-branch-row">
+        <div class="fc-branch-arm">
+          <span class="fc-branch-label">No potential</span>
+          <div class="fc-node fc-moa" id="fc-END1_REF">END &mdash; No &sect;106 obligations</div>
+        </div>
+        <div class="fc-branch-arm">
+          <span class="fc-branch-label">Yes &darr;</span>
+        </div>
+      </div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-notenode" id="fc-NEPA_NOTE">Optional: Coordinate with NEPA review</div>
+      <div class="fc-gap"></div>
+      <div class="fc-node fc-agency" id="fc-I1">Identify SHPO &amp;/or THPO</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-agency" id="fc-I2">Plan public involvement</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-agency" id="fc-I3">Identify &amp; invite consulting parties</div>
+      <div class="fc-gap"></div>
+      <div class="fc-node fc-connector-node" id="fc-NEXT_P2">Proceed to &sect;800.4 Identification &rarr;</div>
+    </div>
+  </div>
+
+  <div class="fc-phase-divider"></div>
+
+  <div class="fc-phase" id="fc-phase-2">
+    <div class="fc-phase-header">&sect;800.4 &mdash; Identification</div>
+    <div class="fc-flow">
+      <div class="fc-node fc-connector-node" id="fc-PREV_P2">&larr; From &sect;800.3 &mdash; Consulting parties invited</div>
+      <div class="fc-gap"></div>
+      <div class="fc-node fc-agency" id="fc-ID1">Determine Area of Potential Effects (APE)</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-agency" id="fc-ID2">Review existing information</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-agency" id="fc-ID3">Conduct identification efforts</div>
+      <div class="fc-gap"></div>
+      <div class="fc-node fc-decision" id="fc-Q_ELIG"><span class="fc-diamond">&#9670;</span> Apply National Register criteria &sect;800.4(c)</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-branch-row">
+        <div class="fc-branch-arm">
+          <span class="fc-branch-label">Agree: YES</span>
+          <div class="fc-node fc-agency" id="fc-E_Y">ELIGIBLE &mdash; Agency + SHPO agree</div>
+        </div>
+        <div class="fc-branch-arm">
+          <span class="fc-branch-label">Agree: NO</span>
+          <div class="fc-node fc-agency" id="fc-E_N">NOT ELIGIBLE &mdash; Agency + SHPO agree</div>
+        </div>
+        <div class="fc-branch-arm">
+          <span class="fc-branch-label">No agreement</span>
+          <div class="fc-node fc-council" id="fc-E_D">No agreement &mdash; Refer to Secretary</div>
+        </div>
+      </div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-connector-node" id="fc-NEXT_P3">Proceed to &sect;800.4(d) Results &rarr;</div>
+    </div>
+  </div>
+
+  <div class="fc-phase-divider"></div>
+
+  <div class="fc-phase" id="fc-phase-3">
+    <div class="fc-phase-header">&sect;800.4(d) &mdash; Results of Identification &amp; Evaluation</div>
+    <div class="fc-flow">
+      <div class="fc-node fc-connector-node" id="fc-PREV_P3">&larr; From &sect;800.4 &mdash; Eligibility determined</div>
+      <div class="fc-gap"></div>
+      <div class="fc-node fc-decision" id="fc-Q4"><span class="fc-diamond">&#9670;</span> Historic properties affected by the undertaking? &sect;800.4(d)(1)</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-agency" id="fc-NHP1">Document 'No Historic Properties Affected'</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-agency" id="fc-NOTIF_NHP">Notify SHPO/THPO &amp; consulting parties</div>
+      <div class="fc-gap"></div>
+      <div class="fc-node fc-decision" id="fc-Q_OBJ1"><span class="fc-diamond">&#9670;</span> SHPO/THPO or Council objects within 30 days?</div>
+      <div class="fc-node fc-moa fc-side-node" id="fc-END_106_A">&sect;106 Fulfilled</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-council" id="fc-CREV1">Council reviews finding &mdash; 30 days to respond</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-decision" id="fc-Q_COP1"><span class="fc-diamond">&#9670;</span> Council issues opinion?</div>
+      <div class="fc-node fc-moa fc-side-node" id="fc-END_106_B">&sect;106 Fulfilled</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-agency" id="fc-CADR1">Agency considers Council opinion</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-decision" id="fc-Q_AFF1"><span class="fc-diamond">&#9670;</span> Agency affirms "No HP Affected"?</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-branch-row">
+        <div class="fc-branch-arm">
+          <span class="fc-branch-label">Affirms</span>
+          <div class="fc-node fc-moa" id="fc-END_NHP">END &mdash; &sect;106 Fulfilled</div>
+        </div>
+        <div class="fc-branch-arm">
+          <span class="fc-branch-label">Revises</span>
+          <div class="fc-node fc-ref" id="fc-Q4_REF">&larrhk; Return to assessment</div>
+        </div>
+      </div>
+      <div class="fc-gap"></div>
+      <div class="fc-gap"></div>
+      <div class="fc-node fc-agency" id="fc-NOTIF1">Notify consulting parties &mdash; Invite views on effects</div>
+      <div class="fc-gap"></div>
+      <div class="fc-node fc-connector-node" id="fc-NEXT_P4">Proceed to &sect;800.5 Assessment &rarr;</div>
+    </div>
+  </div>
+
+  <div class="fc-phase-divider"></div>
+
+  <div class="fc-phase" id="fc-phase-4">
+    <div class="fc-phase-header">&sect;800.5 &mdash; Assessment of Adverse Effects</div>
+    <div class="fc-flow">
+      <div class="fc-node fc-connector-node" id="fc-PREV_P4">&larr; From &sect;800.4(d) &mdash; HPs may be affected</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-notenode" id="fc-AE_DEF">Adverse effect: alteration of characteristics qualifying a property for the National Register</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-agency" id="fc-AE1">Apply criteria of adverse effect &sect;800.5(a)</div>
+      <div class="fc-gap"></div>
+      <div class="fc-node fc-decision" id="fc-Q_AE"><span class="fc-diamond">&#9670;</span> Adverse effect found?</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-agency" id="fc-NAE1">Propose 'No Adverse Effect' finding</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-agency" id="fc-NAE_NOTIF">Notify consulting parties &mdash; 30 day review period</div>
+      <div class="fc-gap"></div>
+      <div class="fc-node fc-decision" id="fc-Q_NAE_OBJ"><span class="fc-diamond">&#9670;</span> SHPO/THPO or consulting party objects within 30 days?</div>
+      <div class="fc-node fc-moa fc-side-node" id="fc-END_106_C">&sect;106 Fulfilled</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-council" id="fc-CREV2">Request Council review &mdash; 15 days to respond</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-decision" id="fc-Q_COP2"><span class="fc-diamond">&#9670;</span> Council issues opinion on No Adverse Effect?</div>
+      <div class="fc-node fc-moa fc-side-node" id="fc-END_106_D">&sect;106 Fulfilled</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-agency" id="fc-CADR2">Agency considers Council opinion</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-decision" id="fc-Q_AFF2"><span class="fc-diamond">&#9670;</span> Agency affirms "No Adverse Effect"?</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-branch-row">
+        <div class="fc-branch-arm">
+          <span class="fc-branch-label">Affirms NAE</span>
+          <div class="fc-node fc-moa" id="fc-END_NAE">END &mdash; &sect;106 Fulfilled &mdash; No Adverse Effect</div>
+        </div>
+        <div class="fc-branch-arm">
+          <span class="fc-branch-label">Revises</span>
+          <div class="fc-node fc-ref" id="fc-Q_AE_REF">&larrhk; Return to assessment</div>
+        </div>
+      </div>
+      <div class="fc-gap"></div>
+      <div class="fc-gap"></div>
+      <div class="fc-node fc-adverse" id="fc-AE_FOUND">ADVERSE EFFECT FOUND &sect;800.5(d)(2)</div>
+      <div class="fc-gap"></div>
+      <div class="fc-node fc-connector-node" id="fc-NEXT_P5">Proceed to &sect;800.6 Resolution &rarr;</div>
+    </div>
+  </div>
+
+  <div class="fc-phase-divider"></div>
+
+  <div class="fc-phase" id="fc-phase-5">
+    <div class="fc-phase-header">&sect;800.6 &mdash; Resolution of Adverse Effects</div>
+    <div class="fc-flow">
+      <div class="fc-node fc-connector-node" id="fc-PREV_P5">&larr; From &sect;800.5 &mdash; Adverse effect found</div>
+      <div class="fc-gap"></div>
+      <div class="fc-node fc-agency" id="fc-R1">Notify Council of adverse effect &sect;800.6(a)(1)</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-council" id="fc-RNOTE">Council notification mandatory &sect;800.6(a)(1); participation mandatory only for NHLs, PAs, or at agency request &sect;800.6(a)(1)(i)</div>
+      <div class="fc-gap"></div>
+      <div class="fc-node fc-decision" id="fc-Q_CPART"><span class="fc-diamond">&#9670;</span> Council decides to participate? (15 days) &sect;800.6(a)(1)(iii)</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-path-row">
+        <div class="fc-path">
+          <div class="fc-path-header">Path A &mdash; Without Council &sect;800.6(b)(1)</div>
+          <div class="fc-flow">
+            <span class="fc-branch-label">Council declines</span>
+            <div class="fc-gap-sm"></div>
+            <div class="fc-node fc-shpo" id="fc-WCA1">Agency + SHPO/THPO + consulting parties consult</div>
+            <div class="fc-gap"></div>
+            <div class="fc-node fc-decision" id="fc-Q_WCA"><span class="fc-diamond">&#9670;</span> Agency &amp; SHPO/THPO agree on resolution?</div>
+            <div class="fc-node fc-moa fc-side-node" id="fc-END_MOA_A">Execute MOA &mdash; Fulfilled</div>
+            <div class="fc-gap-sm"></div>
+            <div class="fc-node fc-agency" id="fc-WC_REQ">Request Council to join &sect;800.6(b)(1)(v)</div>
+            <div class="fc-gap-sm"></div>
+            <div class="fc-node fc-decision" id="fc-Q_WCJOIN"><span class="fc-diamond">&#9670;</span> Council agrees to join?</div>
+          </div>
+        </div>
+        <div class="fc-path">
+          <div class="fc-path-header">Path B &mdash; With Council &sect;800.6(b)(2)</div>
+          <div class="fc-flow">
+            <span class="fc-branch-label">Council participates</span>
+            <div class="fc-gap-sm"></div>
+            <div class="fc-node fc-council" id="fc-WCB1">Agency + SHPO/THPO + Council + parties consult</div>
+            <div class="fc-gap"></div>
+            <div class="fc-node fc-decision" id="fc-Q_WCB"><span class="fc-diamond">&#9670;</span> All parties agree on resolution?</div>
+            <div class="fc-gap-sm"></div>
+            <div class="fc-node fc-decision" id="fc-Q_DOC"><span class="fc-diamond">&#9670;</span> Resolution document type?</div>
+            <div class="fc-node fc-moa fc-side-node" id="fc-END_MOA_B">Execute MOA &mdash; Fulfilled</div>
+            <div class="fc-node fc-moa fc-side-node" id="fc-END_PA_B">Execute PA &mdash; Fulfilled</div>
+          </div>
+        </div>
+      </div>
+      <div class="fc-gap"></div>
+      <div class="fc-node fc-connector-node" id="fc-NEXT_P6">Proceed to &sect;800.7 Failure/Termination &rarr;</div>
+    </div>
+  </div>
+
+  <div class="fc-phase-divider"></div>
+
+  <div class="fc-phase" id="fc-phase-6">
+    <div class="fc-phase-header">&sect;800.7 &mdash; Failure to Resolve Adverse Effects</div>
+    <div class="fc-flow">
+      <div class="fc-node fc-connector-node" id="fc-PREV_P6">&larr; From &sect;800.6 &mdash; Consultation failed</div>
+      <div class="fc-gap"></div>
+      <div class="fc-node fc-decision" id="fc-F1"><span class="fc-diamond">&#9670;</span> Who terminates consultation? &sect;800.7(a)</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-branch-row">
+        <div class="fc-branch-arm">
+          <span class="fc-branch-label">Agency &sect;800.7(a)(1)</span>
+          <div class="fc-node fc-adverse" id="fc-F_AGY">Agency Official terminates</div>
+        </div>
+        <div class="fc-branch-arm">
+          <span class="fc-branch-label">SHPO &sect;800.7(a)(2)</span>
+          <div class="fc-node fc-shpo" id="fc-F_SHPO">SHPO terminates</div>
+        </div>
+        <div class="fc-branch-arm">
+          <span class="fc-branch-label">THPO &sect;800.7(a)(3)</span>
+          <div class="fc-node fc-shpo" id="fc-F_THPO">THPO terminates</div>
+        </div>
+        <div class="fc-branch-arm">
+          <span class="fc-branch-label">Council &sect;800.7(a)(4)</span>
+          <div class="fc-node fc-council" id="fc-F_ACHP">Council terminates</div>
+        </div>
+      </div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-moa fc-side-node" id="fc-END_SHPO_NOTE">MOA without SHPO</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-council" id="fc-FC1">Council prepares formal comments &sect;800.7(c)(1)</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-council" id="fc-FC2">Council transmits comments within 45 days &sect;800.7(c)(2)</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-agency" id="fc-FC3">Head of Agency considers Council comments &sect;800.7(c)(4)</div>
+      <div class="fc-gap-sm"></div>
+      <div class="fc-node fc-agency" id="fc-FC4">Head of Agency documents decision</div>
+      <div class="fc-gap"></div>
+      <div class="fc-node fc-moa" id="fc-END_F">END &mdash; &sect;106 Fulfilled &mdash; Head of Agency decides</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  var FC_EDGES = [
+    // Phase 1: §800.3 Initiation
+    { from: 'START',     to: 'Q1',        label: '',                type: 'down' },
+    { from: 'Q1',        to: 'END1',      label: 'No',             type: 'branch' },
+    { from: 'Q1',        to: 'Q3',        label: 'Yes',            type: 'down' },
+    { from: 'Q2',        to: 'END1_REF',  label: 'No potential',   type: 'branch' },
+    { from: 'Q3',        to: 'Q2',        label: 'No',             type: 'down' },
+    { from: 'Q3',        to: 'END_PA',    label: 'Yes',            type: 'branch' },
+    { from: 'Q2',        to: 'NEPA_NOTE', label: 'Yes',            type: 'down' },
+    { from: 'NEPA_NOTE', to: 'I1',        label: '',               type: 'down' },
+    { from: 'I1',        to: 'I2',        label: '',               type: 'down' },
+    { from: 'I2',        to: 'I3',        label: '',               type: 'down' },
+    { from: 'I3',        to: 'NEXT_P2',   label: '',               type: 'down' },
+    { from: 'NEXT_P2',  to: 'PREV_P2',   label: '',               type: 'cross-ref' },
+    // Phase 2: §800.4 Identification
+    { from: 'PREV_P2',  to: 'ID1',       label: '',               type: 'down' },
+    { from: 'ID1',      to: 'ID2',       label: '',               type: 'down' },
+    { from: 'ID2',      to: 'ID3',       label: '',               type: 'down' },
+    { from: 'ID3',      to: 'Q_ELIG',    label: '',               type: 'down' },
+    { from: 'Q_ELIG',   to: 'E_Y',       label: 'Eligible',       type: 'branch' },
+    { from: 'Q_ELIG',   to: 'E_N',       label: 'Not eligible',   type: 'branch' },
+    { from: 'Q_ELIG',   to: 'E_D',       label: 'No agreement',   type: 'branch' },
+    { from: 'E_Y',      to: 'NEXT_P3',   label: '',               type: 'down' },
+    { from: 'E_N',      to: 'NEXT_P3',   label: '',               type: 'converge' },
+    { from: 'E_D',      to: 'NEXT_P3',   label: '',               type: 'converge' },
+    { from: 'NEXT_P3',  to: 'PREV_P3',   label: '',               type: 'cross-ref' },
+    // Phase 3: §800.4(d) Results
+    { from: 'PREV_P3',  to: 'Q4',        label: '',               type: 'down' },
+    { from: 'Q4',        to: 'NHP1',      label: 'No',             type: 'down' },
+    { from: 'Q4',        to: 'NOTIF1',    label: 'Yes',            type: 'side-exit' },
+    { from: 'NHP1',      to: 'NOTIF_NHP', label: '',               type: 'down' },
+    { from: 'NOTIF_NHP', to: 'Q_OBJ1',   label: '',               type: 'down' },
+    { from: 'Q_OBJ1',   to: 'END_106_A', label: 'No objection',   type: 'side-exit' },
+    { from: 'Q_OBJ1',   to: 'CREV1',     label: 'Objection',      type: 'down' },
+    { from: 'CREV1',    to: 'Q_COP1',    label: '',               type: 'down' },
+    { from: 'Q_COP1',   to: 'END_106_B', label: 'No response',    type: 'side-exit' },
+    { from: 'Q_COP1',   to: 'CADR1',     label: 'Opinion issued', type: 'down' },
+    { from: 'CADR1',    to: 'Q_AFF1',    label: '',               type: 'down' },
+    { from: 'Q_AFF1',   to: 'END_NHP',   label: 'Affirms',        type: 'branch' },
+    { from: 'Q_AFF1',   to: 'Q4_REF',    label: 'Revises',        type: 'branch' },
+    { from: 'Q4_REF',   to: 'Q4',        label: '',               type: 'cross-ref' },
+    { from: 'NOTIF1',   to: 'NEXT_P4',   label: '',               type: 'down' },
+    { from: 'NEXT_P4',  to: 'PREV_P4',   label: '',               type: 'cross-ref' },
+    // Phase 4: §800.5 Assessment
+    { from: 'PREV_P4',   to: 'AE_DEF',    label: '',               type: 'down' },
+    { from: 'AE_DEF',    to: 'AE1',       label: '',               type: 'down' },
+    { from: 'AE1',       to: 'Q_AE',      label: '',               type: 'down' },
+    { from: 'Q_AE',      to: 'NAE1',      label: 'No',             type: 'down' },
+    { from: 'Q_AE',      to: 'AE_FOUND',  label: 'Yes',            type: 'side-exit' },
+    { from: 'NAE1',      to: 'NAE_NOTIF', label: '',               type: 'down' },
+    { from: 'NAE_NOTIF', to: 'Q_NAE_OBJ', label: '',               type: 'down' },
+    { from: 'Q_NAE_OBJ', to: 'END_106_C', label: 'No objection',   type: 'side-exit' },
+    { from: 'Q_NAE_OBJ', to: 'CREV2',     label: 'Objection',      type: 'down' },
+    { from: 'CREV2',     to: 'Q_COP2',    label: '',               type: 'down' },
+    { from: 'Q_COP2',    to: 'END_106_D', label: 'No response',    type: 'side-exit' },
+    { from: 'Q_COP2',    to: 'CADR2',     label: 'Opinion issued', type: 'down' },
+    { from: 'CADR2',     to: 'Q_AFF2',    label: '',               type: 'down' },
+    { from: 'Q_AFF2',    to: 'END_NAE',   label: 'Affirms',        type: 'branch' },
+    { from: 'Q_AFF2',    to: 'Q_AE_REF',  label: 'Revises',        type: 'branch' },
+    { from: 'Q_AE_REF',  to: 'Q_AE',      label: '',               type: 'cross-ref' },
+    { from: 'AE_FOUND',  to: 'NEXT_P5',   label: '',               type: 'down' },
+    { from: 'NEXT_P5',   to: 'PREV_P5',   label: '',               type: 'cross-ref' },
+    // Phase 5: §800.6 Resolution
+    { from: 'PREV_P5',  to: 'R1',        label: '',               type: 'down' },
+    { from: 'R1',        to: 'RNOTE',     label: '',               type: 'down' },
+    { from: 'RNOTE',     to: 'Q_CPART',   label: '',               type: 'down' },
+    { from: 'Q_CPART',   to: 'WCA1',      label: 'Declines',       type: 'path-split' },
+    { from: 'Q_CPART',   to: 'WCB1',      label: 'Participates',   type: 'path-split' },
+    { from: 'WCA1',      to: 'Q_WCA',     label: '',               type: 'down' },
+    { from: 'Q_WCA',     to: 'END_MOA_A', label: 'Yes',            type: 'side-exit' },
+    { from: 'Q_WCA',     to: 'WC_REQ',    label: 'No',             type: 'down' },
+    { from: 'WC_REQ',    to: 'Q_WCJOIN',  label: '',               type: 'down' },
+    { from: 'WCB1',      to: 'Q_WCB',     label: '',               type: 'down' },
+    { from: 'Q_WCB',     to: 'Q_DOC',     label: 'Yes',            type: 'down' },
+    { from: 'Q_DOC',     to: 'END_MOA_B', label: 'MOA',            type: 'side-exit' },
+    { from: 'Q_DOC',     to: 'END_PA_B',  label: 'PA',             type: 'side-exit' },
+    { from: 'Q_WCJOIN',  to: 'WCB1',      label: 'Yes',            type: 'cross-ref' },
+    { from: 'Q_WCJOIN',  to: 'NEXT_P6',   label: 'No',             type: 'cross-ref' },
+    { from: 'Q_WCB',     to: 'NEXT_P6',   label: 'No',             type: 'cross-ref' },
+    { from: 'NEXT_P6',   to: 'PREV_P6',   label: '',               type: 'cross-ref' },
+    // Phase 6: §800.7 Failure
+    { from: 'PREV_P6',  to: 'F1',        label: '',               type: 'down' },
+    { from: 'F1',        to: 'F_AGY',     label: 'Agency',         type: 'branch' },
+    { from: 'F1',        to: 'F_SHPO',    label: 'SHPO',           type: 'branch' },
+    { from: 'F1',        to: 'F_THPO',    label: 'THPO',           type: 'branch' },
+    { from: 'F1',        to: 'F_ACHP',    label: 'Council',        type: 'branch' },
+    { from: 'F_SHPO',   to: 'END_SHPO_NOTE', label: '',            type: 'side-exit' },
+    { from: 'F_AGY',    to: 'FC1',       label: '',               type: 'converge' },
+    { from: 'F_THPO',   to: 'FC1',       label: '',               type: 'converge' },
+    { from: 'F_ACHP',   to: 'FC1',       label: '',               type: 'converge' },
+    { from: 'FC1',       to: 'FC2',       label: '',               type: 'down' },
+    { from: 'FC2',       to: 'FC3',       label: '',               type: 'down' },
+    { from: 'FC3',       to: 'FC4',       label: '',               type: 'down' },
+    { from: 'FC4',       to: 'END_F',     label: '',               type: 'down' }
+  ];
+
+  function fcDrawConnectors(wrapId) {
+    var wrap = document.getElementById(wrapId || 'fc-wrap');
+    if (!wrap) return;
+
+    var oldSvg = wrap.querySelector('.fc-connectors');
+    if (oldSvg) oldSvg.remove();
+    wrap.querySelectorAll('.fc-edge-lbl').forEach(function(el) { el.remove(); });
+
+    var ns = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('class', 'fc-connectors');
+    svg.setAttribute('width', wrap.scrollWidth);
+    svg.setAttribute('height', wrap.scrollHeight);
+    svg.style.cssText = 'position:absolute;top:0;left:0;pointer-events:none;z-index:0;overflow:hidden;';
+
+    var defs = document.createElementNS(ns, 'defs');
+    function makeMarker(id, color) {
+      var m = document.createElementNS(ns, 'marker');
+      m.setAttribute('id', id);
+      m.setAttribute('markerWidth', '8');
+      m.setAttribute('markerHeight', '6');
+      m.setAttribute('refX', '7');
+      m.setAttribute('refY', '3');
+      m.setAttribute('orient', 'auto');
+      var p = document.createElementNS(ns, 'polygon');
+      p.setAttribute('points', '0 0, 8 3, 0 6');
+      p.setAttribute('fill', color);
+      m.appendChild(p);
+      defs.appendChild(m);
+    }
+    makeMarker('fc-ah', '#64748b');
+    makeMarker('fc-ah-ref', '#d97706');
+    svg.appendChild(defs);
+
+    var wR = wrap.getBoundingClientRect();
+    var sT = wrap.scrollTop, sL = wrap.scrollLeft;
+
+    function nPos(id) {
+      var el = wrap.querySelector('#fc-' + id);
+      if (!el) return null;
+      var r = el.getBoundingClientRect();
+      if (r.width === 0 || r.height === 0) return null;
+      var cs = window.getComputedStyle(el);
+      if (cs.display === 'none' || cs.visibility === 'hidden') return null;
+      if (parseFloat(cs.opacity) === 0 && !el.classList.contains('fc-positioned')) return null;
+      return {
+        cx: r.left + r.width / 2 - wR.left + sL,
+        cy: r.top + r.height / 2 - wR.top + sT,
+        t: r.top - wR.top + sT,
+        b: r.bottom - wR.top + sT,
+        l: r.left - wR.left + sL,
+        r: r.right - wR.left + sL,
+        w: r.width,
+        h: r.height
+      };
+    }
+
+    function makePath(d, color, dashed) {
+      var p = document.createElementNS(ns, 'path');
+      p.setAttribute('d', d);
+      p.setAttribute('stroke', color || '#64748b');
+      p.setAttribute('stroke-width', '1.5');
+      p.setAttribute('fill', 'none');
+      p.setAttribute('marker-end', 'url(#' + (dashed ? 'fc-ah-ref' : 'fc-ah') + ')');
+      if (dashed) p.setAttribute('stroke-dasharray', '5,3');
+      return p;
+    }
+
+    function addLabel(x, y, text, align) {
+      var lbl = document.createElement('div');
+      lbl.className = 'fc-edge-lbl';
+      lbl.style.cssText = 'position:absolute;font:600 10px/1 Inter,sans-serif;color:#64748b;background:#f8fafc;padding:2px 5px;border-radius:3px;border:1px solid #e2e8f0;white-space:nowrap;z-index:1;pointer-events:none;';
+      lbl.style.top = y + 'px';
+      if (align === 'right') lbl.style.left = (x + 6) + 'px';
+      else if (align === 'left') lbl.style.right = (wrap.scrollWidth - x + 6) + 'px';
+      else lbl.style.left = (x - text.length * 3) + 'px';
+      lbl.textContent = text;
+      wrap.appendChild(lbl);
+    }
+
+    // Position side-exit nodes
+    function positionSideNodes() {
+      wrap.querySelectorAll('.fc-side-node').forEach(function(node) {
+        var nodeId = node.id.replace('fc-', '');
+        var edge = null;
+        for (var i = 0; i < FC_EDGES.length; i++) {
+          if (FC_EDGES[i].to === nodeId && FC_EDGES[i].type === 'side-exit') {
+            edge = FC_EDGES[i]; break;
+          }
+        }
+        if (!edge) { node.style.opacity = '1'; return; }
+        var fromEl = wrap.querySelector('#fc-' + edge.from);
+        if (!fromEl) return;
+        var fR = fromEl.getBoundingClientRect();
+        node.style.top = (fR.top - wR.top + sT + fR.height / 2 - 16) + 'px';
+        node.style.right = '8px';
+        node.classList.add('fc-positioned');
+      });
+    }
+
+    positionSideNodes();
+    void wrap.offsetHeight;
+    wR = wrap.getBoundingClientRect();
+    sT = wrap.scrollTop;
+    sL = wrap.scrollLeft;
+
+    FC_EDGES.forEach(function(e) {
+      var f = nPos(e.from), t = nPos(e.to);
+      if (!f || !t) return;
+      var path;
+
+      switch (e.type) {
+        case 'down':
+          var endY = t.t;
+          path = makePath('M' + f.cx + ' ' + f.b + ' L' + f.cx + ' ' + endY, '#64748b', false);
+          svg.appendChild(path);
+          if (e.label) addLabel(f.cx, f.b + (endY - f.b) * 0.3, e.label, 'right');
+          break;
+
+        case 'branch':
+          var gap = Math.min(t.t - f.b, 80);
+          var midY = f.b + gap * 0.45;
+          if (midY < f.b + 8) midY = f.b + 8;
+          path = makePath(
+            'M' + f.cx + ' ' + f.b + ' L' + f.cx + ' ' + midY + ' L' + t.cx + ' ' + midY + ' L' + t.cx + ' ' + t.t,
+            '#64748b', false
+          );
+          svg.appendChild(path);
+          if (e.label) addLabel(t.cx, midY - 12, e.label, 'center');
+          break;
+
+        case 'side-exit':
+          var sx = f.r, sy = f.cy;
+          var ex = t.l, ey = t.cy;
+          var mx = Math.max(sx + 16, (sx + ex) / 2);
+          path = makePath(
+            'M' + sx + ' ' + sy + ' L' + mx + ' ' + sy + ' L' + mx + ' ' + ey + ' L' + ex + ' ' + ey,
+            '#64748b', false
+          );
+          svg.appendChild(path);
+          if (e.label) addLabel(sx + 8, sy - 12, e.label, 'right');
+          break;
+
+        case 'path-split':
+          var midY2 = f.b + (t.t - f.b) * 0.4;
+          path = makePath(
+            'M' + f.cx + ' ' + f.b + ' L' + f.cx + ' ' + midY2 + ' L' + t.cx + ' ' + midY2 + ' L' + t.cx + ' ' + t.t,
+            '#64748b', false
+          );
+          svg.appendChild(path);
+          if (e.label) addLabel(t.cx, midY2 - 12, e.label, 'center');
+          break;
+
+        case 'cross-ref':
+          if (f.b < t.t) {
+            path = makePath('M' + f.cx + ' ' + f.b + ' L' + t.cx + ' ' + t.t, '#d97706', true);
+            path.setAttribute('stroke-width', '2.5');
+            path.setAttribute('stroke-dasharray', '8,5');
+          } else {
+            var stubUp = Math.min(f.cy - t.cy, 40);
+            var loopX = f.l - 25;
+            path = makePath(
+              'M' + f.l + ' ' + f.cy + ' L' + loopX + ' ' + f.cy + ' L' + loopX + ' ' + (f.cy - stubUp),
+              '#d97706', true
+            );
+          }
+          svg.appendChild(path);
+          if (e.label) addLabel(f.cx + 8, f.b + 4, e.label, 'right');
+          break;
+
+        case 'converge':
+          var cMidY = t.t - 16;
+          path = makePath(
+            'M' + f.cx + ' ' + f.b + ' L' + f.cx + ' ' + cMidY + ' L' + t.cx + ' ' + cMidY + ' L' + t.cx + ' ' + t.t,
+            '#64748b', false
+          );
+          svg.appendChild(path);
+          break;
+      }
+    });
+
+    wrap.insertBefore(svg, wrap.firstChild);
+  }
+
+  // Draw after fonts + layout ready
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function() {
+      requestAnimationFrame(function() { fcDrawConnectors('fc-wrap'); });
+    });
+  } else {
+    requestAnimationFrame(function() { fcDrawConnectors('fc-wrap'); });
+  }
+
+  // Redraw on resize
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() { fcDrawConnectors('fc-wrap'); }, 200);
+  });
+</script>
+</body>
+</html>
