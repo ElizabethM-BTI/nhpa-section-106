@@ -136,11 +136,9 @@
       ry: 8;
     }
     #mermaid-main .nodeLabel {
-      font-size: 15px;
-      padding: 10px 14px;
-    }
-    #mermaid-main .node foreignObject {
-      overflow: visible !important;
+      font-size: 17px;
+      padding: 12px 18px;
+      line-height: 1.45;
     }
 
     /* ── DEFINITION CARDS ── */
@@ -2222,7 +2220,7 @@ flowchart TD
 
 <div class="wt-phase" id="wt-phase-flow">
                         <div class="mermaid" id="mermaid-main">
-%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b', 'fontSize': '16px'}, 'flowchart': {'useMaxWidth': false, 'nodeSpacing': 50, 'rankSpacing': 60, 'padding': 25, 'curve': 'basis', 'htmlLabels': true}}}%%
+%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b', 'fontSize': '17px'}, 'flowchart': {'useMaxWidth': false, 'nodeSpacing': 55, 'rankSpacing': 65, 'padding': 35, 'curve': 'basis', 'htmlLabels': true}}}%%
 
 flowchart TD
 
@@ -5740,10 +5738,8 @@ LOOP -.->|"Annual cycle<br/>continues"| AWP
       }
       body.innerHTML = html;
     } else {
-      tag.textContent   = '';
-      title.textContent = nodeId;
-      body.innerHTML =
-        '<div class="ni-text" style="color:#94a3b8;">No detailed information available for this node yet.</div>';
+      // Don't open panel for nodes without info (connectors, etc.)
+      return;
     }
     overlay.classList.add('open');
     panel.classList.add('open');
