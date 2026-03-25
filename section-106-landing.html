@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Section 106 Process — Landing Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+    /* ══════════════════════════════════════════════════════════════
+       DESIGN SYSTEM — Section 106 Process Map (Landing Page)
+       Font: Inter · Inspired by navigatingnepa.com
+       ══════════════════════════════════════════════════════════════ */
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+
+    body {
+      margin: 0; padding: 0;
+      background: #ffffff;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: #334155;
+      font-size: 17px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+
+    /* ── STICKY NAV BAR ── */
+    .site-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: #ffffff;
+      backdrop-filter: blur(12px);
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 64px;
+      border-bottom: 1px solid #e2e8f0;
+      max-width: 100%;
+      width: 100%;
+    }
+    .site-nav-title {
+      display: flex; align-items: center;
+      white-space: nowrap;
+    }
+    .site-nav-title img {
+      height: 48px; width: auto;
+    }
+    .site-nav-links { display: flex; align-items: center; gap: 0; height: 100%; }
+    .nav-link {
+      height: 100%;
+      display: flex; align-items: center;
+      padding: 0 20px;
+      font-size: 0.82rem; font-weight: 500; color: #475569;
+      background: transparent; border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer; white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+      font-family: inherit;
+      letter-spacing: 0.01em;
+    }
+    .nav-link:hover { color: #0f172a; }
+    .nav-link.active { color: #0f172a; border-bottom-color: #3b82f6; }
+    .nav-link.about-link {
+      color: #64748b;
+      margin-left: 8px;
+      padding-left: 24px;
+      border-left: 1px solid #e2e8f0;
+    }
+    .nav-link.about-link:hover { color: #0f172a; }
+
+    /* ── HERO SECTION ── */
+    .hero {
+      background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+      padding: 88px 40px 76px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero h1 {
+      font-size: 3.2rem; font-weight: 800; color: #f8fafc;
+      margin: 0 0 20px; letter-spacing: -0.03em;
+      max-width: 100%; overflow-wrap: break-word;
+      line-height: 1.08;
+    }
+    .hero .subtitle {
+      font-size: 1.05rem; color: #94a3b8; max-width: 680px;
+      margin: 0 auto; line-height: 1.65; font-weight: 400;
+    }
+
+    /* ── LAYOUT ── */
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 40px; width: 100%; overflow-x: hidden; }
+
+    /* ── SECTION TITLES ── */
+    .section-title {
+      font-size: 1.75rem; font-weight: 700; color: #0f172a;
+      margin: 56px 0 16px 0; letter-spacing: -0.015em;
+      line-height: 1.25;
+    }
+
+    /* ── LEGEND ── */
+    .legend {
+      display: flex; flex-wrap: wrap; gap: 10px 20px;
+      align-items: center; justify-content: center;
+      background: #f8fafc; border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 16px 24px; margin: 24px 0 20px;
+    }
+    .legend-title {
+      font-weight: 600; font-size: 0.72rem; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #64748b; width: 100%;
+      text-align: center; margin-bottom: 4px;
+    }
+    .li  { display: flex; align-items: center; gap: 7px; font-size: 0.82rem; font-weight: 500; color: #334155; }
+    .lb  { width: 22px; height: 14px; border-radius: 3px; border-width: 2px; border-style: solid; flex-shrink: 0; }
+
+    /* ── DIAGRAM ── */
+    .diagram-card {
+      background: #ffffff; border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      padding: 32px 16px; overflow-x: auto;
+    }
+    .mermaid-wrap { min-width: 0; width: 100%; overflow-x: auto; overflow-y: visible; -webkit-overflow-scrolling: touch; }
+    .mermaid-wrap svg { height: auto; display: block; }
+    .mermaid-wrap .node rect,
+    .mermaid-wrap .node polygon,
+    .mermaid-wrap .node circle {
+      rx: 8;
+      ry: 8;
+    }
+    .mermaid-wrap .nodeLabel {
+      font-size: 17px;
+      padding: 12px 18px;
+      line-height: 1.45;
+    }
+
+    /* ── DEFINITION CARDS ── */
+    .def-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 8px;
+    }
+    @media (max-width: 800px) { .def-grid { grid-template-columns: 1fr; } }
+    .def-card {
+      background: #ffffff; border-radius: 12px; padding: 24px 28px;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #e2e8f0;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .def-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .def-card.blue   { border-left-color: #2563eb; }
+    .def-card.purple { border-left-color: #7c3aed; }
+    .def-card.orange { border-left-color: #ea580c; }
+    .def-card.green  { border-left-color: #059669; }
+    .def-card.amber  { border-left-color: #d97706; }
+    .def-card.rose   { border-left-color: #e11d48; }
+    .def-card h3 { margin: 0 0 8px; font-size: 1.1rem; color: #0f172a; font-weight: 700; }
+    .def-card .ref {
+      font-size: 0.75rem; color: #64748b; font-weight: 600;
+      font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+      letter-spacing: 0.04em; margin-bottom: 10px; display: block;
+    }
+    .def-card p  { margin: 0 0 8px; font-size: 0.92rem; line-height: 1.65; color: #475569; }
+    .def-card ul { margin: 8px 0 0; padding-left: 20px; font-size: 0.9rem; line-height: 1.65; color: #475569; }
+    .def-card li { margin-bottom: 4px; }
+
+    /* ── TABLES ── */
+    .tcard {
+      background: #ffffff; border-radius: 12px;
+      border: 1px solid #e2e8f0; overflow: hidden;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    thead tr { background: #0f172a; color: #f1f5f9; }
+    th {
+      padding: 14px 20px; text-align: left; font-weight: 600;
+      font-size: 0.78rem; white-space: nowrap;
+      letter-spacing: 0.03em; text-transform: uppercase;
+    }
+    td {
+      padding: 14px 20px; border-bottom: 1px solid #f1f5f9;
+      vertical-align: top; line-height: 1.6;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: #f8fafc; }
+    .badge {
+      display: inline-block; padding: 3px 10px; border-radius: 20px;
+      font-size: 0.75rem; font-weight: 600; white-space: nowrap; margin: 2px 3px 2px 0;
+    }
+    .b-agency  { background:#dbeafe; color:#1d4ed8; }
+    .b-shpo    { background:#ede9fe; color:#6d28d9; }
+    .b-council { background:#ffedd5; color:#c2410c; }
+    .b-pub     { background:#f0fdf4; color:#15803d; }
+    .b-tribes  { background:#fef3c7; color:#92400e; }
+    .b-sec     { background:#fce7f3; color:#9d174d; }
+    .b-head    { background:#fee2e2; color:#991b1b; }
+
+    /* ── CALLOUT BOXES ── */
+    .callout {
+      background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px;
+      padding: 20px 24px; margin: 24px 0; font-size: 0.92rem; line-height: 1.65; color: #78350f;
+    }
+    .callout strong { color: #92400e; }
+
+    /* ── TAB PANELS ── */
+    .tab-panel { display: none; padding-top: 0; }
+    .tab-panel.active { display: block; }
+
+    /* ── FULL DIAGRAM OVERLAY ── */
+    .fd-overlay {
+      position: fixed; inset: 0; z-index: 300;
+      background: rgba(255,255,255,0.98);
+      display: none; flex-direction: column;
+    }
+    .fd-overlay.open { display: flex; }
+    .fd-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 24px; background: #0f172a; color: #f1f5f9; flex-shrink: 0;
+    }
+    .fd-toolbar-title { font-size: .9rem; font-weight: 700; }
+    .fd-toolbar-controls { display: flex; align-items: center; gap: 8px; }
+    .fd-btn {
+      padding: 6px 14px; border-radius: 6px;
+      background: rgba(255,255,255,.1); border: none;
+      color: white; font-size: .82rem; font-weight: 600;
+      cursor: pointer; font-family: inherit; transition: background .15s;
+    }
+    .fd-btn:hover { background: rgba(255,255,255,.2); }
+    .fd-close {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(255,255,255,.1); border: none;
+      color: white; font-size: 1.2rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .15s; margin-left: 8px;
+    }
+    .fd-close:hover { background: rgba(255,255,255,.2); }
+    .fd-zoom-label {
+      font-size: .78rem; color: #94a3b8; min-width: 40px; text-align: center;
+    }
+    .fd-viewport {
+      flex: 1; overflow: auto; position: relative;
+      -webkit-overflow-scrolling: touch;
+    }
+    .fd-inner {
+      position: relative; transform-origin: top center;
+      min-width: 100%; display: flex; justify-content: center;
+      padding: 24px;
+    }
+    .fd-inner .mermaid { min-width: unset !important; }
+    .fd-inner .mermaid svg {
+      display: block; width: 100% !important; height: auto !important;
+    }
+
+    /* ── VIEW FULL DIAGRAM BUTTON ── */
+    .view-full-btn-wrap {
+      text-align: center; padding: 20px 0 8px;
+    }
+    .view-full-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 12px 28px; border-radius: 8px; font-size: .9rem; font-weight: 600;
+      background: #0f172a; color: white; border: none; cursor: pointer;
+      transition: background .2s, transform .15s ease; font-family: inherit;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+    .view-full-btn:hover { background: #1e293b; transform: translateY(-1px); }
+
+    /* ── ABOUT PANEL (slide-out from right) ── */
+    .about-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 600; display: none;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+    }
+    .about-overlay.show { display: block; }
+
+    .about-panel {
+      position: fixed; top: 0; right: -540px;
+      width: 500px; max-width: 96vw;
+      height: 100vh;
+      background: #ffffff;
+      box-shadow: -8px 0 40px rgba(0,0,0,0.15);
+      z-index: 601;
+      display: flex; flex-direction: column;
+      transition: right .35s cubic-bezier(.4,0,.2,1);
+      overflow: hidden;
+    }
+    .about-panel.open { right: 0; }
+
+    .about-panel-header {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 12px;
+      padding: 24px 28px 20px;
+      background: #0f172a; color: white;
+      flex-shrink: 0;
+    }
+    .about-panel-header h2 { margin: 0; font-size: 1.15rem; font-weight: 700; color: #f8fafc; }
+    .about-panel-close {
+      background: rgba(255,255,255,.1); border: none; color: white;
+      width: 32px; height: 32px; border-radius: 8px;
+      font-size: 1rem; cursor: pointer; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: inherit; transition: background .15s;
+    }
+    .about-panel-close:hover { background: rgba(255,255,255,.2); }
+
+    .about-panel-body {
+      overflow-y: auto; flex: 1; padding: 32px 28px 48px;
+    }
+    .about-panel-body h3 {
+      font-size: 1rem; font-weight: 700; color: #0f172a;
+      margin: 32px 0 10px; line-height: 1.3;
+    }
+    .about-panel-body h3:first-child { margin-top: 0; }
+    .about-panel-body p {
+      font-size: 0.92rem; line-height: 1.7; color: #475569; margin: 0 0 12px;
+    }
+    .about-panel-body ul {
+      padding-left: 20px; margin: 0 0 12px;
+      font-size: 0.92rem; line-height: 1.7; color: #475569;
+    }
+    .about-panel-body li { margin-bottom: 6px; }
+
+    /* ── OVERVIEW SECTION CARDS ── */
+    .overview-card {
+      background: #ffffff; border-radius: 12px; padding: 28px 32px;
+      border: 1px solid #e2e8f0;
+      border-left: 5px solid #e2e8f0;
+      margin-bottom: 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .overview-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .overview-card.s3  { border-left-color: #2563eb; }
+    .overview-card.s4  { border-left-color: #7c3aed; }
+    .overview-card.s4d { border-left-color: #9333ea; }
+    .overview-card.s5  { border-left-color: #dc2626; }
+    .overview-card.s6  { border-left-color: #059669; }
+    .overview-card.s7  { border-left-color: #d97706; }
+    .overview-badge {
+      display: inline-block; font-size: .72rem; font-weight: 700;
+      font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+      letter-spacing: .08em;
+      padding: 4px 14px; border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    .overview-badge.s3  { background: #dbeafe; color: #1d4ed8; }
+    .overview-badge.s4  { background: #ede9fe; color: #7c3aed; }
+    .overview-badge.s4d { background: #f3e8ff; color: #9333ea; }
+    .overview-badge.s5  { background: #fee2e2; color: #dc2626; }
+    .overview-badge.s6  { background: #d1fae5; color: #065f46; }
+    .overview-badge.s7  { background: #fef3c7; color: #92400e; }
+    .overview-card h3 {
+      margin: 0 0 12px; font-size: 1.35rem; color: #0f172a; font-weight: 700; line-height: 1.25;
+    }
+    .overview-card p {
+      margin: 0 0 12px; font-size: 0.95rem; line-height: 1.7; color: #475569;
+    }
+    .overview-card p:last-child { margin-bottom: 0; }
+    .overview-callout {
+      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;
+      padding: 16px 20px; margin: 16px 0 4px;
+      font-size: 0.88rem; line-height: 1.65; color: #475569;
+    }
+    .overview-callout strong { color: #0f172a; }
+    .overview-callout .oc-badge {
+      display: inline-block; font-size: .68rem; font-weight: 700;
+      font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+      letter-spacing: .06em; padding: 2px 10px; border-radius: 12px;
+      margin-right: 6px; vertical-align: middle;
+    }
+    .overview-callout .oc-badge.phased { background: #ede9fe; color: #7c3aed; }
+    .overview-callout .oc-badge.pa     { background: #d1fae5; color: #065f46; }
+
+    /* PA Lifecycle card */
+    .overview-card.pa-life { border-left-color: #0891b2; }
+    .overview-badge.pa-life { background: #cffafe; color: #0e7490; }
+
+    /* ── SCROLL ANIMATION ── */
+    .fade-in-up {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in-up.visible {
+      opacity: 1; transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .site-nav { padding: 0 16px; }
+      .site-nav-links { overflow-x: auto; }
+      .nav-link { padding: 0 12px; font-size: .78rem; }
+      .hero { padding: 56px 24px 44px; }
+      .hero h1 { font-size: 2.2rem; }
+      .wrap { padding: 0 20px; }
+      .section-title { font-size: 1.4rem; margin: 40px 0 12px; }
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 1.8rem; }
+      .nav-link.about-link { display: none; }
+      .def-grid { gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── PASSWORD GATE ── -->
+<style>
+  #pw-gate {
+    position: fixed; inset: 0; z-index: 9999;
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  #pw-box {
+    background: white; border-radius: 14px;
+    padding: 44px 48px; width: 340px;
+    box-shadow: 0 24px 60px rgba(0,0,0,.4);
+    text-align: center;
+  }
+  #pw-box h2 { margin: 0 0 6px; font-size: 1.3rem; color: #0f172a; font-weight: 700; }
+  #pw-box p  { margin: 0 0 24px; font-size: .9rem; color: #64748b; line-height: 1.6; }
+  #pw-input {
+    width: 100%; padding: 11px 14px; font-size: 1rem;
+    border: 2px solid #e2e8f0; border-radius: 8px;
+    outline: none; text-align: center; letter-spacing: .1em;
+    transition: border-color .2s;
+  }
+  #pw-input:focus { border-color: #334155; }
+  #pw-btn {
+    margin-top: 14px; width: 100%; padding: 12px;
+    background: #0f172a; color: white; border: none;
+    border-radius: 8px; font-size: .95rem; font-weight: 600;
+    cursor: pointer; transition: background .2s;
+  }
+  #pw-btn:hover { background: #334155; }
+  #pw-error {
+    margin-top: 12px; font-size: .82rem; color: #dc2626;
+    min-height: 18px;
+  }
+</style>
+<div id="pw-gate">
+  <div id="pw-box">
+    <h2>Section 106 Process</h2>
+    <p>Enter the password to access this page.</p>
+    <input id="pw-input" type="password" placeholder="Password" autofocus
+           onkeydown="if(event.key==='Enter') checkPw()">
+    <button id="pw-btn" onclick="checkPw()">Enter</button>
+    <div id="pw-error"></div>
+  </div>
+</div>
+<script>
+  function checkPw() {
+    if (document.getElementById('pw-input').value === 'NHPA106') {
+      document.getElementById('pw-gate').style.display = 'none';
+    } else {
+      document.getElementById('pw-error').textContent = 'Incorrect password. Please try again.';
+      document.getElementById('pw-input').value = '';
+      document.getElementById('pw-input').focus();
+    }
+  }
+</script>
+<!-- ── END PASSWORD GATE ── -->
+
+<!-- ── STICKY NAV BAR ── -->
+<nav class="site-nav">
+  <div class="site-nav-title"><a href="https://thebreakthrough.org/" target="_blank"><img src="web-dev/BTI-logo.png" alt="The Breakthrough Institute"></a></div>
+  <div class="site-nav-links">
+    <button class="nav-link active" data-tab="flowchart" onclick="showTab('flowchart')">Process Map</button>
+    <button class="nav-link" data-tab="reference" onclick="showTab('reference')">Reference</button>
+    <button class="nav-link about-link" onclick="toggleAbout()">About</button>
+  </div>
+</nav>
+
+<!-- ── HERO SECTION ── -->
+<section class="hero">
+  <div class="wrap">
+    <h1>Section 106 Process</h1>
+    <p class="subtitle">A step-by-step map of the federal historic preservation review process under 36 C.F.R. Part 800</p>
+  </div>
+</section>
+
+<div class="wrap">
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- TAB 1: FLOWCHART                                              -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div id="tab-flowchart" class="tab-panel active">
+
+  <!-- OVERVIEW -->
+  <div class="section-title" style="margin-top:24px">Section 106 in Brief</div>
+  <p style="font-size:1rem;line-height:1.7;color:#475569;margin:0 0 12px">Section 106 of the National Historic Preservation Act requires every federal agency to look at how a proposed project might affect historic places before the agency approves the project. This page walks through the six steps of that review — from the moment the agency proposes an action all the way through negotiating protections for historic properties or, if negotiations fail, escalating to the head of the agency for a final decision.</p>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-title">Flowchart Color Guide</div>
+    <div class="li"><div class="lb" style="background:#dbeafe;border-color:#2563eb"></div> Agency Official action</div>
+    <div class="li"><div class="lb" style="background:#ede9fe;border-color:#7c3aed"></div> SHPO / THPO review</div>
+    <div class="li"><div class="lb" style="background:#ffedd5;border-color:#ea580c"></div> ACHP (Council) involvement</div>
+    <div class="li"><div class="lb" style="background:#d1fae5;border-color:#059669"></div> MOA / PA execution — §106 fulfilled</div>
+    <div class="li"><div class="lb" style="background:#fee2e2;border-color:#dc2626"></div> Adverse effect / failure pathway</div>
+    <div class="li"><div class="lb" style="background:#fef9c3;border-color:#ca8a04"></div> Decision point</div>
+  </div>
+
+  <!-- View Full Diagram button -->
+  <div class="view-full-btn-wrap" style="margin-bottom:32px">
+    <button class="view-full-btn" onclick="openFullDiagram()">View Full Flowchart</button>
+  </div>
+
+  <!-- SECTION OVERVIEWS -->
+  <div class="overview-card s3">
+    <span class="overview-badge s3">§800.3</span>
+    <h3>Initiation</h3>
+    <p>The federal agency figures out whether Section 106 applies to the proposed project and starts building the team that will carry out the review. The agency official must determine whether the project is an "undertaking" under the law, identify which State or Tribal Historic Preservation Officers have jurisdiction, plan how to involve the public, and invite tribes, local governments, and other groups to join the consultation — all before the agency approves the project.</p>
+    <p>If the state or tribal preservation office doesn't respond to the agency's request for review within 30 days, the agency can move forward to the next step or consult with the Council instead — per §800.3(c)(4).</p>
+  </div>
+
+  <div class="overview-card s4">
+    <span class="overview-badge s4">§800.4</span>
+    <h3>Identification of Historic Properties</h3>
+    <p>The agency official must make a genuine effort to find every historic property inside the Area of Potential Effects — including archaeological sites, historic buildings, districts, landscapes, and places of cultural significance to tribes. What counts as a "genuine effort" depends on the size and nature of the project.</p>
+    <div class="overview-callout">
+      <span class="oc-badge phased">§800.4(b)(2)</span>
+      <strong>Phased identification for large projects.</strong> When a project covers a large land area, stretches along a long corridor, or involves land the agency cannot yet access, the agency does not have to identify every historic property up front. Instead, the agency can use a phased approach — doing enough background research and consultation to establish that historic properties are likely present, then completing detailed identification later as the project design gets more specific or as the agency gains access to restricted areas. This phased approach must be written into a Memorandum of Agreement, a Programmatic Agreement, or the NEPA documents. The agency cannot defer identification informally.
+    </div>
+  </div>
+
+  <div class="overview-card s4d">
+    <span class="overview-badge s4d">§800.4(d)</span>
+    <h3>Results of Identification</h3>
+    <p>After the surveys are done, the agency official and the SHPO or THPO evaluate each property the agency found and decide whether that property qualifies for the National Register of Historic Places. If the agency and the preservation officer agree that no eligible properties exist inside the Area of Potential Effects, the agency notifies all consulting parties and the Section 106 review is finished.</p>
+  </div>
+
+  <div class="overview-card s5">
+    <span class="overview-badge s5">§800.5</span>
+    <h3>Assessment of Adverse Effects</h3>
+    <p>The agency official applies the adverse effect test to determine whether the project could change the qualities that make a historic property significant — including physical damage, visual intrusions, noise, or changes to the property's setting. The agency makes this determination with input from the SHPO or THPO, tribes, and other consulting parties. This finding is the most consequential decision in the entire Section 106 process.</p>
+  </div>
+
+  <div class="overview-card s6">
+    <span class="overview-badge s6">§800.6</span>
+    <h3>Resolution of Adverse Effects</h3>
+    <p>When the agency finds that the project will adversely affect historic properties, the agency official must negotiate with the SHPO or THPO, the Advisory Council on Historic Preservation, tribes, applicants, and other consulting parties to find ways to avoid, reduce, or offset those adverse effects. The parties record their agreement in a legally binding document — either a Memorandum of Agreement for a single project or a Programmatic Agreement for complex or multi-project situations.</p>
+    <div class="overview-callout">
+      <span class="oc-badge pa">§800.14(b)</span>
+      <strong>When a Programmatic Agreement is the resolution.</strong> For complex projects or programs where the agency cannot identify all effects in advance — such as a multi-state pipeline or a phased construction program — the parties execute a Programmatic Agreement instead of a standard MOA. Unlike an MOA, which resolves adverse effects on known properties for a single project, a PA covers every project in the program and creates an ongoing obligation: as each new phase or segment begins, the agency must cycle back through identification, assessment, and resolution for that phase. The Council's participation is mandatory whenever a PA will be the resolution document. See the <em>Phased PA Lifecycle</em> section below for how this works in practice.
+    </div>
+  </div>
+
+  <div class="overview-card s7">
+    <span class="overview-badge s7">§800.7</span>
+    <h3>Failure to Resolve Adverse Effects</h3>
+    <p>If the parties cannot agree on how to resolve the adverse effects on historic properties, any party can terminate the consultation. The Advisory Council on Historic Preservation then prepares formal written comments and sends those comments to the head of the entire agency. The head of the agency — not the project manager — must personally review the Council's comments and make the final decision. The law says this responsibility cannot be handed off to anyone else.</p>
+  </div>
+
+  <div class="section-title" style="margin-top:48px">After the Agreement: The Phased PA Lifecycle</div>
+  <p style="font-size:0.95rem;line-height:1.7;color:#475569;margin:0 0 20px">For large or complex projects resolved through a Programmatic Agreement, the Section 106 process does not end when the PA is signed. Instead, the PA creates a repeating cycle that runs for the life of the project.</p>
+
+  <div class="overview-card pa-life">
+    <span class="overview-badge pa-life">§800.14(b)</span>
+    <h3>Phased PA Lifecycle</h3>
+    <p>Once a Programmatic Agreement is executed and the project is authorized, each new phase or segment of the project triggers a new round of Section 106 review within the framework the PA established. The cycle works like this:</p>
+    <p><strong>1. Next phase begins</strong> — The agency moves to the next segment of the project (e.g., the next stretch of pipeline corridor or the next construction season).</p>
+    <p><strong>2. Complete identification</strong> — The agency conducts the detailed identification work for this phase that was deferred during the original review under §800.4(b)(2). This is where phased identification comes full circle — the background research done earlier now gets followed up with full field surveys for the specific area under construction.</p>
+    <p><strong>3. Assess adverse effects</strong> — The agency applies the §800.5(a) adverse effect criteria to any newly identified historic properties in this phase.</p>
+    <p><strong>4. Resolve per PA terms</strong> — If adverse effects are found, the agency negotiates a treatment plan with the SHPO/THPO and consulting parties, following the terms already set out in the PA. If no adverse effects are found, the agency documents that finding for this phase.</p>
+    <p><strong>5. Repeat or complete</strong> — If more phases remain, the cycle starts again. When all phases are complete, the PA's obligations are fulfilled.</p>
+    <div class="overview-callout">
+      <strong>Disputes and termination.</strong> Any signatory can terminate the PA under §800.14(b)(2)(v) if they believe it is not being followed. Termination forces the agency back to the standard §800.3–800.6 process for any remaining phases — a significant disruption for a project already under construction. Alternatively, the signatories can amend the PA through consultation if the dispute can be resolved without termination.
+    </div>
+    <div class="overview-callout" style="margin-top:12px;background:#fff7ed;border-color:#fed7aa">
+      <strong>Key vulnerability.</strong> Later phases may reveal adverse effects on historic properties near segments that are already built or under construction. At that point, avoidance is no longer possible — forcing the agency into costly rework or mitigation measures that would have been far cheaper if identified earlier. This is the inherent trade-off of phased identification: the agency gets to start work sooner, but accepts the risk that later discoveries will be harder and more expensive to address.
+    </div>
+  </div>
+
+</div><!-- /tab-flowchart -->
+
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- HIDDEN MERMAID SOURCE (for full diagram overlay)              -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div id="mermaid-source" style="position:absolute;left:-9999px;top:0;width:1200px;overflow:hidden">
+  <div class="mermaid-wrap">
+    <div class="mermaid" id="mermaid-main">
+%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#64748b', 'fontSize': '17px'}, 'flowchart': {'useMaxWidth': false, 'nodeSpacing': 55, 'rankSpacing': 65, 'padding': 35, 'curve': 'basis', 'htmlLabels': true}}}%%
+
+flowchart TD
+
+classDef startnode fill:#1e293b,stroke:#0f172a,color:#f8fafc,stroke-width:2px,font-weight:bold
+classDef agency fill:#dbeafe,stroke:#2563eb,color:#1e3a5f,stroke-width:1.5px
+classDef shpo fill:#ede9fe,stroke:#7c3aed,color:#3b0764,stroke-width:1.5px
+classDef council fill:#ffedd5,stroke:#ea580c,color:#7c2d12,stroke-width:1.5px
+classDef decision fill:#fef9c3,stroke:#ca8a04,color:#713f12,stroke-width:1.5px
+classDef fulfilled fill:#d1fae5,stroke:#059669,color:#064e3b,stroke-width:1.5px
+classDef adverse fill:#fee2e2,stroke:#dc2626,color:#7f1d1d,stroke-width:2px,font-weight:bold
+classDef notenode fill:#f8fafc,stroke:#94a3b8,color:#334155,stroke-width:1px,stroke-dasharray:4 2
+classDef connector fill:#f1f5f9,stroke:#94a3b8,color:#64748b,stroke-width:1px
+classDef ref fill:#fefce8,stroke:#d97706,color:#854d0e,stroke-width:1px,stroke-dasharray:4 2
+classDef agencyPower fill:#dbeafe,stroke:#1d4ed8,stroke-width:3px,color:#1e3a5f
+
+subgraph P1 ["§800.3 — Initiation"]
+  START(["Federal Agency Proposes Action"]):::startnode
+  Q1{"Is proposed action<br/>an undertaking? §800.16(y)"}:::decision
+  END1(["END — No §106"]):::fulfilled
+  Q_EMERG{"Is this an<br/>emergency response? §800.12"}:::decision
+  EMERG_EXEMPT["Immediate rescue &amp; salvage operations<br/>to preserve life or property are<br/>completely exempt from §106"]:::notenode
+  EMERG_PATH{"Agency has pre-approved<br/>emergency procedures<br/>§800.12(a)?"}:::decision
+  EMERG_PROC["Follow agency's<br/>pre-approved emergency<br/>procedures"]:::agency
+  EMERG_ALT{"Existing PA covers<br/>emergencies §800.12(b)(1)?"}:::decision
+  EMERG_PA["Follow PA provisions<br/>for emergencies"]:::agency
+  EMERG_NOTIFY["Notify Council, SHPO/THPO,<br/>and tribes before undertaking<br/>Allow 7 days for comment<br/>§800.12(b)(2)"]:::agency
+  EMERG_30DAY["§800.12 applies only to undertakings<br/>implemented within 30 days after a<br/>formally declared disaster or emergency"]:::notenode
+  END_EMERG_PROC(["END — Follow Emergency Procedures"]):::fulfilled
+  END_EMERG_PA(["END — Follow Emergency PA"]):::fulfilled
+  END_EMERG_NOTIFY(["END — Proceed After Notification"]):::fulfilled
+  Q3{"Governed by an existing<br/>Program Alternative? §800.14"}:::decision
+  END_PA(["END — Follow PA §800.14"]):::fulfilled
+  PA_TYPE{"What type of<br/>program alternative?"}:::decision
+  PA_DESC["Agency follows terms of existing PA<br/>PA governs all covered undertakings<br/>until expiration or termination"]:::agency
+  ALT_DESC["Agency follows its own<br/>approved alternate procedures<br/>in lieu of §§800.3–800.6"]:::agency
+  EX_DESC["Undertaking falls within<br/>Council-approved exemption<br/>No further §106 review required"]:::fulfilled
+  PC_DESC["Agency follows conditions<br/>in Council's program comment"]:::agency
+  TRIBAL_DESC["Tribe follows its own<br/>Council-approved regulations<br/>on tribal lands — §101(d)(5)"]:::shpo
+  Q2{"Potential to cause effects<br/>on historic properties? §800.3(a)(1)"}:::decision
+  DOC_NP["Agency documents basis<br/>for 'no potential' finding"]:::agency
+  END1_REF(["END — No §106"]):::fulfilled
+  NEPA_NOTE["Optional: Coordinate with other reviews"]:::notenode
+  I1["Identify SHPO &amp;/or THPO"]:::agency
+  I2["Plan public involvement"]:::agency
+  I3["Identify &amp; invite consulting parties"]:::agency
+  NEXT_P2(["→ §800.4 Identification"]):::connector
+end
+
+subgraph P2 ["§800.4 — Identification"]
+  PREV_P2(["← From §800.3"]):::connector
+  ID1["Determine Area of Potential Effects"]:::agency
+  ID2["Review existing information"]:::agency
+  ID3["Conduct identification efforts"]:::agency
+  PHASE_Q{"Large land area, corridor,<br/>or restricted access?"}:::decision
+  PHASED["Use phased identification<br/>§800.4(b)(2)"]:::agency
+  PHASED_DESC["Establish likely presence of<br/>historic properties through<br/>background research and<br/>consultation for each alternative"]:::agency
+  PHASED_DEFER["Defer final identification<br/>to later phases — must be<br/>provided for in MOA, PA,<br/>or NEPA documents"]:::agency
+  PHASED_RETURN["As access is gained or<br/>alternatives refined,<br/>complete identification<br/>per §800.4(b)(1) and (c)"]:::agency
+  Q_ELIG{"Evaluate Historic Significance<br/>National Register criteria<br/>§800.4(c)"}:::decision
+  E_Y["ELIGIBLE — Agency + SHPO agree"]:::agency
+  E_N["NOT ELIGIBLE — Agency + SHPO agree"]:::agency
+  E_D["No agreement — Refer to Secretary"]:::council
+  NEXT_P3(["→ §800.4(d) Results"]):::connector
+end
+
+subgraph P3 ["§800.4(d) — Results of Identification"]
+  PREV_P3(["← From §800.4"]):::connector
+  Q4{"Historic properties affected?<br/>§800.4(d)(1)"}:::decision
+  NHP1["Document: No Historic<br/>Properties Affected<br/>1) No historic properties in APE<br/>2) No historic property impacts"]:::agency
+  NOTIF_NHP["Notify SHPO/THPO &amp; consulting parties"]:::agency
+  Q_OBJ1{"SHPO/THPO or Council<br/>objects within 30 days?"}:::decision
+  SHPO_NR1["Agency may proceed<br/>to next step — §800.3(c)(4)<br/>OR consult with Council<br/>in lieu of SHPO/THPO"]:::agencyPower
+  END_106_A(["§106 Fulfilled"]):::fulfilled
+  Q_COP1{"Council issues opinion?"}:::decision
+  END_106_B(["§106 Fulfilled"]):::fulfilled
+  CADR1["Agency considers Council opinion"]:::agency
+  Q_AFF1{"Agency affirms<br/>No HP Affected?"}:::decision
+  END_NHP(["END — §106 Fulfilled"]):::fulfilled
+  Q4_REF["↩ Return to assessment"]:::ref
+  NOTIF1["Notify consulting parties —<br/>Invite views on effects"]:::agency
+  NEXT_P4(["→ §800.5 Assessment"]):::connector
+end
+
+subgraph P4 ["§800.5 — Assessment of Adverse Effects"]
+  PREV_P4(["← From §800.4(d)"]):::connector
+  AE1["Apply criteria of adverse effect §800.5(a)"]:::agency
+  Q_AE{"Adverse effect found?"}:::decision
+  NAE1["Propose No Adverse Effect finding"]:::agency
+  NAE_NOTIF["Notify consulting parties — 30 day review"]:::agency
+  Q_NAE_OBJ{"SHPO/THPO or party<br/>objects within 30 days?"}:::decision
+  SHPO_NR2["Agency may proceed<br/>to next step — §800.3(c)(4)<br/>OR consult with Council<br/>in lieu of SHPO/THPO"]:::agencyPower
+  END_106_C(["§106 Fulfilled"]):::fulfilled
+  CREV2["Request Council review — 15 days to respond"]:::council
+  Q_COP2{"Council issues opinion<br/>on No Adverse Effect?"}:::decision
+  END_106_D(["§106 Fulfilled"]):::fulfilled
+  CADR2["Agency considers Council opinion"]:::agency
+  Q_AFF2{"Agency affirms<br/>No Adverse Effect?"}:::decision
+  END_NAE(["END — §106 Fulfilled"]):::fulfilled
+  Q_AE_REF["↩ Return to assessment"]:::ref
+  AE_FOUND["ADVERSE EFFECT FOUND §800.5(d)(2)"]:::adverse
+  NEXT_P5(["→ §800.6 Resolution"]):::connector
+end
+
+subgraph P5 ["§800.6 — Resolution of Adverse Effects"]
+  PREV_P5(["← From §800.5"]):::connector
+  R1["Notify Council of adverse effect §800.6(a)(1)"]:::agency
+  Q_CPART{"Council participates?<br/>§800.6(a)(1)(iii)"}:::decision
+  COUNCIL_OUT["Agency proceeds without Council —<br/>this is the agency's right under<br/>§800.6(a)(1)(iv), not a failure"]:::agencyPower
+  subgraph PA ["Path A — Without Council §800.6(b)(1)"]
+    WCA1["Agency + SHPO/THPO +<br/>consulting parties consult"]:::shpo
+    Q_WCA{"Agency &amp; SHPO agree<br/>on resolution?"}:::decision
+    END_MOA_A(["Execute MOA — Fulfilled"]):::fulfilled
+    WC_REQ["Request Council to join §800.6(b)(1)(v)"]:::agency
+    Q_WCJOIN{"Council agrees to join?"}:::decision
+  end
+  subgraph PB ["Path B — With Council §800.6(b)(2)"]
+    WCB1["Agency + SHPO/THPO +<br/>Council + parties consult"]:::council
+    Q_WCB{"All parties agree<br/>on resolution?"}:::decision
+    Q_DOC{"Resolution document type?"}:::decision
+    END_MOA_B(["Execute MOA — Fulfilled"]):::fulfilled
+    END_PA_B(["Execute PA — Fulfilled"]):::fulfilled
+    PA_CREATE_NOTE["Note: A NEW Programmatic Agreement<br/>can be developed here under §800.14(b)(3)<br/>for complex projects or multiple undertakings"]:::notenode
+  end
+  NEXT_P6(["→ §800.7 Failure"]):::connector
+  NEXT_PA_LIFE(["→ Phased PA Lifecycle"]):::connector
+end
+
+subgraph P6 ["§800.7 — Failure to Resolve Adverse Effects"]
+  PREV_P6(["← From §800.6"]):::connector
+  F1{"Who terminates consultation?<br/>§800.7(a)"}:::decision
+  F_AGY["Agency terminates §800.7(a)(1)"]:::adverse
+  F_SHPO["SHPO terminates §800.7(a)(2)"]:::shpo
+  F_THPO["THPO terminates §800.7(a)(3)"]:::shpo
+  F_ACHP["Council terminates §800.7(a)(4)"]:::council
+  SHPO_EXIT["SHPO exits — Agency + Council<br/>may execute MOA without SHPO<br/>§800.7(a)(2)"]:::agencyPower
+  END_SHPO_NOTE(["MOA without SHPO"]):::fulfilled
+  FC1["Council prepares formal comments §800.7(c)(1)"]:::council
+  FC2["Council transmits comments within 45 days"]:::council
+  FC3["Head of Agency considers Council comments"]:::agency
+  FC4["Head of Agency documents decision"]:::agency
+  END_F(["END — §106 Fulfilled"]):::fulfilled
+end
+
+subgraph PA_LIFE ["§800.14(b) — Phased PA Lifecycle"]
+  PA_EXEC(["PA Executed — Project Authorized"]):::startnode
+  PA_PHASE["Next project phase or<br/>segment begins"]:::agency
+  PA_ID["Complete identification for<br/>this phase per PA terms<br/>§800.4(b)(2)"]:::agency
+  PA_ASSESS["Apply adverse effect criteria<br/>to newly identified properties<br/>§800.5(a)"]:::agency
+  PA_Q_AE{"Adverse effect found<br/>in this phase?"}:::decision
+  PA_RESOLVE["Resolve per PA terms —<br/>negotiate treatment plan<br/>with SHPO/THPO + parties"]:::shpo
+  PA_NO_AE["Document no adverse effect<br/>for this phase"]:::agency
+  PA_MORE{"More phases<br/>or segments?"}:::decision
+  PA_DONE(["All phases complete —<br/>PA obligations fulfilled"]):::fulfilled
+  PA_VULN["⚠ Vulnerability: Later phases may<br/>find adverse effects on projects<br/>already permitted or under construction —<br/>forcing costly rework or mitigation"]:::adverse
+  PA_DISPUTE{"Dispute over<br/>PA compliance?"}:::decision
+  PA_TERM["Any signatory may terminate PA<br/>§800.14(b)(2)(v) — triggers<br/>return to standard §800.3–800.6"]:::council
+  PA_AMEND["Amend PA through<br/>consultation with<br/>all signatories"]:::agency
+end
+
+%% ── Phase 1 connections ──
+START --> Q1
+Q1 -->|"No"| END1
+Q1 -->|"Yes"| Q_EMERG
+Q_EMERG ~~~ EMERG_EXEMPT
+Q_EMERG ~~~ EMERG_30DAY
+Q_EMERG -->|"Yes"| EMERG_PATH
+Q_EMERG -->|"No"| Q3
+EMERG_PATH -->|"Yes"| EMERG_PROC
+EMERG_PROC --> END_EMERG_PROC
+EMERG_PATH -->|"No"| EMERG_ALT
+EMERG_ALT -->|"Yes"| EMERG_PA
+EMERG_PA --> END_EMERG_PA
+EMERG_ALT -->|"No"| EMERG_NOTIFY
+EMERG_NOTIFY --> END_EMERG_NOTIFY
+Q3 -->|"Yes"| PA_TYPE
+PA_TYPE -->|"Programmatic Agreement §800.14(b)"| PA_DESC
+PA_TYPE -->|"Alternate Procedures §800.14(a)"| ALT_DESC
+PA_TYPE -->|"Exempted Category §800.14(c)"| EX_DESC
+PA_TYPE -->|"Program Comment §800.14(e)"| PC_DESC
+PA_TYPE -->|"Tribal Procedures §101(d)(5)"| TRIBAL_DESC
+PA_DESC --> END_PA
+ALT_DESC --> END_PA
+EX_DESC --> END_PA
+PC_DESC --> END_PA
+TRIBAL_DESC --> END_PA
+Q3 -->|"No"| Q2
+Q2 -->|"No potential"| DOC_NP
+DOC_NP --> END1_REF
+Q2 -->|"Yes"| NEPA_NOTE
+NEPA_NOTE --> I1
+I1 --> I2
+I2 --> I3
+I3 --> NEXT_P2
+NEXT_P2 -.-> PREV_P2
+
+%% ── Phase 2 connections ──
+PREV_P2 --> ID1
+ID1 --> ID2
+ID2 --> ID3
+ID3 --> PHASE_Q
+PHASE_Q -->|"Yes"| PHASED
+PHASED --> PHASED_DESC
+PHASED_DESC --> PHASED_DEFER
+PHASED_DEFER --> PHASED_RETURN
+PHASED_RETURN --> Q_ELIG
+PHASE_Q -->|"No"| Q_ELIG
+Q_ELIG -->|"Eligible"| E_Y
+Q_ELIG -->|"Not eligible"| E_N
+Q_ELIG -->|"No agreement"| E_D
+E_Y --> NEXT_P3
+E_N --> NEXT_P3
+E_D --> NEXT_P3
+NEXT_P3 -.-> PREV_P3
+
+%% ── Phase 3 connections ──
+PREV_P3 --> Q4
+Q4 -->|"No"| NHP1
+Q4 -->|"Yes"| NOTIF1
+NHP1 --> NOTIF_NHP
+NOTIF_NHP --> Q_OBJ1
+Q_OBJ1 -->|"No objection or no response<br/>within 30 days"| END_106_A
+Q_OBJ1 -->|"SHPO/THPO does not respond\nwithin 30 days"| SHPO_NR1
+Q_OBJ1 -->|"Objection"| Q_COP1
+Q_COP1 -->|"No response"| END_106_B
+Q_COP1 -->|"Opinion issued"| CADR1
+CADR1 --> Q_AFF1
+Q_AFF1 -->|"Affirms"| END_NHP
+Q_AFF1 -->|"Revises"| Q4_REF
+Q4_REF -.-> Q4
+NOTIF1 --> NEXT_P4
+NEXT_P4 -.-> PREV_P4
+
+%% ── Phase 4 connections ──
+PREV_P4 --> AE1
+AE1 --> Q_AE
+Q_AE -->|"No"| NAE1
+Q_AE -->|"Yes"| AE_FOUND
+NAE1 --> NAE_NOTIF
+NAE_NOTIF --> Q_NAE_OBJ
+Q_NAE_OBJ -->|"No objection or no response<br/>within 30 days"| END_106_C
+Q_NAE_OBJ -->|"SHPO/THPO does not respond\nwithin 30 days"| SHPO_NR2
+Q_NAE_OBJ -->|"Objection"| CREV2
+CREV2 --> Q_COP2
+Q_COP2 -->|"No response"| END_106_D
+Q_COP2 -->|"Opinion issued"| CADR2
+CADR2 --> Q_AFF2
+Q_AFF2 -->|"Affirms"| END_NAE
+Q_AFF2 -->|"Revises"| Q_AE_REF
+Q_AE_REF -.-> Q_AE
+AE_FOUND --> NEXT_P5
+NEXT_P5 -.-> PREV_P5
+
+%% ── Phase 5 connections ──
+PREV_P5 --> R1
+R1 --> Q_CPART
+Q_CPART -->|"Council declines or silent 15 days →\nAgency proceeds without Council"| COUNCIL_OUT
+COUNCIL_OUT --> WCA1
+Q_CPART -->|"Participates"| WCB1
+WCA1 --> Q_WCA
+Q_WCA -->|"Yes"| END_MOA_A
+Q_WCA -->|"No"| WC_REQ
+WC_REQ --> Q_WCJOIN
+Q_WCJOIN -.->|"Yes"| WCB1
+Q_WCJOIN -.->|"No"| NEXT_P6
+WCB1 --> Q_WCB
+Q_WCB -->|"Yes"| Q_DOC
+Q_WCB -.->|"No"| NEXT_P6
+Q_DOC -->|"MOA"| END_MOA_B
+Q_DOC -->|"PA"| END_PA_B
+END_PA_B ~~~ PA_CREATE_NOTE
+END_PA_B --> NEXT_PA_LIFE
+NEXT_PA_LIFE -.-> PA_EXEC
+NEXT_P6 -.-> PREV_P6
+
+%% ── Phased PA Lifecycle connections ──
+PA_EXEC --> PA_PHASE
+PA_PHASE --> PA_ID
+PA_ID --> PA_ASSESS
+PA_ASSESS --> PA_Q_AE
+PA_Q_AE -->|"Yes"| PA_RESOLVE
+PA_Q_AE -->|"No"| PA_NO_AE
+PA_RESOLVE --> PA_MORE
+PA_NO_AE --> PA_MORE
+PA_Q_AE ~~~ PA_VULN
+PA_MORE -->|"Yes"| PA_PHASE
+PA_MORE -->|"No"| PA_DONE
+PA_MORE --> PA_DISPUTE
+PA_DISPUTE -->|"Yes — signatory terminates"| PA_TERM
+PA_DISPUTE -->|"Amendment needed"| PA_AMEND
+PA_AMEND --> PA_PHASE
+PA_TERM -.-> PA_TERM_END(["↩ Return to §800.3 — standard process"]):::connector
+
+%% ── Phase 6 connections ──
+PREV_P6 --> F1
+F1 -->|"Agency"| F_AGY
+F1 -->|"SHPO"| F_SHPO
+F1 -->|"THPO"| F_THPO
+F1 -->|"Council"| F_ACHP
+F_SHPO --> SHPO_EXIT
+SHPO_EXIT --> END_SHPO_NOTE
+F_AGY --> FC1
+F_THPO --> FC1
+F_ACHP --> FC1
+FC1 --> FC2
+FC2 --> FC3
+FC3 --> FC4
+FC4 --> END_F
+      </div>
+    </div>
+  </div>
+</div><!-- /mermaid-source -->
+
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- TAB 2: REFERENCE                                              -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div id="tab-reference" class="tab-panel">
+
+  <!-- PROGRAM ALTERNATIVES -->
+  <div class="section-title" style="margin-top:24px">Understanding Program Alternatives — §800.14</div>
+  <div class="callout">
+    <strong>What is a "program alternative"?</strong> Sometimes the standard step-by-step Section 106 process does not fit the situation — for example, when an agency handles thousands of similar small projects every year, or when a project is too large and complex to survey completely before the agency can give approval. Section 800.14 of the regulations lets federal agencies and the Advisory Council on Historic Preservation set up alternative approaches that replace some or all of the standard review steps. When a project is already covered by one of these alternatives, the agency follows that alternative instead of the standard process — this is the early exit shown in the flowchart at the §800.3 stage. There are five types, each designed for a different situation.
+  </div>
+  <div class="def-grid">
+
+    <div class="def-card blue">
+      <h3>① Alternate Procedures</h3>
+      <span class="ref">§800.14(a)</span>
+      <p>A federal agency writes its own set of rules for carrying out Section 106, replacing some or all of the standard steps. The agency must make sure these custom rules are consistent with the Council's regulations, and the Advisory Council on Historic Preservation gets 60 days to review the rules before the agency can adopt them. Once the Council approves, the agency follows its own rules instead of the standard process.</p>
+      <ul>
+        <li>The agency must consult with the Council, SHPOs/THPOs, tribes, and the public while developing the procedures</li>
+        <li>The agency publishes the final procedures in the Federal Register</li>
+        <li>These custom rules cannot override tribal historic preservation regulations on tribal lands</li>
+      </ul>
+    </div>
+
+    <div class="def-card green">
+      <h3>② Programmatic Agreements (PA)</h3>
+      <span class="ref">§800.14(b) · §800.16(t)</span>
+      <p>A Programmatic Agreement is a negotiated deal between the Advisory Council on Historic Preservation and a federal agency that covers an entire program or a group of complex projects at once. Unlike a Memorandum of Agreement — which covers one specific project — a PA covers every project in the program until the agreement expires or one of the parties ends it.</p>
+      <p style="margin-top:8px"><strong>When an agency can use a PA:</strong></p>
+      <ul>
+        <li>The projects' effects on historic properties are similar and repeat across many locations or states</li>
+        <li>The agency <em>cannot fully identify</em> the effects before giving approval — for example, the final route is not yet known</li>
+        <li>Non-federal parties (like a pipeline company) handle major decision-making on the agency's behalf</li>
+        <li>The agency routinely manages federal land or installations and needs a streamlined process</li>
+        <li>Other circumstances make the standard step-by-step process impractical</li>
+      </ul>
+      <p style="margin-top:8px"><strong>Who signs:</strong> The Council, the agency, and the appropriate SHPO or THPO all sign. For nationwide programs, the president of the National Conference of State Historic Preservation Officers signs in place of individual SHPOs. On tribal lands, the THPO or a tribal representative must sign.</p>
+      <p style="margin-top:8px"><strong>Prototype PA shortcut (§800.14(b)(4)):</strong> If the Council has already designated a prototype PA for a certain type of program, the agency can use it with just the SHPO or THPO — the Council does not need to participate or sign.</p>
+      <p style="margin-top:8px"><strong>How the agency develops a PA:</strong> For complex or multi-project situations, the agency develops the PA through the §800.6 consultation process. The Council's participation is mandatory — the agency must invite the Council to the table whenever a PA will be the resolution document.</p>
+      <p style="margin-top:8px"><strong>PA vs. MOA:</strong></p>
+      <ul>
+        <li><em>MOA</em> — covers one specific project where the agency can identify the effects up front; resolves adverse effects on known historic properties</li>
+        <li><em>PA</em> — covers a program or multiple complex projects where the agency cannot identify all effects in advance; compliance with the PA satisfies Section 106 for every project the agreement covers</li>
+      </ul>
+    </div>
+
+    <div class="def-card amber">
+      <h3>③ Exempted Categories</h3>
+      <span class="ref">§800.14(c)</span>
+      <p>The Advisory Council on Historic Preservation or a federal agency can propose to exempt an entire category of projects from the Section 106 review. To get the exemption approved, the following must be true:</p>
+      <ul>
+        <li>The projects would otherwise count as "undertakings" requiring Section 106 review</li>
+        <li>The projects' potential effects on historic properties are predictable and likely to be <em>minimal or not harmful</em></li>
+        <li>Exempting the projects is consistent with the goals of the National Historic Preservation Act</li>
+      </ul>
+      <p style="margin-top:8px">The Council has 30 days to approve or reject the exemption. Once the Council approves, projects in that category skip the Section 106 review entirely — unless the agency or the Council decides a specific project needs individual review after all.</p>
+    </div>
+
+    <div class="def-card purple">
+      <h3>④ Standard Treatments</h3>
+      <span class="ref">§800.14(d)</span>
+      <p>The Advisory Council on Historic Preservation can create a pre-approved playbook for handling a common type of situation — for example, a standard protocol for what to do when workers discover archaeological sites during construction. When a federal agency faces that type of situation, the agency can use the Council's standard treatment as the starting point for a Memorandum of Agreement instead of negotiating every term from scratch.</p>
+      <ul>
+        <li>The Council creates standard treatments on its own initiative or when another party requests one</li>
+        <li>The Council publishes each standard treatment in the Federal Register</li>
+        <li>The Council can end a standard treatment by giving 30 days' notice</li>
+      </ul>
+    </div>
+
+    <div class="def-card orange">
+      <h3>⑤ Program Comments</h3>
+      <span class="ref">§800.14(e)</span>
+      <p>A federal agency can ask the Advisory Council on Historic Preservation to issue one set of comments covering an entire category of projects, so that the agency does not have to run a separate Section 106 review for each individual project. The Council has 45 days to respond.</p>
+      <ul>
+        <li>The agency describes the category of projects, the likely effects on historic properties, and what steps the agency will take to address those effects</li>
+        <li>If the Council issues comments: the agency takes the Council's comments into account for <em>every</em> project in that category; the Council publishes the comments in the Federal Register</li>
+        <li>If the Council declines to comment: the agency must go back to running individual Section 106 reviews for each project</li>
+        <li>The Council can withdraw its program comment if the agency is not properly accounting for effects on historic properties</li>
+      </ul>
+    </div>
+
+    <div class="def-card rose">
+      <h3>Special Situations: Emergency &amp; Post-Review Discoveries</h3>
+      <span class="ref">§800.12 · §800.13</span>
+      <p><strong>Emergency situations (§800.12):</strong> When a federal agency must act quickly to respond to a declared disaster or emergency, the agency can satisfy Section 106 in two ways: (1) following an existing Programmatic Agreement that already includes emergency provisions, or (2) notifying the Council, the SHPO or THPO, and affected tribes and giving those parties 7 days to comment — or less if the emergency demands faster action. This shortcut applies only to projects the agency carries out within 30 days of the disaster or emergency declaration.</p>
+      <p style="margin-top:8px"><strong>Post-review discoveries (§800.13):</strong> Sometimes workers discover historic properties after the Section 106 review is already finished. What happens next depends on whether construction has started:</p>
+      <ul>
+        <li><em>Best practice:</em> The agency should include discovery procedures in the MOA or PA before any work begins, so that everyone knows what to do if something turns up</li>
+        <li>If construction has <em>not</em> started: the agency consults with the SHPO or THPO and other parties under §800.6 to figure out how to handle the discovery</li>
+        <li>If construction <em>has</em> started: the agency must notify the SHPO or THPO, affected tribes, and the Council within <strong>48 hours</strong>; all parties must respond within 48 hours; the agency takes those recommendations into account before resuming work</li>
+        <li>On tribal lands: the agency must also follow applicable tribal regulations and get the tribe's concurrence</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- PARTY INVOLVEMENT TABLE -->
+  <div class="section-title" style="margin-top:32px">Party Involvement by Phase</div>
+  <div class="tcard">
+    <table>
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>§ Section</th>
+          <th>Parties Involved</th>
+          <th>Key Actions / Decisions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Initiation</strong></td>
+          <td>§800.3</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-tribes">Tribes &amp; NHOs</span><span class="badge b-pub">Applicants</span><span class="badge b-pub">Local Govts</span></td>
+          <td>Undertaking determination; check for existing program alternatives; identify SHPO/THPO; plan public involvement; identify consulting parties; coordinate with NEPA (§800.8)</td>
+        </tr>
+        <tr>
+          <td><strong>Identification</strong></td>
+          <td>§800.4</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-tribes">Tribes &amp; NHOs</span><span class="badge b-pub">Consulting Parties</span><span class="badge b-sec">Secretary of Interior</span></td>
+          <td>Establish APE; survey and research; apply National Register criteria; Secretary resolves eligibility disputes</td>
+        </tr>
+        <tr>
+          <td><strong>Results — No HP Affected</strong></td>
+          <td>§800.4(d)</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-council">ACHP</span><span class="badge b-pub">Public</span></td>
+          <td>Document finding; 30-day SHPO/THPO review; Council may object sua sponte; agency responds to Council opinion; decision summary</td>
+        </tr>
+        <tr>
+          <td><strong>Assessment of Adverse Effects</strong></td>
+          <td>§800.5</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-tribes">Tribes &amp; NHOs</span><span class="badge b-council">ACHP</span><span class="badge b-pub">Consulting Parties</span><span class="badge b-pub">Public</span></td>
+          <td>Apply adverse effect criteria; NAE proposal; 30-day review; Council review 15 days if objected; decision summary</td>
+        </tr>
+        <tr>
+          <td><strong>Resolution — Pathway A<br/>(Without Council)</strong></td>
+          <td>§800.6(b)(1)</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-tribes">Tribes &amp; NHOs</span><span class="badge b-pub">Consulting Parties</span><span class="badge b-pub">Public</span></td>
+          <td>Consult to avoid/minimize/mitigate; MOA executed by Agency + SHPO/THPO; copy submitted to Council; §106 fulfilled for this undertaking</td>
+        </tr>
+        <tr>
+          <td><strong>Resolution — Pathway B<br/>(With Council) → MOA</strong></td>
+          <td>§800.6(b)(2)</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-council">ACHP</span><span class="badge b-tribes">Tribes &amp; NHOs</span><span class="badge b-pub">Consulting Parties</span><span class="badge b-pub">Public</span></td>
+          <td>Three-party consultation; MOA signed by Agency + SHPO/THPO + Council; §106 fulfilled for this undertaking</td>
+        </tr>
+        <tr>
+          <td><strong>Resolution — Pathway B<br/>(With Council) → PA</strong></td>
+          <td>§800.6(b)(2)<br/>§800.14(b)</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-council">ACHP</span><span class="badge b-tribes">Tribes &amp; NHOs</span><span class="badge b-pub">NCSHPO (if nationwide)</span></td>
+          <td>Used when: effects are repetitive/multi-state; effects can't be fully determined pre-approval; complex/multiple undertakings. PA signed by Agency + Council + SHPO/THPOs. Satisfies §106 for <em>all covered undertakings</em> until PA expires or is terminated</td>
+        </tr>
+        <tr>
+          <td><strong>Failure — MOA Without SHPO</strong></td>
+          <td>§800.7(a)(2)</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-council">ACHP</span></td>
+          <td>When SHPO terminates: Agency + Council execute MOA without SHPO; §106 fulfilled</td>
+        </tr>
+        <tr>
+          <td><strong>Failure — Council Comments</strong></td>
+          <td>§800.7(c)</td>
+          <td><span class="badge b-head">Head of Agency</span><span class="badge b-council">ACHP</span><span class="badge b-agency">Agency Official</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-pub">All Consulting Parties</span><span class="badge b-pub">Public</span></td>
+          <td>Council gathers views; formal comments within 45 days to head of agency; head of agency documents decision; non-delegable duty under §110(l)</td>
+        </tr>
+        <tr>
+          <td><strong>National Historic Landmarks</strong></td>
+          <td>§800.10</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-council">ACHP</span><span class="badge b-sec">Secretary of Interior</span><span class="badge b-head">Head of Agency</span></td>
+          <td>Council participation mandatory; Secretary must be notified and invited; Council may request Secretary report; outcome reported to Secretary and head of agency</td>
+        </tr>
+        <tr>
+          <td><strong>Post-Review Discoveries</strong></td>
+          <td>§800.13</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-tribes">Tribes &amp; NHOs</span><span class="badge b-council">ACHP</span></td>
+          <td>48-hour notification if construction commenced; parties respond within 48 hours; tribal regulations control on tribal lands</td>
+        </tr>
+        <tr>
+          <td><strong>Emergency Situations</strong></td>
+          <td>§800.12</td>
+          <td><span class="badge b-agency">Agency Official</span><span class="badge b-council">ACHP</span><span class="badge b-shpo">SHPO/THPO</span><span class="badge b-tribes">Tribes &amp; NHOs</span></td>
+          <td>Existing PA with emergency provisions, OR 7-day notification (or less if circumstances demand); applies within 30 days of declared disaster/emergency</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- KEY DEFINITIONS TABLE -->
+  <div class="section-title" style="margin-top:28px">Key Definitions — §800.16</div>
+  <div class="tcard">
+    <table>
+      <tbody>
+        <tr>
+          <td style="width:200px;white-space:nowrap"><strong>Undertaking</strong> §800.16(y)</td>
+          <td>Any project, activity, or program that a federal agency funds (even partly), carries out, or approves. This includes projects that a private company runs if the company needs a federal permit, license, or financial assistance. If the federal government has any hand in a project, that project is an "undertaking" and Section 106 applies.</td>
+        </tr>
+        <tr>
+          <td><strong>Historic Property</strong> §800.16(l)</td>
+          <td>Any district, site, building, structure, or object — prehistoric or historic — that is listed on the National Register of Historic Places or that <em>qualifies</em> for listing. A property does not have to be officially listed to count; if it meets the National Register criteria, the agency must treat it as a historic property. This includes places of traditional religious and cultural importance to tribes or Native Hawaiian organizations, as long as those places meet the National Register criteria.</td>
+        </tr>
+        <tr>
+          <td><strong>Effect</strong> §800.16(i)</td>
+          <td>Any change to a historic property that alters the qualities making that property worthy of the National Register. An "effect" can be physical (like demolition or construction damage), visual (like a new building blocking a historic viewshed), or environmental (like noise or pollution that changes the property's character).</td>
+        </tr>
+        <tr>
+          <td><strong>Area of Potential Effects (APE)</strong> §800.16(d)</td>
+          <td>The boundary the agency draws around every area where a project could change historic properties — directly or indirectly. The agency must consider all types of effects: physical ground disturbance, visual changes, noise, and atmospheric impacts. A single project can have different APEs for different types of effects — for example, a wider boundary for visual impacts than for physical construction.</td>
+        </tr>
+        <tr>
+          <td><strong>Consultation</strong> §800.16(f)</td>
+          <td>The back-and-forth process where the agency asks for, listens to, and seriously considers the views of other parties involved in the Section 106 review — and, where possible, works toward agreement. Consultation is not just sending a letter and waiting; the agency must genuinely engage. When tribes are involved, the agency must conduct government-to-government consultation, recognizing tribes as sovereign nations.</td>
+        </tr>
+        <tr>
+          <td><strong>Memorandum of Agreement (MOA)</strong> §800.16(o)</td>
+          <td>A legally binding agreement that spells out exactly what the agency will do to avoid, reduce, or offset adverse effects on historic properties from a specific project. The agency, the SHPO or THPO, and (if participating) the Council all sign the MOA. Once signed, the MOA governs the project and all of the project's parts, and the agency must file a copy with the Council.</td>
+        </tr>
+        <tr>
+          <td><strong>Programmatic Agreement (PA)</strong> §800.16(t)</td>
+          <td>A legally binding agreement that covers an entire agency program, a complex project, or a group of related projects — unlike an MOA, which covers just one project. Compliance with the PA satisfies Section 106 for every individual project the agreement covers, until the PA reaches its expiration date or one of the signatories terminates the agreement.</td>
+        </tr>
+        <tr>
+          <td><strong>Foreclosure</strong> §800.16(j)</td>
+          <td>When an agency takes an action — like starting construction or committing funds — that makes it impossible for the Council's comments to matter anymore, because the agency can no longer meaningfully change course. The law prohibits foreclosure. The agency must complete the Section 106 review <em>before</em> spending federal money or issuing a license, not after.</td>
+        </tr>
+        <tr>
+          <td><strong>Comment</strong> §800.16(e)</td>
+          <td>The formal, written findings and recommendations that the Advisory Council on Historic Preservation sends to the head of a federal agency under Section 106. Formal comments carry more weight than the Council's advisory opinions earlier in the process — the head of the agency must personally consider formal comments before making a final decision.</td>
+        </tr>
+        <tr>
+          <td><strong>SHPO</strong> §800.16(v)</td>
+          <td>State Historic Preservation Officer — the official each state appoints to run the state's historic preservation program. The SHPO is the agency's primary partner in the Section 106 review for most projects. The SHPO reviews the agency's findings, concurs or objects, and signs any Memorandum of Agreement.</td>
+        </tr>
+        <tr>
+          <td><strong>THPO</strong> §800.16(w)</td>
+          <td>Tribal Historic Preservation Officer — a tribal official who has formally taken over the SHPO's Section 106 responsibilities for projects on that tribe's lands. When a THPO is in place, the agency works with the THPO instead of (or alongside) the SHPO for projects on or affecting tribal lands.</td>
+        </tr>
+        <tr>
+          <td><strong>National Historic Landmark (NHL)</strong> §800.16(p)</td>
+          <td>A historic property that the Secretary of the Interior has designated as one of the nation's most significant historic places. When a project would adversely affect a National Historic Landmark, the stakes go up: the Advisory Council on Historic Preservation must participate in the consultation, and the agency must notify the Secretary of the Interior.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- /tab-reference -->
+
+</div><!-- /wrap -->
+
+<!-- ── ABOUT PANEL ── -->
+<div class="about-overlay" id="about-overlay" onclick="toggleAbout()"></div>
+
+<div class="about-panel" id="about-panel">
+  <div class="about-panel-header">
+    <h2>About This Project</h2>
+    <button class="about-panel-close" onclick="toggleAbout()" aria-label="Close">✕</button>
+  </div>
+  <div class="about-panel-body">
+    <h3>Project Overview</h3>
+    <p>This interactive map walks through the Section 106 review process under the National Historic Preservation Act, step by step. The map follows the standard regulatory process that every federal agency must follow under 36 C.F.R. Part 800.</p>
+
+    <h3>Methodology</h3>
+    <p>The project team built this map by reading the full text of 36 C.F.R. Part 800 and its official guidance documents.</p>
+
+    <h3>Data Sources</h3>
+    <ul>
+      <li>36 C.F.R. Part 800 — Protection of Historic Properties (Advisory Council on Historic Preservation regulations)</li>
+    </ul>
+
+    <h3>Limitations</h3>
+    <p>This tool is designed for education and research. No one should treat this tool as legal advice.</p>
+
+    <h3>Citation</h3>
+    <p>If referencing this process map in academic or professional work, please cite as: <em>Section 106 Process Map: Regulatory Framework</em> (2025).</p>
+  </div>
+</div>
+
+<!-- ── FULL DIAGRAM OVERLAY ── -->
+<div class="fd-overlay" id="fd-overlay">
+  <div class="fd-toolbar">
+    <span class="fd-toolbar-title">Section 106 &mdash; Complete Process Flowchart</span>
+    <div class="fd-toolbar-controls">
+      <button class="fd-btn" onclick="fdZoom(-1)">&minus;</button>
+      <span class="fd-zoom-label" id="fd-zoom-label">100%</span>
+      <button class="fd-btn" onclick="fdZoom(1)">+</button>
+      <button class="fd-btn" onclick="fdResetView()">Reset</button>
+      <button class="fd-close" onclick="closeFullDiagram()" title="Close">&times;</button>
+    </div>
+  </div>
+  <div class="fd-viewport" id="fd-viewport">
+    <div class="fd-inner" id="fd-inner"></div>
+  </div>
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: false,
+    securityLevel: 'loose',
+    fontSize: 18,
+    flowchart: { useMaxWidth: false, htmlLabels: true }
+  });
+
+  /* ── Render Mermaid flowchart ── */
+  (function() {
+    var el = document.getElementById('mermaid-main');
+    if (el && !el.querySelector('svg')) {
+      mermaid.run({ nodes: [el] }).then(function() {
+        // Fix mermaid nodes where text overflows the foreignObject bounding box
+        document.querySelectorAll('.mermaid svg foreignObject').forEach(function(fo) {
+          var div = fo.querySelector('div');
+          if (!div) return;
+          var textH = div.scrollHeight;
+          var textW = div.scrollWidth;
+          var foH = parseFloat(fo.getAttribute('height')) || 0;
+          var foW = parseFloat(fo.getAttribute('width')) || 0;
+          if (textH > foH) fo.setAttribute('height', textH + 4);
+          if (textW > foW) fo.setAttribute('width', textW + 4);
+        });
+      });
+    }
+  })();
+
+  /* ── Tab switching ── */
+  function showTab(id) {
+    document.querySelectorAll('.tab-panel').forEach(function(p) {
+      p.style.display = 'none';
+      p.classList.remove('active');
+    });
+    document.querySelectorAll('.nav-link[data-tab]').forEach(function(b) {
+      b.classList.remove('active');
+    });
+    var panel = document.getElementById('tab-' + id);
+    panel.style.display = 'block';
+    panel.classList.add('active');
+    document.querySelector('.nav-link[data-tab="' + id + '"]').classList.add('active');
+  }
+
+  /* ── About panel toggle ── */
+  function toggleAbout() {
+    document.getElementById('about-overlay').classList.toggle('show');
+    document.getElementById('about-panel').classList.toggle('open');
+  }
+
+  /* ── Full diagram overlay ── */
+  var fdState = { zoom: 100 };
+
+  function openFullDiagram() {
+    var overlay = document.getElementById('fd-overlay');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    var fdInner = document.getElementById('fd-inner');
+    if (fdInner) {
+      var oldClone = fdInner.querySelector('.fd-mermaid-clone');
+      if (oldClone) oldClone.remove();
+
+      var srcMermaid = document.getElementById('mermaid-main');
+      if (srcMermaid) {
+        var clone = srcMermaid.cloneNode(true);
+        clone.id = '';
+        clone.classList.add('fd-mermaid-clone');
+        clone.style.overflow = 'visible';
+        clone.style.minWidth = 'unset';
+        fdInner.appendChild(clone);
+      }
+    }
+    fdResetView();
+  }
+
+  function closeFullDiagram() {
+    document.getElementById('fd-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+    var fdInner = document.getElementById('fd-inner');
+    if (fdInner) {
+      var clone = fdInner.querySelector('.fd-mermaid-clone');
+      if (clone) clone.remove();
+    }
+  }
+
+  function fdZoom(dir) {
+    fdState.zoom = Math.max(30, Math.min(300, fdState.zoom + dir * 20));
+    fdApplyTransform();
+    document.getElementById('fd-zoom-label').textContent = fdState.zoom + '%';
+  }
+
+  function fdResetView() {
+    fdState.zoom = 100;
+    fdApplyTransform();
+    var vp = document.getElementById('fd-viewport');
+    if (vp) vp.scrollTop = 0;
+    document.getElementById('fd-zoom-label').textContent = '100%';
+  }
+
+  function fdApplyTransform() {
+    var inner = document.getElementById('fd-inner');
+    if (inner) inner.style.transform = 'scale(' + (fdState.zoom / 100) + ')';
+  }
+
+  /* Close full diagram with Escape */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeFullDiagram();
+      if (document.getElementById('about-panel').classList.contains('open')) toggleAbout();
+    }
+  });
+
+  /* ── Scroll-triggered fade-in animations ── */
+  (function() {
+    var fadeObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+    var selectors = [
+      '.callout', '.def-card', '.tcard', '.section-title'
+    ];
+    document.querySelectorAll(selectors.join(', ')).forEach(function(el) {
+      if (!el.closest('.about-panel')) {
+        el.classList.add('fade-in-up');
+        fadeObserver.observe(el);
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
