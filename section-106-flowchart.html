@@ -2252,13 +2252,16 @@ subgraph P1 ["§800.3 — Initiation"]
   END_EMERG_PA(["END — Follow Emergency PA"]):::fulfilled
   END_EMERG_NOTIFY(["END — Proceed After Notification"]):::fulfilled
   Q3{"Governed by an existing<br/>Program Alternative? §800.14"}:::decision
-  END_PA(["END — Follow PA §800.14"]):::fulfilled
   PA_TYPE{"What type of<br/>program alternative?"}:::decision
   PA_DESC["Agency follows terms of existing PA<br/>PA governs all covered undertakings<br/>until expiration or termination"]:::agency
   ALT_DESC["Agency follows its own<br/>approved alternate procedures<br/>in lieu of §§800.3–800.6"]:::agency
   EX_DESC["Undertaking falls within<br/>Council-approved exemption<br/>No further §106 review required"]:::fulfilled
   PC_DESC["Agency follows conditions<br/>in Council's program comment"]:::agency
   TRIBAL_DESC["Tribe follows its own<br/>Council-approved regulations<br/>on tribal lands — §101(d)(5)"]:::shpo
+  END_PA_ALT(["→ §800.14(b) Phased PA Lifecycle"]):::connector
+  END_ALT(["§800.7 — Failure to Resolve<br/>Adverse Effects (if applicable)"]):::connector
+  END_PC(["§106 fulfilled"]):::fulfilled
+  END_TRIBAL(["§106 fulfilled"]):::fulfilled
   Q2{"Potential to cause effects<br/>on historic properties? §800.3(a)(1)"}:::decision
   DOC_NP["Agency documents basis<br/>for 'no potential' finding"]:::agency
   END1_REF(["END — No §106"]):::fulfilled
@@ -2401,11 +2404,10 @@ PA_TYPE -->|"Alternate Procedures §800.14(a)"| ALT_DESC
 PA_TYPE -->|"Exempted Category §800.14(c)"| EX_DESC
 PA_TYPE -->|"Program Comment §800.14(e)"| PC_DESC
 PA_TYPE -->|"Tribal Procedures §101(d)(5)"| TRIBAL_DESC
-PA_DESC --> END_PA
-ALT_DESC --> END_PA
-EX_DESC --> END_PA
-PC_DESC --> END_PA
-TRIBAL_DESC --> END_PA
+PA_DESC --> END_PA_ALT
+ALT_DESC --> END_ALT
+PC_DESC --> END_PC
+TRIBAL_DESC --> END_TRIBAL
 Q3 -->|"No"| Q2
 Q2 -->|"No potential"| DOC_NP
 DOC_NP --> END1_REF
@@ -5466,11 +5468,35 @@ LOOP -.->|"Annual cycle<br/>continues"| AWP
       participants: "",
       detail: "The agency has determined that the proposed action is not an 'undertaking' — meaning the federal government is not funding, permitting, or approving the project. Because the federal government has no hand in this project, Section 106 does not apply, and the agency has no historic preservation obligations for this action."
     },
-    "END_PA": {
-      title: "END — Follow Program Alternative",
-      section: "§800.14",
+    "END_PA_ALT": {
+      title: "Follow Programmatic Agreement — Phased PA Lifecycle",
+      section: "§800.14(b)",
+      participants: "Federal Agency Official, SHPO/THPO, ACHP",
+      detail: "The agency follows the terms of an existing Programmatic Agreement. The PA governs all covered undertakings until expiration or termination. Because a PA covers complex or phased projects, the agency enters the Phased PA Lifecycle — completing identification, assessment, and resolution phase by phase under the PA's terms."
+    },
+    "END_ALT": {
+      title: "Follow Approved Alternate Procedures",
+      section: "§800.14(a)",
+      participants: "Federal Agency Official, ACHP",
+      detail: "The agency follows its own set of Section 106 procedures that the Advisory Council on Historic Preservation has already approved as a substitute for the standard steps in §§800.3 through 800.6. These alternate procedures must provide at least the same level of protection for historic properties as the standard process. If resolution of adverse effects fails under the alternate procedures, the agency must still follow §800.7 — the failure to resolve track applies regardless of which procedural pathway the agency used."
+    },
+    "END_EX": {
+      title: "§106 Review Not Required — Exempted Category",
+      section: "§800.14(c)",
+      participants: "",
+      detail: "The Advisory Council on Historic Preservation has determined that this entire category of undertakings does not need Section 106 review because the category has little or no potential to affect historic properties. The agency has no further Section 106 obligations for this project."
+    },
+    "END_PC": {
+      title: "§106 Fulfilled Under Program Comment",
+      section: "§800.14(e)",
       participants: "Federal Agency Official",
-      detail: "The agency has confirmed that this project falls under an existing program alternative — a pre-approved agreement like a Programmatic Agreement that already spells out how the agency will handle historic preservation for this type of project. The agency follows the rules in that agreement instead of going through the standard Section 106 steps. The agency must still meet every requirement in the program alternative — using a shortcut does not mean skipping protections for historic places."
+      detail: "The Advisory Council on Historic Preservation has issued a program comment covering this category of undertakings. As long as the agency meets all the conditions in the program comment, the agency satisfies Section 106 for this project."
+    },
+    "END_TRIBAL": {
+      title: "§106 Fulfilled Under Tribal Regulations",
+      section: "Section 101(d)(5) of NHPA",
+      participants: "THPO, Federal Agency Official",
+      detail: "The tribe follows its own Council-approved historic preservation regulations on tribal lands. These regulations substitute for the standard §106 process for federal projects on that tribe's lands."
     },
     "PA_TYPE": {
       title: "What type of program alternative?",
@@ -5778,7 +5804,8 @@ LOOP -.->|"Annual cycle<br/>continues"| AWP
           e.stopPropagation();
           // Nodes that scroll to a section instead of opening the info panel
           var SCROLL_TARGETS = {
-            'END_PA': 'PA_LIFE',
+            'END_PA_ALT': 'PA_LIFE',
+            'END_ALT': 'P6',
             'NEXT_PA_LIFE': 'PA_LIFE',
             'PA_TERM_END': 'P1',
             'END_EMERG_NOTIFY': 'Q2'
