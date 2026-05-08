@@ -625,9 +625,21 @@
     }
     /* Shift Phase 8 up and to the left. The upward shift is enough to bring
        it into the visible area but not so much that it collides with row 3
-       (Phases 6, 7, 9) or row 2 (Phase 10). */
+       (Phases 6, 7, 9) or row 2 (Phase 10).
+       The default value below is tuned for laptop viewports where the whole
+       chart auto-scales down to ~0.87×. */
     .overview-section .overview-cell.cell-phase-8 {
       transform: translate(-400px, -480px);
+    }
+    /* Wider viewports (>=1756px ≈ container max-width 1700px + body padding):
+       chart is at ~1.0× scale, so the laptop's -480px nominal shift becomes a
+       LARGER effective on-screen shift than the laptop sees, pushing Phase 8
+       up into Phase 9's row and cutting it off. Reduce the shift so Phase 8's
+       effective on-screen position relative to Phase 9 matches the laptop. */
+    @media (min-width: 1756px) {
+      .overview-section .overview-cell.cell-phase-8 {
+        transform: translate(-400px, -560px);
+      }
     }
 
     /* Push Phase 1 up and slightly right. */
@@ -1504,11 +1516,11 @@ flowchart TD
     })();
 
     // Scale the overview to FILL the viewport. Measures the section's natural
-    // width and scales by viewport/natural — so on wide screens the chart
-    // stretches up; on narrow screens it shrinks. transform: scale stays
-    // consistent with getScreenCTM (unlike `zoom`) so the post-render math
-    // works either way. The margin-bottom adjusts the layout space to match
-    // the scaled visual height (positive when scaled up, negative when down).
+    // width and scales by viewport/natural — so on narrow screens the chart
+    // shrinks. Capped at 1.0 so wide monitors don't blow the chart up.
+    // transform: scale stays consistent with getScreenCTM (unlike `zoom`) so
+    // the post-render math works either way. The margin-bottom adjusts the
+    // layout space to match the scaled visual height.
     function scaleOverviewToViewport() {
       var section = document.querySelector('.overview-section');
       if (!section) return;
@@ -1523,14 +1535,13 @@ flowchart TD
 
       var viewport = window.innerWidth || document.documentElement.clientWidth;
       var bodyPad = 28 * 2; // body's horizontal padding (28px × 2)
-      // Measure the chart's intrinsic content width. The grid is sized by its
-      // min-width + content, so its scrollWidth is the chart's natural extent.
       var grid = document.getElementById('overviewSnakeGrid');
       var naturalWidth = grid
         ? grid.scrollWidth
         : section.scrollWidth || section.offsetWidth;
       if (!naturalWidth) return;
       var scale = (viewport - bodyPad) / naturalWidth;
+      if (scale > 1) scale = 1;
       if (scale <= 0 || Math.abs(scale - 1) < 0.02) return;
 
       var naturalHeight = section.offsetHeight;
