@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reboot NHPA — Modernizing Section 106 for Linear Infrastructure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Headings: Jost (open substitute for Futura). Body/labels: Manuale (brand font). -->
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Manuale:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     BREAKTHROUGH INSTITUTE — brand tokens (from Data Vis Style Guide)
+     ============================================================ */
+  :root{
+    --bg:#F8F9F9;
+    --white:#FFFFFF;
+    --ink:#252A2B;
+    --teal-deep:#0D4459;   /* primary */
+    --teal:#0DC3A8;
+    --blue:#56A9D5;
+    --orange:#EE5C36;
+    --gold:#F8B944;
+    --pink:#E82269;        /* signature accent */
+    --line:#DCE3E4;
+    --line-d:#1C5468;      /* border on dark teal */
+  }
+
+  /* ---- FONT SWAP ----
+     Headings use Futura per the style guide. Futura is not a free web font,
+     so 'Jost' (a close geometric match) is loaded above. If you have a licensed
+     Futura web-font, add an @font-face for it and put "Futura" first below. */
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Manuale",Georgia,serif;   /* body / labels / legends */
+    font-size:18px;line-height:1.62;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:"Futura","Jost",sans-serif;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 32px;position:relative;z-index:1}
+
+  /* signature pink top rule (from the cover) */
+  .topbar{height:5px;background:var(--pink)}
+
+  /* label style = Manuale Bold, lettered (style-guide "legend/label" treatment) */
+  .tag{font-family:"Manuale",serif;font-weight:700;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--pink)}
+
+  /* ---------------- header ---------------- */
+  header{position:sticky;top:0;z-index:50;background:rgba(248,249,249,.9);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .bar{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .bar img{height:30px;width:auto;display:block}
+  nav a{font-family:"Manuale",serif;font-weight:700;font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--teal-deep);text-decoration:none;margin-left:26px;padding-bottom:4px;border-bottom:2px solid transparent;transition:.2s}
+  nav a:hover{border-color:var(--pink)}
+  @media(max-width:720px){nav{display:none}}
+
+  /* ---------------- hero ---------------- */
+  .hero{position:relative;padding:96px 0 78px}
+  .corridor{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.6;pointer-events:none}
+  .hero .wrap{position:relative;z-index:2;max-width:900px}
+  .eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+  .eyebrow .rule{height:3px;width:46px;background:var(--pink);display:inline-block}
+  h1{font-weight:700;font-size:clamp(40px,6.4vw,74px);line-height:1.12;letter-spacing:-.01em;color:var(--teal-deep);max-width:15ch}
+  .lede{margin-top:28px;font-size:clamp(18px,2.1vw,22px);line-height:1.55;color:var(--ink);max-width:60ch}
+  .lede .pop{color:var(--teal-deep);font-weight:600}
+  .cta{margin-top:40px;display:flex;gap:14px;flex-wrap:wrap}
+  .btn{font-family:"Manuale",serif;font-weight:700;font-size:13.5px;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;padding:15px 26px;border:2px solid var(--teal-deep);color:var(--teal-deep);transition:.2s;display:inline-block;border-radius:2px}
+  .btn.solid{background:var(--teal-deep);color:var(--white)}
+  .btn.solid:hover{background:var(--pink);border-color:var(--pink)}
+  .btn.ghost:hover{background:var(--teal-deep);color:var(--white)}
+
+  /* ---------------- pull band ---------------- */
+  .band{background:var(--teal-deep)}
+  .band .wrap{padding:58px 32px;max-width:1000px}
+  .band p{font-family:"Futura","Jost",sans-serif;font-weight:500;color:var(--bg);font-size:clamp(24px,3.4vw,36px);line-height:1.28;letter-spacing:-.005em}
+  .band .em{color:var(--gold)}
+
+  /* ---------------- section frame ---------------- */
+  section.block{padding:92px 0}
+  .head{max-width:780px;margin-bottom:54px}
+  .head h2{font-weight:700;font-size:clamp(28px,4vw,44px);line-height:1.12;color:var(--teal-deep);margin-top:14px;letter-spacing:-.01em}
+  .head p{margin-top:20px;color:var(--ink);font-size:18.5px;max-width:64ch}
+
+  /* ---------------- friction cards (legend-coded) ---------------- */
+  .friction{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  @media(max-width:880px){.friction{grid-template-columns:1fr}}
+  .fcard{background:var(--white);border:1px solid var(--line);border-radius:4px;padding:32px 30px 36px;transition:transform .35s,box-shadow .35s}
+  .fcard:hover{transform:translateY(-5px);box-shadow:0 22px 44px -30px rgba(13,68,89,.55)}
+  .fcard .legend{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+  .fcard .sw{width:26px;height:13px;border-radius:2px}
+  .fcard .num{font-family:"Futura","Jost",sans-serif;font-weight:600;font-size:14px;letter-spacing:.08em;color:var(--ink)}
+  .fcard p{font-size:17.5px;line-height:1.55}
+  .fcard p .lbl{font-weight:700;color:var(--teal-deep)}
+  .c1 .sw{background:var(--teal)} .c1 .num{color:var(--teal)}
+  .c2 .sw{background:var(--blue)} .c2 .num{color:var(--blue)}
+  .c3 .sw{background:var(--orange)} .c3 .num{color:var(--orange)}
+
+  /* ---------------- breakdown (dark teal) ---------------- */
+  .breakdown{background:var(--teal-deep);color:var(--bg)}
+  .breakdown .tag{color:var(--teal)}
+  .breakdown .head h2{color:var(--white)}
+  .breakdown .head p{color:#BFD3D8}
+  .grid6{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--line-d);border-left:1px solid var(--line-d)}
+  @media(max-width:760px){.grid6{grid-template-columns:1fr}}
+  .item{border-bottom:1px solid var(--line-d);border-right:1px solid var(--line-d);padding:32px 34px 36px;transition:background .25s;position:relative}
+  .item:hover{background:#0a3647}
+  .item .idx{font-family:"Futura","Jost",sans-serif;font-weight:600;font-size:12.5px;letter-spacing:.12em;color:var(--teal)}
+  .item h3{font-weight:600;font-size:22px;line-height:1.18;margin:13px 0 13px;color:var(--white)}
+  .item p{font-size:16.5px;line-height:1.55;color:#BFD3D8}
+
+  /* ---------------- cases ---------------- */
+  .cases{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  @media(max-width:880px){.cases{grid-template-columns:1fr}}
+  .ccard{background:var(--white);border:1px solid var(--line);border-top:4px solid var(--pink);border-radius:0 0 4px 4px;padding:28px 28px 32px}
+  .ccard:nth-child(2){border-top-color:var(--teal)}
+  .ccard:nth-child(3){border-top-color:var(--blue)}
+  .ccard .name{font-family:"Futura","Jost",sans-serif;font-weight:600;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal-deep)}
+  .ccard p{margin-top:15px;font-size:17px;line-height:1.55;color:var(--ink)}
+
+  /* ---------------- recommendations (legend-coded, light) ---------------- */
+  .recs{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  @media(max-width:880px){.recs{grid-template-columns:1fr}}
+  .rcard{background:var(--white);border:1px solid var(--line);border-top:4px solid var(--teal);border-radius:0 0 4px 4px;padding:30px 28px 34px;transition:transform .35s,box-shadow .35s}
+  .rcard:hover{transform:translateY(-5px);box-shadow:0 22px 44px -30px rgba(13,68,89,.55)}
+  .rcard .rnum{font-family:"Futura","Jost",sans-serif;font-weight:600;font-size:13px;letter-spacing:.12em;color:var(--teal)}
+  .rcard h3{font-weight:600;font-size:20px;line-height:1.2;margin:12px 0 12px;color:var(--teal-deep)}
+  .rcard p{font-size:16.5px;line-height:1.55;color:var(--ink)}
+  .r1{border-top-color:var(--teal)} .r1 .rnum{color:var(--teal)}
+  .r2{border-top-color:var(--blue)} .r2 .rnum{color:var(--blue)}
+  .r3{border-top-color:var(--orange)} .r3 .rnum{color:var(--orange)}
+  .r4{border-top-color:var(--gold)} .r4 .rnum{color:var(--gold)}
+  .r5{border-top-color:var(--pink)} .r5 .rnum{color:var(--pink)}
+  .r6{border-top-color:var(--teal-deep)} .r6 .rnum{color:var(--teal-deep)}
+
+  /* ---------------- footer ---------------- */
+  footer{border-top:1px solid var(--line);background:var(--white);padding:58px 0 64px}
+  footer .wrap{max-width:1000px}
+  footer img{height:34px;width:auto;margin-bottom:26px}
+  footer .note{font-style:italic;color:#4a5a5e;font-size:16.5px;max-width:72ch;line-height:1.6}
+  footer .flinks{margin-top:30px;display:flex;gap:26px;flex-wrap:wrap}
+  footer .flinks a{font-family:"Manuale",serif;font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-deep);text-decoration:none;border-bottom:2px solid var(--line);padding-bottom:3px}
+  footer .flinks a:hover{border-color:var(--pink)}
+  footer .meta{margin-top:28px;font-family:"Futura","Jost",sans-serif;font-weight:500;font-size:11.5px;letter-spacing:.1em;color:#8aa0a5;text-transform:uppercase}
+
+  /* ---------------- reveal ---------------- */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  .reveal[data-d="1"]{transition-delay:.08s}.reveal[data-d="2"]{transition-delay:.16s}.reveal[data-d="3"]{transition-delay:.24s}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+
+<header>
+  <div class="wrap bar">
+    <img src="data:image/png;base64,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" alt="Breakthrough Institute">
+    <nav>
+      <a href="#friction">Vulnerabilities</a>
+      <a href="#breakdown">Where it breaks</a>
+      <a href="#cases">In practice</a>
+      <a href="#recommendations">Recommendations</a>
+      <a href="reboot-nhpa-map.html">Process map</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <svg class="corridor" viewBox="0 0 1440 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g stroke="#56A9D5" stroke-width="1.2" stroke-dasharray="5 7" stroke-opacity=".6">
+      <line x1="300" y1="0" x2="300" y2="520"/><line x1="620" y1="0" x2="620" y2="520"/>
+      <line x1="940" y1="0" x2="940" y2="520"/><line x1="1180" y1="0" x2="1180" y2="520"/>
+    </g>
+    <path d="M-40,330 C160,250 240,250 360,300 S560,420 720,330 S940,180 1100,250 S1340,360 1500,300"
+          fill="none" stroke="#0D4459" stroke-width="2.4" stroke-opacity=".7"/>
+    <g>
+      <circle cx="120" cy="282" r="6" fill="#0DC3A8"/><circle cx="360" cy="300" r="6" fill="#EE5C36"/>
+      <circle cx="540" cy="392" r="6" fill="#E82269"/><circle cx="720" cy="330" r="6" fill="#0DC3A8"/>
+      <circle cx="900" cy="214" r="6" fill="#F8B944"/><circle cx="1100" cy="250" r="6" fill="#EE5C36"/>
+      <circle cx="1300" cy="332" r="6" fill="#0DC3A8"/>
+    </g>
+  </svg>
+
+  <div class="wrap">
+    <h1 class="reveal in" data-d="1">Modernizing Section 106 for Linear Infrastructure</h1>
+    <p class="lede reveal in" data-d="2"><span class="pop">When Section 106 obligations compound with the National Environmental Policy Act (NEPA) and other regulatory hurdles, cumulative coordination burdens become evident.</span> These pressures appear heaviest in long, linear infrastructure projects like transmission lines and pipelines.</p>
+    <p class="lede reveal in" data-d="3" style="margin-top:20px;font-size:clamp(15.5px,1.6vw,17px);color:#4a5a5e;">This analysis maps the Section 106 review process step by step and identifies where it stalls. Explore the full process through our interactive map, read our complete analysis, or go straight to understanding the major vulnerabilities.</p>
+    <div class="cta reveal in" data-d="3">
+      <a href="reboot-nhpa-map.html" class="btn solid">Explore the process map &rarr;</a>
+      <!-- TODO: add report URL --><a href="#" class="btn ghost">Read the report</a>
+      <a href="#friction" class="btn ghost">See the vulnerabilities</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PULL BAND ================= -->
+<div class="band">
+  <div class="wrap"><p class="reveal">What makes the NHPA uniquely challenging to reform&mdash;<span class="em">politically and substantively</span>&mdash;is its significance to Native American tribes.</p></div>
+</div>
+
+<!-- ================= FRICTION ================= -->
+<section class="block" id="friction">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="tag">Section III</span>
+      <h2>Structural Sources of Friction in Section 106 Review</h2>
+      <p>Recurring difficulties in Section 106 review for large linear infrastructure projects emerge from structural tensions between the architecture of the Section 106 process and the operational realities of modern infrastructure deployment.</p>
+    </div>
+    <div class="friction">
+      <div class="fcard c1 reveal" data-d="1">
+        <div class="legend"><span class="sw"></span><span class="num">01</span></div>
+        <p><span class="lbl">Sequencing and path dependency:</span> Section 106 consultation and cultural resource identification frequently occur after major project assumptions, routing decisions, and permitting investments have begun to solidify. As infrastructure planning advances, the practical flexibility available to agencies, tribes, and developers may narrow substantially.</p>
+      </div>
+      <div class="fcard c2 reveal" data-d="2">
+        <div class="legend"><span class="sw"></span><span class="num">02</span></div>
+        <p><span class="lbl">Fragmented information and administrative coordination:</span> Section 106 review distributes responsibilities across numerous institutions operating under different timelines, authorities, and informational constraints. Agencies, tribes, applicants, State and Tribal Preservation Officers, consulting parties, and courts may all possess only partial visibility into the broader consultation landscape.</p>
+      </div>
+      <div class="fcard c3 reveal" data-d="3">
+        <div class="legend"><span class="sw"></span><span class="num">03</span></div>
+        <p><span class="lbl">Scale mismatch between historic preservation review and linear infrastructure development:</span> The scale of linear infrastructure projects creates complex coordination demands involving multiple agencies, jurisdictions, tribes, and consulting parties across long geographic corridors. As project scale increases, the review process may experience escalating coordination burdens, administrative strain, and prolonged uncertainty.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BREAKDOWN ================= -->
+<section class="block breakdown" id="breakdown">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="tag">The Vulnerabilities</span>
+      <h2>Where the process breaks down</h2>
+      <p>Recurring points of failure surface across agencies, administrations, and decades.</p>
+    </div>
+    <div class="grid6">
+      <div class="item reveal"><h3>NEPA and NHPA: Misaligned Sequences</h3><p>NHPA consultation tends to happen late in the NEPA process. The two statutory frameworks are formally integrated. But they serve different purposes, rely on different information, and operate using different procedures. This can result in project assumptions solidifying before cultural resource identification and tribal consultation processes mature, leaving tribes in a reactive posture.</p></div>
+      <div class="item reveal" data-d="1"><h3>Outreach Non-Response as a Structural Bottleneck</h3><p>Although the regulations establish timelines under which agencies may proceed following non-response from consulting parties, agencies are often reluctant to exercise that authority in practice. Political sensitivities, litigation risk, and a desire to respect the federal trust responsibility to tribal sovereignty make agencies reluctant to advance projects without tribal participation.</p></div>
+      <div class="item reveal"><h3>Coordination Failures Across Sovereigns and Jurisdictions</h3><p>Linear projects can involve dozens of consulting parties, multiple SHPOs and THPOs, overlapping federal jurisdictions, and consultation obligations spanning hundreds of miles.</p></div>
+      <div class="item reveal" data-d="1"><h3>Conflicts Between Section 106 and Agency Statutory Authorities</h3><p>Agencies may develop alternative procedures for Section 106 compliance, as long as they are consistent with the regulations. But this consistency requirement is challenging for agencies whose statutory authority is poorly matched to the standard Section 106 process.</p></div>
+      <div class="item reveal"><h3>Institutional and State Capacity Constraints</h3><p>Large linear infrastructure projects can generate consultation volumes that strain staffing, technical expertise, and review timelines across multiple jurisdictions simultaneously. These capacity pressures may contribute to delays, inconsistent consultation practices, and uneven review outcomes.</p></div>
+      <div class="item reveal" data-d="1"><h3>Administrative-Law Vulnerabilities Created by Procedural Ambiguity</h3><p>Deferred historic- and cultural-resource identification can allow major routing and permitting decisions to solidify before consultation and evaluation are complete, leading to legal and political challenges. The &lsquo;good faith and reasonable effort&rsquo; standard for outreach and identification can leave agencies unsure how to proceed.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CASES ================= -->
+<section class="block" id="cases">
+  <div class="wrap">
+    <div class="head reveal"><span class="tag">In Practice</span><h2>How the friction shows up on real corridors</h2></div>
+    <div class="cases">
+      <div class="ccard reveal" data-d="1"><div class="name">Dakota Access Pipeline</div><p>DAPL is a crude oil pipeline from the Bakken fields in North Dakota to Patoka, Illinois, completed in 2017. Federal authority covered only about 37 miles of the route. Tribes argued the government should conduct a Section 106 review on the entire 1,168-mile route. The U.S. Army Corps of Engineers disagreed.</p></div>
+      <div class="ccard reveal" data-d="2"><div class="name">SunZia Transmission</div><p>In 2015, the Bureau of Land Management approved SunZia&rsquo;s route through Arizona&rsquo;s San Pedro Valley using a phased Section 106 approach that deferred portions of cultural resource identification and treatment planning until after the final permitting decision. By the time tribes formally asserted a valley-wide Traditional Cultural Property and requested rerouting, BLM&rsquo;s position was that the route was final.</p></div>
+      <div class="ccard reveal" data-d="3"><div class="name">TransWest Express</div><p>Spanning four states&mdash;Wyoming, Colorado, Utah, and Nevada&mdash;the project required a large, corridor-wide Section 106 review. This entailed negotiations with four state preservation officers with varying state standards and approaches.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RECOMMENDATIONS ================= -->
+<section class="block" id="recommendations">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="tag">Recommendations</span>
+      <h2>Earlier engagement and clearer closure</h2>
+      <p>These structural failures point toward a coherent set of reforms that would move cultural-resource concerns earlier in the planning process while giving agencies and developers clearer rules for when consultation is complete.</p>
+    </div>
+    <div class="recs">
+      <div class="rcard r1 reveal" data-d="1">
+        <div class="rnum">01</div>
+        <h3>Create an earlier, screening-level engagement process for major linear infrastructure</h3>
+        <p>For such projects, Congress should require corridor-level cultural-resource screening at the Notice of Intent or pre-application stage. This screening should identify affected tribes, broad areas of cultural concern, and potential routing conflicts before agencies select a preferred route. This should not entail full archaeological surveys or full Section 106 review across every hypothetical corridor.</p>
+      </div>
+      <div class="rcard r2 reveal" data-d="2">
+        <div class="rnum">02</div>
+        <h3>Pair earlier engagement with clearer closure</h3>
+        <p>Congress should create statutory safe harbors for agencies that follow prescribed notice, screening, documentation, confidentiality, and follow-up procedures. Agencies that satisfy those requirements should receive a rebuttable presumption that they met the &ldquo;reasonable and good faith effort&rdquo; standard. Congress should also reduce the time litigants have to bring NHPA claims, make the Record of Decision the final agency action, and limit late-stage injunctions.</p>
+      </div>
+      <div class="rcard r3 reveal" data-d="3">
+        <div class="rnum">03</div>
+        <h3>Apply the same screening logic to the Army Corps&rsquo; Appendix C problem</h3>
+        <p>For major linear projects with limited federal touchpoints, agencies should conduct early route-level cultural-resource screening rather than either preserving fragmented crossing-by-crossing review or requiring full corridor-wide Section 106 review. High-risk segments identified through screening should receive focused consultation and identification.</p>
+      </div>
+      <div class="rcard r4 reveal" data-d="1">
+        <div class="rnum">04</div>
+        <h3>Strengthen confidentiality and information-sharing systems</h3>
+        <p>Congress and agencies should protect tribal cultural information through stronger FOIA protections, standardized confidentiality protocols, secure-access administrative records, and limited-access review mechanisms for necessary consulting parties. Agencies should be able to document tribal consultation without publicly disclosing sacred-site information.</p>
+      </div>
+      <div class="rcard r5 reveal" data-d="2">
+        <div class="rnum">05</div>
+        <h3>Build capacity and improve consultation infrastructure</h3>
+        <p>Congress should provide durable funding for State and Tribal Historic Preservation Officers, compensate tribes when they provide expert identification and evaluation services, and support collaborative field-based models such as the Acoma Model. Agencies should also standardize documentation and metadata requirements and develop centralized, searchable records systems, subject to appropriate confidentiality protections.</p>
+      </div>
+      <div class="rcard r6 reveal" data-d="3">
+        <div class="rnum">06</div>
+        <h3>Resolve agency implementation barriers</h3>
+        <p>Congress should mandate lead-agency designation and coordination for multi-jurisdictional linear projects, expand programmatic agreements and program alternatives for repeat infrastructure categories, and create a clear Federal Energy Regulatory Commission exception to ex parte limits for government-to-government tribal consultation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer id="map">
+  <div class="wrap">
+    <img src="data:image/png;base64,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" alt="Breakthrough Institute">
+    <p class="note">This research draws on interviews conducted between January and May 2026 with current and former federal regulators, agency experts, practitioners, and industry representatives. Interviews were conducted on a not-for-attribution basis.</p>
+    <div class="flinks">
+      <a href="#friction">Vulnerabilities</a><a href="#breakdown">Where it breaks down</a><a href="#cases">In practice</a><a href="#recommendations">Recommendations</a><a href="#">Read the full analysis</a>
+    </div>
+    <div class="meta">Reboot NHPA &mdash; Modernizing Section 106 for Linear Infrastructure</div>
+  </div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.14});
+  document.querySelectorAll('.reveal:not(.in)').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
